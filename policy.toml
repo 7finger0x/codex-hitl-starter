@@ -1,0 +1,53 @@
+version = 1
+default_decision = "require_approval"
+approval_ttl_seconds = 1800
+command_timeout_seconds = 300
+
+[[rules]]
+id = "deny-shell-meta"
+decision = "deny"
+kinds = ["command"]
+patterns = ["*;*", "*&&*", "*||*", "*|*", "*>*", "*<*", "*$(*", "*`*"]
+reason = "Shell metacharacters are not accepted. Submit one argv-safe command at a time."
+
+[[rules]]
+id = "allow-read-only-git"
+decision = "allow"
+kinds = ["command"]
+patterns = ["git status*", "git diff*", "git log*", "git show*"]
+reason = "Read-only repository inspection."
+
+[[rules]]
+id = "allow-verification"
+decision = "allow"
+kinds = ["command"]
+patterns = ["python -m unittest*", "python3 -m unittest*", "./scripts/verify.sh", "bash scripts/verify.sh"]
+reason = "Repository verification command."
+
+[[rules]]
+id = "allow-local-build"
+decision = "allow"
+kinds = ["command"]
+patterns = ["python -m build*", "python3 -m build*"]
+reason = "Local package build."
+
+[[rules]]
+id = "require-network"
+decision = "require_approval"
+kinds = ["network", "command"]
+patterns = ["curl *", "wget *", "git fetch*", "git pull*", "pip install*", "python -m pip install*"]
+reason = "Network access can transmit data or introduce unreviewed dependencies."
+
+[[rules]]
+id = "require-external-change"
+decision = "require_approval"
+kinds = ["command", "deployment", "external_write"]
+patterns = ["git push*", "gh pr merge*", "kubectl apply*", "terraform apply*", "docker push*"]
+reason = "Externally visible or infrastructure-changing operation."
+
+[[rules]]
+id = "deny-destructive"
+decision = "deny"
+kinds = ["command", "destructive"]
+patterns = ["rm -rf /*", "git reset --hard*", "git push --force*", "DROP DATABASE*", "TRUNCATE TABLE*"]
+reason = "Destructive operation is prohibited by the starter policy."
