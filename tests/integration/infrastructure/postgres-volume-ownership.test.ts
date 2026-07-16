@@ -73,7 +73,7 @@ test("the repair preserves every surrounding Postgres boundary", () => {
     composeSource.indexOf("x-http-health:"),
   );
 
-  assert.match(sharedSecurity, /cap_drop:\n    - ALL/u);
+  assert.match(sharedSecurity, /cap_drop:\n {4}- ALL/u);
   assert.match(sharedSecurity, /no-new-privileges:true/u);
   assert.match(sharedSecurity, /read_only: true/u);
   assert.match(

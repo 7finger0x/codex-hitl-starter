@@ -5,6 +5,7 @@ export default tseslint.config(
   {
     ignores: [
       ".agents/**",
+      "**/.next/**",
       ".specify/**",
       ".venv/**",
       "build/**",
