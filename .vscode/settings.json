@@ -7,5 +7,9 @@
   "github.copilot.chat.cli.mcp.enabled": false,
   "github.copilot.chat.githubMcpServer.channel": "insiders",
   "gitlens.gitkraken.mcp.autoEnabled": false,
-  "Perplexity.autoRegenerateStaleConfigs": false
+  "Perplexity.autoRegenerateStaleConfigs": false,
+  "mssql.linterEnabled": false,
+  "[sql]": {
+    "mssql.linterEnabled": false
+  }
 }
