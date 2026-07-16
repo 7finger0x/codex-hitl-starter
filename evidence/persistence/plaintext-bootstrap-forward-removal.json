@@ -11,6 +11,8 @@
   "verification": {
     "credential_bearing_file_removed": true,
     "source_path_state": "approved safe comment-only SQL source restored",
+    "restored_source_sha256": "3de090934f3a0c88b8ac42ad018d768a6b190a4c5e8170fdc533d15540af783c",
+    "restored_source_lines": 1,
     "sql_plaintext_password_files_after_first_removal": 0,
     "sql_plaintext_password_files_after_recurrence": 1,
     "git_diff_check_exit_code": 0,
