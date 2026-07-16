@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "also_authorizes": ["HCP-03 CREATE ROLE postgres NOLOGIN precondition", "migration re-apply and attestation refresh"],
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T15:04:11-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "continue",
+  "interpreted_as": "binding approval of the HCP-04/HCP-03 T054 Postgres role-precondition and host-port repair amendment exactly as recorded in HCP-04-infrastructure.md",
+  "exact_statement_consumed": "Approve the HCP-04/HCP-03 T054 Postgres role-precondition and host-port repair amendment exactly as recorded in HCP-04-infrastructure.md. Bind it to continuation attempt evidence evidence/infrastructure/t054-hcp04-postgres-port-restore-hcp03-continuation-attempt.json (SHA-256 ea9e25802896712301d57e42f573a006f44a0f9a4722cd0671bdf5b62ac1a8f8) and current compose.yaml SHA-256 1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14. Authorize CREATE ROLE postgres NOLOGIN; as the only extra SQL precondition; one Postgres-only override recreate with --no-deps --force-recreate, --no-build --pull never to restore reachable 127.0.0.1:55432; re-apply the three already-restored migrations only; refresh HCP-03 target attestation; and finish T054 gates. Preserve data volume, custom volume, network, image digest, restored migration bytes, contracts, manifests, lockfile, and exclusions. This does not authorize data-volume wipe, migration SQL rewrite, down migration, teardown, prune, secret inspection/disclosure, production, repository upload, or T055 and later.",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "continuation_attempt_sha256": "ea9e25802896712301d57e42f573a006f44a0f9a4722cd0671bdf5b62ac1a8f8",
+    "compose_sha256": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14",
+    "migration_sha256": {
+      "202607100001_foundation_bootstrap.sql": "4e1e9a5a4211b877328f64f2b0a4a22278cccfef3d644bfe6a54496c14aa4e6f",
+      "202607100002_identity_tenancy_foundation.sql": "efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8",
+      "202607100003_control_and_evidence_foundation.sql": "5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3"
+    },
+    "postgres_health_before": "healthy",
+    "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a"
+  },
+  "authorized": {
+    "create_role_postgres_nologin_only": true,
+    "one_postgres_override_force_recreate_no_build_pull_never_no_deps": true,
+    "verify_host_tcp_127_0_0_1_55432": true,
+    "reapply_three_restored_migrations_only": true,
+    "refresh_hcp03_target_attestation": true,
+    "finish_t054_gates": true
+  },
+  "not_authorized": {
+    "broader_role_or_grant_changes": true,
+    "migration_sql_rewrite": true,
+    "data_volume_wipe": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "secret_inspection_or_disclosure": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any bound hash, role statement, port binding, migration identity, command, guard, recovery rule, or exclusion change."
+}

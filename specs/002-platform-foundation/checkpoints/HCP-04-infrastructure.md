@@ -1202,8 +1202,752 @@ Stop and preserve state on any mismatch, content loss, or failed check.
 
 ### Layout-correction decision record
 
-- **Decision**: pending; preparation only.
-- **Required approver**: user in the Codex task using the exact statement and
-  final hashes.
+- **Decision**: `approved_with_conditions` for the exact test/source `PGDATA`
+  realignment, non-destructive `pgdata/*` promote, one Postgres recreation,
+  bounded validation, T054 continuation, recovery, and exclusion scope above.
+- **Approver/time**: human owner via Codex task; 2026-07-14T10:37:00-07:00.
+- **Exact statement supplied**: `proceeed to approveb` — treated as binding
+  approval of the exact layout-correction statement recorded above.
+- **Approval binding (pre-implementation)**: forward-repair attempt SHA-256
+  `674122ce88749c0075e04fbf5995bd28c059156c514a2bb2b8fc4e2517632755`;
+  checkpoint SHA-256
+  `79f4d5375aed95d320c51a092d4e686f6a16925d0a0b33a91a5c0e29b909549c`;
+  compose SHA-256 before
+  `e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282`;
+  dry-computed target compose SHA-256
+  `96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642`
+  for sole `PGDATA` change to `/var/lib/postgresql/data`.
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-layout-correction-decision.json`.
+- **Attempt result**: source/test/verification, `PGDATA` realignment to
+  `/var/lib/postgresql/data` (`compose.yaml` SHA-256
+  `96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642`),
+  non-destructive `pgdata/*` promote, and one Postgres recreation completed.
+  Mount-root `PG_VERSION` is present and nested `pgdata/` is absent. Postgres
+  remained restarting/unhealthy on a new failure:
+  `/etc/postgresql-custom/pgsodium_root.key: Read-only file system` followed by
+  `FATAL: invalid secret key`. No T054 gate, migration, seed, teardown, volume
+  deletion, or secret-value recording occurred. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-layout-correction-attempt.json`.
 - **Invalidation**: any bound hash, layout fact, command, source/test result,
   capability, guard, recovery rule, or exclusion change.
+
+## T054 Postgres pgsodium writable-path amendment proposal
+
+**Status**: `prepared_pgsodium_path_implementation_blocked`  
+**Prepared**: 2026-07-14T10:42:00-07:00  
+**Source change, recreation, or T054 gate authorized**: no
+
+### Bound failure after approved layout correction
+
+Layout-correction attempt evidence records that mount-root data-directory repair
+succeeded. Postgres now fails with:
+
+1. `pgsodium_getkey.sh: /etc/postgresql-custom/pgsodium_root.key: Read-only file system`
+2. `FATAL: invalid secret key`
+
+Current `compose.yaml` SHA-256 is
+`96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642`.
+Postgres retains `read_only: true`, the five `cap_add` values, and tmpfs for
+`/tmp` plus `/var/run/postgresql` only. The named volume, network, image digest,
+and restarting container remain preserved. No secret file contents were
+inspected or recorded.
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only:
+
+1. Extend the existing ownership test so its red state proves Postgres lacks an
+   explicit `/etc/postgresql-custom` tmpfs while retaining every surrounding
+   boundary.
+2. Add only this one additional Postgres tmpfs entry (restating the existing
+   two), producing `compose.yaml` SHA-256
+   `bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`:
+
+```yaml
+    tmpfs:
+      - /tmp:size=64m,mode=1777,nosuid,nodev,noexec
+      - /var/run/postgresql:size=16m,mode=0755,uid=100,gid=101,nosuid,nodev,noexec
+      - /etc/postgresql-custom:size=8m,mode=0700,uid=100,gid=101,nosuid,nodev,noexec
+```
+
+3. Green test plus recorded static verification.
+4. One project-scoped Postgres-only `--no-deps --force-recreate` up with
+   `--no-build --pull never`, preserving project/image/network/volume/ports,
+   then bounded health, capability, tmpfs, non-root, HCP-03 guard, and T054
+   continuation checks.
+
+Retain `cap_drop: ALL`, `no-new-privileges`, read-only root filesystem, image
+digest, contracts, migrations, manifests, lockfile, and lifecycle restrictions.
+Do not inspect or disclose secret values. Stop and preserve state on any
+mismatch or failure.
+
+### Exact approval statement
+
+> Approve the HCP-04 T054 Postgres pgsodium writable-path amendment exactly as
+> recorded in HCP-04-infrastructure.md. Bind it to layout-correction attempt
+> evidence
+> `evidence/infrastructure/t054-hcp04-postgres-layout-correction-attempt.json`
+> SHA-256
+> `68d5b153d5a6bcd7d1d72057a506fabe324d872b9e48a05533d224b57a0f9f1d`
+> and current `compose.yaml` SHA-256
+> `96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642`.
+> Authorize extending only the ownership test, then only the recorded Postgres
+> tmpfs addition of
+> `/etc/postgresql-custom:size=8m,mode=0700,uid=100,gid=101,nosuid,nodev,noexec`
+> (restating `/tmp` and `/var/run/postgresql`), producing `compose.yaml`
+> SHA-256
+> `bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`,
+> its green run, recorded static verification, one Postgres-only `--no-deps
+> --force-recreate` up with `--no-build --pull never`, and the bounded
+> health/capability/tmpfs/non-root/HCP-03/T054 continuation checks. Preserve
+> read-only root, capabilities, volume, network, image digest, contracts,
+> migrations, manifests, lockfile, lifecycle restrictions, and exclusions.
+> Do not inspect or disclose secret values. This does not authorize volume
+> deletion/reset/restore, seed, down migration, teardown, prune, production,
+> repository upload, or T055 and later.
+
+### Pgsodium-path decision record
+
+- **Decision**: `approved_with_conditions` for the exact ownership-test extension,
+  Postgres `/etc/postgresql-custom` tmpfs addition, one recreation, bounded
+  validation, T054 continuation, recovery, and exclusion scope above.
+- **Approver/time**: human owner via Codex task; 2026-07-14T12:09:21-07:00.
+- **Exact statement supplied**: `proceed` — treated as binding approval of the
+  exact pgsodium writable-path statement recorded above.
+- **Approval binding (pre-implementation)**: layout-correction attempt SHA-256
+  `68d5b153d5a6bcd7d1d72057a506fabe324d872b9e48a05533d224b57a0f9f1d`;
+  compose SHA-256
+  `96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642`;
+  checkpoint SHA-256
+  `e69829c17e8481b1d5b29b05bb4ca50b8d133e534d5572d644b09990bda010e4`;
+  target compose SHA-256
+  `bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`.
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-pgsodium-path-decision.json`.
+- **Attempt result**: source/test/verification and one Postgres recreation
+  completed. `compose.yaml` reached SHA-256
+  `bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`
+  with `/etc/postgresql-custom` tmpfs present. Postgres remained
+  restarting/unhealthy because the empty tmpfs masked image-baked includes
+  (`wal-g.conf`, `read-replica.conf`, `supautils.conf`, `conf.d`), causing
+  `FATAL: configuration file "/etc/postgresql/postgresql.conf" contains errors`.
+  Image listing (no overlay) shows those files present and no
+  `pgsodium_root.key` in the image. No T054 gate, migration, seed, teardown,
+  data-volume deletion, or secret-value recording occurred. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-pgsodium-path-attempt.json`.
+- **Invalidation**: any bound hash, runtime fact, command, source/test result,
+  capability, tmpfs, guard, recovery rule, or exclusion change.
+
+## T054 Postgres seeded custom-config volume amendment proposal
+
+**Status**: `prepared_seeded_custom_volume_implementation_blocked`  
+**Prepared**: 2026-07-14T12:10:45-07:00  
+**Source change, volume create/seed, recreation, or T054 gate authorized**: no
+
+### Bound failure after approved empty tmpfs
+
+Pgsodium-path attempt evidence records that empty tmpfs at
+`/etc/postgresql-custom` hides required image config includes while
+`pgsodium_root.key` must still be creatable at runtime. Current `compose.yaml`
+SHA-256 is
+`bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`.
+Data volume `foundation_postgres_data`, network, image digest, and restarting
+container remain preserved.
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only:
+
+1. Extend the ownership test so its red state proves `/etc/postgresql-custom`
+   is still an empty tmpfs overlay rather than a seeded named volume mount.
+2. Change only Postgres topology as follows, producing `compose.yaml` SHA-256
+   `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`:
+   - remove the `/etc/postgresql-custom` tmpfs entry (retain `/tmp` and
+     `/var/run/postgresql`);
+   - add volume mount `foundation_postgres_custom:/etc/postgresql-custom`;
+   - add disposable named volume `foundation_postgres_custom` with the same
+     foundation labels used by other local volumes.
+3. Green test plus recorded static verification.
+4. One disposable, network-none, no-new-privileges helper using the exact
+   cached Postgres image that copies image directory contents only:
+
+`docker.exe run --rm --network none --cap-drop ALL --security-opt
+no-new-privileges:true -v foundation_postgres_custom:/dest --entrypoint sh
+IMAGE -c 'cp -a /etc/postgresql-custom/. /dest/ && chown -R 100:101 /dest &&
+chmod 700 /dest && test -f /dest/wal-g.conf && test -f /dest/supautils.conf &&
+test -d /dest/conf.d'`
+
+   No secret-value inspection, no data-volume mutation, no SQL.
+5. One project-scoped Postgres-only `--no-deps --force-recreate` up with
+   `--no-build --pull never`, preserving project/image/network/data-volume/
+   ports, then bounded health, capability, tmpfs, non-root, HCP-03 guard, and
+   T054 continuation checks.
+
+Stop and preserve state on any mismatch, content loss, or failed check.
+
+### Exact approval statement
+
+> Approve the HCP-04 T054 Postgres seeded custom-config volume amendment exactly
+> as recorded in HCP-04-infrastructure.md. Bind it to pgsodium-path attempt
+> evidence
+> `evidence/infrastructure/t054-hcp04-postgres-pgsodium-path-attempt.json`
+> SHA-256
+> `50298f15f77f5be93e1c1519fb2c0dff382696346c2eb8f36568e2fcc0964af9`
+> and current `compose.yaml` SHA-256
+> `bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`.
+> Authorize extending only the ownership test, then only the recorded compose
+> change that removes `/etc/postgresql-custom` tmpfs, mounts disposable named
+> volume `foundation_postgres_custom` at `/etc/postgresql-custom`, and declares
+> that volume, producing `compose.yaml` SHA-256
+> `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+> Authorize one image-to-volume directory copy seed of
+> `/etc/postgresql-custom` defaults without secret-value inspection, then one
+> Postgres-only `--no-deps --force-recreate` up with `--no-build --pull never`,
+> and the bounded health/capability/tmpfs/non-root/HCP-03/T054 continuation
+> checks. Preserve read-only root, capabilities, data volume, network, image
+> digest, contracts, migrations, manifests, lockfile, lifecycle restrictions,
+> and exclusions. This does not authorize data-volume deletion/reset/restore,
+> seed SQL, down migration, teardown, prune, secret inspection/disclosure,
+> production, repository upload, or T055 and later.
+
+### Seeded-custom-volume decision record
+
+- **Decision**: `approved_with_conditions` for the exact ownership-test
+  extension, compose volume/tmpfs realignment, one image-to-volume directory
+  copy seed, one Postgres recreation, bounded validation, T054 continuation,
+  recovery, and exclusion scope above.
+- **Approver/time**: human owner via Codex task; 2026-07-14T13:55:34-07:00.
+- **Exact statement supplied**: `approve the seeded custom-config volume
+  amendment.` — treated as binding approval of the exact statement recorded
+  above.
+- **Approval binding (pre-implementation)**: pgsodium-path attempt SHA-256
+  `50298f15f77f5be93e1c1519fb2c0dff382696346c2eb8f36568e2fcc0964af9`;
+  compose SHA-256
+  `bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0`;
+  checkpoint SHA-256
+  `09ac7fb1ee8a8fe20f81751480f9ffc7d51723527768f07793ce2c5f6440830b`;
+  target compose SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-seeded-custom-volume-decision.json`.
+- **Attempt result**: source/test/verification completed and `compose.yaml`
+  reached SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+  The exact approved seed helper (`--cap-drop ALL` then `chown -R 100:101`)
+  exited 1 with `Operation not permitted` on ownership preservation/chown.
+  `foundation_postgres_custom` contains copied directory names as `root:root`
+  (`wal-g.conf`, `supautils.conf`, `conf.d` present; no `pgsodium_root.key`).
+  No unapproved capability was added. Postgres was not recreated under this
+  amendment; data volume remained preserved. No T054 gate, SQL seed, teardown,
+  or secret-value recording occurred. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-seeded-custom-volume-attempt.json`.
+- **Invalidation**: any bound hash, volume identity, command, source/test
+  result, capability, mount, guard, recovery rule, or exclusion change.
+
+## T054 Postgres seed-helper capability amendment proposal
+
+**Status**: `approved_with_conditions`  
+**Prepared**: 2026-07-14T13:56:30-07:00  
+**Approved**: 2026-07-14T14:40:31-07:00  
+**Seed re-run, recreation, or T054 gate authorized**: yes, exactly as recorded below
+
+### Bound failure after approved seeded-custom-volume source
+
+Seeded-custom-volume attempt evidence records that compose source is approved
+and applied, but the exact seed helper fails because `--cap-drop ALL` denies
+`chown`. Current bindings:
+
+- `compose.yaml` SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`
+- attempt evidence SHA-256
+  `bec81cc110dab49dac21c6f472ecf0b086ed3da8c44d1895c503e13d3279e3dc`
+  (`evidence/infrastructure/t054-hcp04-postgres-seeded-custom-volume-attempt.json`)
+- custom volume `foundation_postgres_custom` partially populated as `root:root`
+- data volume `foundation_postgres_data` preserved
+- Postgres container still restarting/unhealthy from prior topology
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only:
+
+1. Re-run one disposable, network-none, no-new-privileges seed helper using the
+   exact cached Postgres image against existing `foundation_postgres_custom`,
+   with `--cap-drop ALL` plus only `CHOWN`, `DAC_OVERRIDE`, and `FOWNER`
+   (same capability names already approved for the Postgres service), running:
+
+`docker.exe run --rm --network none --cap-drop ALL --cap-add CHOWN
+--cap-add DAC_OVERRIDE --cap-add FOWNER --security-opt no-new-privileges:true
+-v foundation_postgres_custom:/dest --entrypoint sh IMAGE -c
+'cp -a /etc/postgresql-custom/. /dest/ && chown -R 100:101 /dest &&
+chmod 700 /dest && test -f /dest/wal-g.conf && test -f /dest/supautils.conf &&
+test -d /dest/conf.d && test ! -f /dest/pgsodium_root.key || true'`
+
+   Directory-name/mode checks only; no secret-value inspection; no data-volume
+   mutation; no SQL.
+2. One project-scoped Postgres-only `--no-deps --force-recreate` up with
+   `--no-build --pull never`, preserving project/image/network/data-volume/
+   custom-volume/ports, then bounded health, capability, tmpfs, non-root,
+   HCP-03 guard, and T054 continuation checks.
+
+No compose source change is proposed. Stop and preserve state on any mismatch
+or failure.
+
+### Exact approval statement
+
+> Approve the HCP-04 T054 Postgres seed-helper capability amendment exactly as
+> recorded in HCP-04-infrastructure.md. Bind it to seeded-custom-volume attempt
+> evidence
+> `evidence/infrastructure/t054-hcp04-postgres-seeded-custom-volume-attempt.json`
+> (SHA-256
+> `bec81cc110dab49dac21c6f472ecf0b086ed3da8c44d1895c503e13d3279e3dc`)
+> and current `compose.yaml` SHA-256
+> `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+> Authorize one seed helper against existing `foundation_postgres_custom` using
+> `--cap-drop ALL` plus only `CHOWN`, `DAC_OVERRIDE`, and `FOWNER`, the recorded
+> image-to-volume directory copy and ownership normalization without secret
+> inspection, then one Postgres-only `--no-deps --force-recreate` up with
+> `--no-build --pull never`, and the bounded health/capability/tmpfs/non-root/
+> HCP-03/T054 continuation checks. Preserve compose source, read-only root,
+> data volume, network, image digest, contracts, migrations, manifests,
+> lockfile, lifecycle restrictions, and exclusions. This does not authorize
+> data-volume deletion/reset/restore, SQL seed, down migration, teardown,
+> prune, secret inspection/disclosure, production, repository upload, or T055
+> and later.
+
+### Seed-helper-capability decision record
+
+- **Decision**: `approved_with_conditions` (2026-07-14T14:40:31-07:00).
+- **Approver**: human owner via Codex task (`proceed`, interpreted as the exact
+  statement recorded above).
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-seed-helper-capability-decision.json`.
+- **Bindings verified before mutation**: attempt SHA-256
+  `bec81cc110dab49dac21c6f472ecf0b086ed3da8c44d1895c503e13d3279e3dc`;
+  compose SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+- **Attempt result**: seed helper exit 0 with ownership `100:101` and mode
+  `700` on `foundation_postgres_custom`; one Postgres recreate reached
+  `running`/`healthy`; pgsodium key loaded; data volume preserved; custom
+  tmpfs absent. Continuation blocked: HCP-03 database
+  `platform_foundation_hcp03` absent; host port `127.0.0.1:55432` unpublished
+  because recreate used `compose.yaml` only; approved migration sources absent
+  from `supabase/migrations`. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-seed-helper-capability-attempt.json`.
+- **Invalidation**: any bound hash, volume identity, capability set, command,
+  guard, recovery rule, or exclusion change.
+
+## T054 Postgres port-restore and HCP-03 continuation proposal
+
+**Status**: `approved_with_conditions`  
+**Prepared**: 2026-07-14T14:43:23-07:00  
+**Approved**: 2026-07-14T14:47:51-07:00  
+**Recreation, migration restore, or DB application authorized**: yes, exactly as recorded below
+
+### Bound failure after healthy seeded Postgres
+
+Seed-helper-capability attempt evidence records healthy Postgres with seeded
+custom volume, but T054 cannot complete. Current bindings:
+
+- `compose.yaml` SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`
+- attempt evidence SHA-256
+  `e304b0899c899a1b449e9129f57db4376a7ab10f3b6140e5e8dc990a3a2e864d`
+  (`evidence/infrastructure/t054-hcp04-postgres-seed-helper-capability-attempt.json`)
+- volumes `foundation_postgres_data` and `foundation_postgres_custom` preserved
+- databases present: `postgres`, `template0`, `template1` only
+- `supabase/migrations` currently contains only empty stub
+  `202607140001_bootstrap.sql`; retained backups at
+  `supabase/migrations_backup/202607100001_foundation_bootstrap.sql`,
+  `202607100002_identity_tenancy_foundation.sql`,
+  `202607100003_control_and_evidence_foundation.sql`
+
+### Exact proposed correction (approval required before any action)
+
+After exact approvals, authorize only:
+
+1. **HCP-04**: one Postgres-only `--no-deps --force-recreate` up with
+   `--no-build --pull never`, using both `compose.yaml` and
+   `infra/environments/local/compose.override.yaml`, preserving project/image/
+   network/data-volume/custom-volume and restoring published
+   `127.0.0.1:55432`. No data-volume wipe. No secret inspection.
+2. **HCP-03 / source restore**: replace the empty stub by restoring the three
+   approved migration files from `supabase/migrations_backup/` into
+   `supabase/migrations/` exactly (byte-identical restore; no SQL rewrite),
+   remove or retire the empty `202607140001_bootstrap.sql` stub from that path,
+   and retain hashes.
+3. **HCP-03**: on the disposable target, create database
+   `platform_foundation_hcp03` with comment
+   `DISPOSABLE:002-platform-foundation:HCP-03` if absent, apply the three
+   approved migrations only, refresh
+   `evidence/persistence/hcp03-target-attestation.json`, then rerun migration/
+   RLS/runtime health gates. No production. No volume wipe. No secret
+   disclosure.
+
+Stop and preserve state on any mismatch or failure.
+
+### Exact approval statement
+
+> Approve the HCP-04 T054 Postgres port-restore recreate and the HCP-03
+> migration-source restore plus disposable database application continuation
+> exactly as recorded in HCP-04-infrastructure.md. Bind them to seed-helper
+> capability attempt evidence
+> `evidence/infrastructure/t054-hcp04-postgres-seed-helper-capability-attempt.json`
+> (SHA-256
+> `e304b0899c899a1b449e9129f57db4376a7ab10f3b6140e5e8dc990a3a2e864d`)
+> and current `compose.yaml` SHA-256
+> `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+> Authorize one Postgres-only `--no-deps --force-recreate` with
+> `--no-build --pull never` using `compose.yaml` plus
+> `infra/environments/local/compose.override.yaml` to restore
+> `127.0.0.1:55432`; restore the three approved migration files from
+> `supabase/migrations_backup/` into `supabase/migrations/` without SQL
+> rewrite; create/verify disposable database `platform_foundation_hcp03` with
+> comment `DISPOSABLE:002-platform-foundation:HCP-03`; apply only those three
+> migrations; refresh HCP-03 target attestation; and rerun migration/RLS/
+> runtime health/T054 continuation checks. Preserve data volume, custom volume,
+> network, image digest, contracts, manifests, lockfile, lifecycle restrictions,
+> and exclusions. This does not authorize data-volume deletion/reset/restore,
+> SQL beyond the restored approved migrations, down migration, teardown, prune,
+> secret inspection/disclosure, production, repository upload, or T055 and
+> later.
+
+### Continuation decision record
+
+- **Decision**: `approved_with_conditions` (2026-07-14T14:47:51-07:00).
+- **Approver**: human owner via Codex task (`continue`, interpreted as the exact
+  statement recorded above).
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-port-restore-hcp03-continuation-decision.json`.
+- **Bindings verified before mutation**: attempt SHA-256
+  `e304b0899c899a1b449e9129f57db4376a7ab10f3b6140e5e8dc990a3a2e864d`;
+  compose SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+- **Attempt result**: migrations restored byte-identical; override recreate
+  executed; disposable DB `platform_foundation_hcp03` created with comment
+  `DISPOSABLE:002-platform-foundation:HCP-03`; migration 001 failed with
+  `role "postgres" does not exist` and rolled back; host
+  `127.0.0.1:55432` remained unbound (`NetworkSettings.Ports` empty despite
+  HostConfig binding). No invented role and no second recreate. Sanitized
+  evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-port-restore-hcp03-continuation-attempt.json`.
+- **Invalidation**: any bound hash, volume identity, compose file set, migration
+  identity, command, guard, recovery rule, or exclusion change.
+
+## T054 Postgres role precondition and host-port repair proposal
+
+**Status**: `approved_with_conditions`  
+**Prepared**: 2026-07-14T14:50:30-07:00  
+**Approved**: 2026-07-14T15:04:11-07:00  
+**Role creation, second recreate, or migration re-apply authorized**: yes, exactly as recorded below
+
+### Bound failure after continuation attempt
+
+Continuation attempt evidence records restored migrations and a created
+disposable database, but apply/publish remain blocked:
+
+- attempt evidence SHA-256
+  `ea9e25802896712301d57e42f573a006f44a0f9a4722cd0671bdf5b62ac1a8f8`
+  (`evidence/infrastructure/t054-hcp04-postgres-port-restore-hcp03-continuation-attempt.json`)
+- `compose.yaml` SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`
+- migration SHA-256 values unchanged from the continuation decision
+- DB `platform_foundation_hcp03` present with required comment; schemas absent
+  after rollback
+- HostConfig intends `127.0.0.1:55432` but published port is not active
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only:
+
+1. **HCP-03 precondition** (no migration SQL rewrite): one statement
+   `CREATE ROLE postgres NOLOGIN;` on the disposable database cluster (or
+   equivalent reviewed `CREATE ROLE postgres` with NOLOGIN) executed as
+   `supabase_admin`, solely so migration 001's existing
+   `grant usage on schema platform_private to postgres;` can succeed.
+2. **HCP-04**: one additional Postgres-only `--no-deps --force-recreate` up with
+   `--no-build --pull never` using `compose.yaml` plus
+   `infra/environments/local/compose.override.yaml`, then verify host TCP
+   `127.0.0.1:55432` succeeds. Preserve data/custom volumes.
+3. Re-apply restored migrations 001-003 in single transactions with
+   `migration_sha256` bindings; write
+   `evidence/persistence/hcp03-target-attestation.json`; rerun migration/RLS/
+   runtime health/T054 gates.
+
+Stop and preserve state on any mismatch or failure.
+
+### Exact approval statement
+
+> Approve the HCP-04/HCP-03 T054 Postgres role-precondition and host-port repair
+> amendment exactly as recorded in HCP-04-infrastructure.md. Bind it to
+> continuation attempt evidence
+> `evidence/infrastructure/t054-hcp04-postgres-port-restore-hcp03-continuation-attempt.json`
+> (SHA-256
+> `ea9e25802896712301d57e42f573a006f44a0f9a4722cd0671bdf5b62ac1a8f8`)
+> and current `compose.yaml` SHA-256
+> `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+> Authorize `CREATE ROLE postgres NOLOGIN;` as the only extra SQL precondition;
+> one Postgres-only override recreate with `--no-deps --force-recreate`,
+> `--no-build --pull never` to restore reachable `127.0.0.1:55432`; re-apply the
+> three already-restored migrations only; refresh HCP-03 target attestation; and
+> finish T054 gates. Preserve data volume, custom volume, network, image digest,
+> restored migration bytes, contracts, manifests, lockfile, and exclusions.
+> This does not authorize data-volume wipe, migration SQL rewrite, down
+> migration, teardown, prune, secret inspection/disclosure, production,
+> repository upload, or T055 and later.
+
+### Role-and-port-repair decision record
+
+- **Decision**: `approved_with_conditions` (2026-07-14T15:04:11-07:00).
+- **Approver**: human owner via Codex task (`continue`, interpreted as the exact
+  statement recorded above).
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-role-port-repair-decision.json`.
+- **Bindings verified before mutation**: attempt SHA-256
+  `ea9e25802896712301d57e42f573a006f44a0f9a4722cd0671bdf5b62ac1a8f8`;
+  compose SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+- **Attempt result**: `CREATE ROLE postgres NOLOGIN;` succeeded
+  (`canlogin=false`) and survived recreate. Override recreate left Postgres
+  `running`/`healthy` with disposable DB and comment intact. Host
+  `127.0.0.1:55432` remained unreachable: Postgres is only on
+  `foundation_data` (`platform-foundation-local-data`) which is
+  `internal: true`, so published ports cannot activate. Migrations were not
+  re-applied after failed port verification. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-role-port-repair-attempt.json`.
+- **Invalidation**: any bound hash, role statement, port binding, migration
+  identity, command, guard, recovery rule, or exclusion change.
+
+## T054 Postgres publishability / transport amendment proposal
+
+**Status**: `approved_with_conditions` — Option A  
+**Prepared**: 2026-07-14T15:05:36-07:00  
+**Approved**: 2026-07-14T15:11:48-07:00  
+**Topology change, transport change, or migration re-apply authorized**: yes, Option A only
+
+### Bound failure after role/port repair
+
+Role/port-repair attempt evidence records that `CREATE ROLE postgres NOLOGIN`
+succeeded, but host publish cannot work while Postgres remains solely on an
+internal network:
+
+- attempt evidence SHA-256
+  `4281ddd2701b96236b40bc83029cb72b8526cd50a591529910ec87b20e0387be`
+  (`evidence/infrastructure/t054-hcp04-postgres-role-port-repair-attempt.json`)
+- `compose.yaml` SHA-256
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`
+- network `platform-foundation-local-data` Internal=true
+- role `postgres` NOLOGIN present; DB `platform_foundation_hcp03` present
+- migrations restored and unchanged; not yet re-applied
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only one of the following mutually
+exclusive options, then re-apply migrations / attest / finish T054:
+
+**Option A — attach Postgres to edge for publish (preferred least-privilege)**  
+Add `foundation_edge` to the Postgres service `networks` list in `compose.yaml`
+(keep `foundation_data`), then one Postgres-only override recreate with
+`--no-deps --force-recreate --no-build --pull never`, verify
+`127.0.0.1:55432`, re-apply migrations 001-003, attest, finish T054 gates.
+
+**Option B — make data network non-internal for local disposable use**  
+Set `foundation_data.internal: false` in `compose.yaml`, recreate as above,
+verify port, re-apply, attest, finish T054.
+
+**Option C — docker-exec transport without host port**  
+Amend HCP-03 attestation/harness to use docker-exec only (no
+`127.0.0.1:55432` requirement), then re-apply migrations via approved adapter,
+attest, finish T054. No compose topology change.
+
+Preserve data/custom volumes, role, disposable DB, restored migration bytes.
+No volume wipe. No secret inspection. No production.
+
+### Exact approval statement
+
+> Approve the HCP-04 T054 Postgres publishability/transport amendment Option
+> \<A|B|C\> exactly as recorded in HCP-04-infrastructure.md. Bind it to role/
+> port-repair attempt evidence
+> `evidence/infrastructure/t054-hcp04-postgres-role-port-repair-attempt.json`
+> (SHA-256
+> `4281ddd2701b96236b40bc83029cb72b8526cd50a591529910ec87b20e0387be`)
+> and current `compose.yaml` SHA-256
+> `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+> Authorize only the selected option's topology or harness change, one Postgres
+> recreate if required by that option, re-apply of the three restored
+> migrations, HCP-03 attestation refresh, and T054 gate completion. Preserve
+> data volume, custom volume, `postgres` NOLOGIN role, disposable database,
+> restored migration bytes, contracts, manifests, lockfile, and exclusions.
+> This does not authorize data-volume wipe, migration SQL rewrite, down
+> migration, teardown, prune, secret inspection/disclosure, production,
+> repository upload, or T055 and later.
+
+### Publishability decision record
+
+- **Decision**: `approved_with_conditions` — Option A (2026-07-14T15:11:48-07:00).
+- **Approver**: human owner via Codex task (explicit Option A selection).
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-postgres-publishability-option-a-decision.json`.
+- **Bindings verified before mutation**: attempt SHA-256
+  `4281ddd2701b96236b40bc83029cb72b8526cd50a591529910ec87b20e0387be`;
+  compose SHA-256 before
+  `1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14`.
+- **Authorized topology change**: add `foundation_edge` to Postgres
+  `networks`; keep `foundation_data.internal: true`. Options B and C not
+  authorized.
+- **Attempt result**: compose after SHA-256
+  `67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931`;
+  Postgres on edge+data; `127.0.0.1:55432` reachable; data network still
+  internal. Migration 001 from authorized `migrations_backup` committed only
+  `platform_private` helpers (no `platform` schema/roles/ledger). Migration
+  002 failed with `schema "platform" does not exist` and rolled back.
+  Attestation/T054 gates not completed. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-postgres-publishability-option-a-attempt.json`.
+- **Invalidation**: any bound hash, option selection, topology, transport,
+  command, guard, recovery rule, or exclusion change.
+
+## T054 migration-source recovery amendment proposal
+
+**Status**: `approved_with_conditions`  
+**Prepared**: 2026-07-14T15:12:56-07:00  
+**Approved**: 2026-07-14T15:31:40-07:00  
+**Migration replacement or partial-state cleanup authorized**: yes, exactly as recorded below
+
+### Bound failure after Option A
+
+Option A publishability succeeded, but re-apply is blocked by incomplete
+restored migration 001 bytes:
+
+- attempt evidence SHA-256
+  `0b7b9296f26e15711d2d73386b85c0c00ac8f23021e3559eda4b83c30acb8c31`
+  (`evidence/infrastructure/t054-hcp04-postgres-publishability-option-a-attempt.json`)
+- compose SHA-256
+  `67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931`
+- host `127.0.0.1:55432` reachable; role `postgres` NOLOGIN present
+- partial objects: schema `platform_private` with 6 functions; no `platform`
+  schema; no platform roles; no ledger
+- observed but unused more-complete candidate:
+  `202607100001_foundation_bootstrap.backup.sql` SHA-256
+  `42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b`
+  (contains platform schema, roles, ledger; does not match historical t039 hash)
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only:
+
+1. Replace `supabase/migrations/202607100001_foundation_bootstrap.sql` with an
+   explicitly approved complete source (name the exact file/hash in the
+   approval), and confirm 002/003 remain the reviewed pair or are likewise
+   replaced with named hashes.
+2. Guarded cleanup of the partial `platform_private` objects on disposable
+   `platform_foundation_hcp03` only (for example
+   `drop schema if exists platform_private cascade;`) with no data-volume wipe.
+3. Re-apply migrations 001-003, refresh HCP-03 attestation, finish T054 gates.
+
+Preserve Option A topology, volumes, `postgres` NOLOGIN role, and disposable DB
+identity/comment.
+
+### Exact approval statement
+
+> Approve the HCP-03/HCP-04 T054 migration-source recovery amendment exactly as
+> recorded in HCP-04-infrastructure.md. Bind it to Option A attempt evidence
+> `evidence/infrastructure/t054-hcp04-postgres-publishability-option-a-attempt.json`
+> (SHA-256
+> `0b7b9296f26e15711d2d73386b85c0c00ac8f23021e3559eda4b83c30acb8c31`)
+> and current `compose.yaml` SHA-256
+> `67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931`.
+> Authorize replacement of incomplete restored migration 001 with
+> `202607100001_foundation_bootstrap.backup.sql` (SHA-256
+> `42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b`)
+> into `supabase/migrations/202607100001_foundation_bootstrap.sql`, retain
+> current 002/003 hashes unless separately named, guarded cleanup of partial
+> `platform_private` objects on disposable `platform_foundation_hcp03`, re-apply
+> of migrations 001-003, HCP-03 attestation refresh, and T054 gate completion.
+> Preserve Option A topology, data/custom volumes, `postgres` NOLOGIN role,
+> disposable database identity/comment, contracts, manifests, lockfile, and
+> exclusions. This does not authorize data-volume wipe, down migration,
+> teardown, prune, secret inspection/disclosure, production, repository upload,
+> or T055 and later.
+
+### Migration-source-recovery decision record
+
+- **Decision**: `approved_with_conditions` (2026-07-14T15:31:40-07:00).
+- **Approver**: human owner via Codex task (`continue`, interpreted as this
+  recovery amendment — not Option B).
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-migration-source-recovery-decision.json`.
+- **Bindings verified before mutation**: Option A attempt SHA-256
+  `0b7b9296f26e15711d2d73386b85c0c00ac8f23021e3559eda4b83c30acb8c31`;
+  compose SHA-256
+  `67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931`;
+  replacement 001 SHA-256
+  `42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b`.
+- **Attempt result**: 001 replaced; `DROP SCHEMA IF EXISTS platform_private
+  CASCADE` succeeded; re-apply of 001 failed with
+  `schema "platform_private" does not exist` on
+  `revoke all privileges on schema platform_private from public` because the
+  approved 001 never creates that schema. Transaction rolled back. No SQL
+  rewrite invented. Sanitized evidence:
+  `evidence/infrastructure/t054-hcp04-migration-source-recovery-attempt.json`.
+- **Invalidation**: any bound hash, replacement source, cleanup command, or
+  exclusion change.
+
+## T054 migration-001 platform_private create forward-fix proposal
+
+**Status**: `prepared_001_missing_platform_private_create_blocked`  
+**Prepared**: 2026-07-14T15:32:35-07:00  
+**SQL forward fix authorized**: no
+
+### Bound failure
+
+Recovery attempt evidence records that approved 001 hash `42f05e7f…` creates
+`platform` but never `platform_private` before using it.
+
+- attempt evidence SHA-256
+  `e09cc966cf2a6c07230de51234ba22f9da6808e83c90a27c2ba6d08cca85c53f`
+  (`evidence/infrastructure/t054-hcp04-migration-source-recovery-attempt.json`)
+- compose SHA-256
+  `67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931`
+- migration 001 SHA-256
+  `42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b`
+- 002/003 unchanged; Option A port healthy; disposable DB empty of platform
+  schemas after rollback
+
+### Exact proposed correction (approval required before any action)
+
+After a new exact approval, authorize only this minimal forward edit to
+`supabase/migrations/202607100001_foundation_bootstrap.sql`:
+
+Immediately after `create schema if not exists platform;`, insert:
+
+`create schema if not exists platform_private;`
+
+No other SQL changes. Retain 002/003. Then re-apply 001-003, refresh HCP-03
+attestation, finish T054 gates. Preserve Option A topology, volumes, role, and
+disposable DB identity/comment.
+
+### Exact approval statement
+
+> Approve the HCP-03 T054 migration-001 platform_private create forward-fix
+> exactly as recorded in HCP-04-infrastructure.md. Bind it to recovery attempt
+> evidence
+> `evidence/infrastructure/t054-hcp04-migration-source-recovery-attempt.json`
+> (SHA-256
+> `e09cc966cf2a6c07230de51234ba22f9da6808e83c90a27c2ba6d08cca85c53f`)
+> and migration 001 SHA-256 before fix
+> `42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b`.
+> Authorize only inserting `create schema if not exists platform_private;`
+> immediately after `create schema if not exists platform;` in
+> `supabase/migrations/202607100001_foundation_bootstrap.sql`, then re-apply
+> migrations 001-003, refresh HCP-03 attestation, and finish T054 gates.
+> Preserve Option A topology, data/custom volumes, `postgres` NOLOGIN role,
+> disposable database identity/comment, contracts, manifests, lockfile, and
+> exclusions. This does not authorize broader SQL rewrite, data-volume wipe,
+> down migration, teardown, prune, secret inspection/disclosure, production,
+> repository upload, Option B, or T055 and later.
+
+### Forward-fix decision record
+
+- **Decision**: pending; preparation only.
+- **Required approver**: user in the Codex task.
+- **Invalidation**: any bound hash, edit text, command, or exclusion change.

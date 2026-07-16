@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_pgsodium_readonly_key_path_failure",
+  "completion_claim": false,
+  "completion_scope": "approved layout-correction source/runtime steps executed; data-directory layout repaired; Postgres remained unhealthy on a new pgsodium read-only key-path failure; T054 gates not started",
+  "generated_at": "2026-07-14T10:42:00-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-layout-correction-decision.json",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T10:37:00-07:00",
+    "statement_supplied": "proceeed to approveb",
+    "bindings_matched_before_implementation": true,
+    "forward_repair_attempt_sha256": "674122ce88749c0075e04fbf5995bd28c059156c514a2bb2b8fc4e2517632755"
+  },
+  "source_result": {
+    "test_extended": true,
+    "test_red_reached": true,
+    "test_green_passed": true,
+    "compose_sha256_after": "96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642",
+    "compose_hash_matched_target": true,
+    "pgdata_env": "/var/lib/postgresql/data",
+    "verify_authority": "pass_2_artifacts",
+    "verify": "pass_10_legacy_9_compat_8_traceability",
+    "test_runner_note": "tsx/esbuild unavailable on Windows host; behavioral red/green used Node 24.18.0 --experimental-strip-types without package-manager mutation"
+  },
+  "runtime_result": {
+    "pgdata_promote_executed": true,
+    "root_pg_version_after_promote": "present",
+    "nested_pgdata_after_promote": "absent",
+    "volume_mount_mode": "700",
+    "force_recreate_executed": true,
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "project": "platform-foundation-local",
+    "image_digest_unchanged": true,
+    "network_preserved": true,
+    "volume_preserved": true,
+    "cap_add_observed": ["CAP_CHOWN", "CAP_DAC_OVERRIDE", "CAP_FOWNER", "CAP_SETGID", "CAP_SETUID"],
+    "tmpfs_observed": ["/tmp", "/var/run/postgresql"],
+    "readonly_rootfs": true,
+    "container_state": "restarting",
+    "container_health": "unhealthy",
+    "container_exit_code": 1,
+    "bounded_logs": [
+      "PostgreSQL Database directory appears to contain a database; Skipping initialization",
+      "pgaudit extension initialized",
+      "/usr/lib/postgresql/bin/pgsodium_getkey.sh: line 8: /etc/postgresql-custom/pgsodium_root.key: Read-only file system",
+      "FATAL: invalid secret key",
+      "database system is shut down"
+    ],
+    "prior_layout_mismatch_resolved": true,
+    "non_root_process_check": "not_available_while_restarting",
+    "hcp03_guards": "not_run_postgres_unhealthy",
+    "t054_gates": "not_started"
+  },
+  "protected_actions": {
+    "volume_deleted_or_reset": false,
+    "seed_applied": false,
+    "down_migration": false,
+    "teardown_or_prune": false,
+    "image_pulled": false,
+    "secret_value_recorded": false,
+    "secret_file_contents_inspected": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false,
+    "unapproved_package_manager_command": false
+  },
+  "failure": {
+    "reason_code": "HCP04_POSTGRES_PGSODIUM_READONLY_KEY_PATH",
+    "stage": "postgres_container_health_after_layout_correction",
+    "assessment": "Approved PGDATA realignment and non-destructive pgdata promote succeeded; mount-root PG_VERSION is present. The Supabase Postgres image then fails while initializing pgsodium because /etc/postgresql-custom/pgsodium_root.key is not writable under the approved read-only root filesystem. No further topology change was authorized.",
+    "recovery": "Preserve container, network, and volume. Obtain a new exact HCP-04 amendment authorizing a bounded writable path for /etc/postgresql-custom (tmpfs or equivalent) without weakening unrelated controls, inspecting secret values, deleting the volume, or changing the image digest."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact new HCP-04 approval for Postgres pgsodium writable-path repair on the preserved disposable topology"
+  }
+}

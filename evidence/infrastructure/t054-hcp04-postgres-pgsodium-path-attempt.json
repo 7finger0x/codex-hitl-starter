@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_postgresql_custom_tmpfs_masks_image_config",
+  "completion_claim": false,
+  "completion_scope": "approved pgsodium writable-path source/runtime steps executed; empty tmpfs made /etc/postgresql-custom writable but masked image config includes; Postgres remained unhealthy; T054 gates not started",
+  "generated_at": "2026-07-14T12:10:45-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-pgsodium-path-decision.json",
+    "decision_evidence_sha256": "8d03208a80799f912e1ae5c710b5aab09b10d4cc2d1a5fe3826985fc2c1e25ae",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T12:09:21-07:00",
+    "statement_supplied": "proceed",
+    "bindings_matched_before_implementation": true
+  },
+  "source_result": {
+    "test_extended": true,
+    "test_red_reached": true,
+    "test_green_passed": true,
+    "test_sha256_after": "0b9ee659d06dca1a993c33515d886c90a0eebd9f8e40dea54f3b8956e4eec422",
+    "compose_sha256_after": "bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0",
+    "compose_hash_matched_target": true,
+    "verify_authority": "pass_2_artifacts",
+    "verify": "pass_10_legacy_9_compat_8_traceability"
+  },
+  "runtime_result": {
+    "force_recreate_executed": true,
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "project": "platform-foundation-local",
+    "image_digest_unchanged": true,
+    "network_preserved": true,
+    "volume_preserved": true,
+    "cap_add_observed": ["CAP_CHOWN", "CAP_DAC_OVERRIDE", "CAP_FOWNER", "CAP_SETGID", "CAP_SETUID"],
+    "tmpfs_observed": ["/tmp", "/var/run/postgresql", "/etc/postgresql-custom"],
+    "readonly_rootfs": true,
+    "container_state": "restarting",
+    "container_health": "unhealthy",
+    "container_exit_code": 1,
+    "bounded_logs": [
+      "could not open configuration file \"/etc/postgresql-custom/wal-g.conf\": No such file or directory",
+      "could not open configuration file \"/etc/postgresql-custom/read-replica.conf\": No such file or directory",
+      "could not open configuration file \"/etc/postgresql-custom/supautils.conf\": No such file or directory",
+      "could not open configuration directory \"/etc/postgresql-custom/conf.d\": No such file or directory",
+      "FATAL: configuration file \"/etc/postgresql/postgresql.conf\" contains errors"
+    ],
+    "image_postgresql_custom_ro_listing": {
+      "method": "disposable container without overlay mount; directory names only; no secret-file content read",
+      "entries": ["conf.d", "extension-custom-scripts", "read-replica.conf", "supautils.conf", "wal-g.conf"],
+      "pgsodium_root_key_in_image": false
+    },
+    "prior_pgsodium_readonly_failure_superseded": true,
+    "non_root_process_check": "not_available_while_restarting",
+    "hcp03_guards": "not_run_postgres_unhealthy",
+    "t054_gates": "not_started"
+  },
+  "protected_actions": {
+    "volume_deleted_or_reset": false,
+    "seed_applied": false,
+    "down_migration": false,
+    "teardown_or_prune": false,
+    "image_pulled": false,
+    "secret_value_recorded": false,
+    "secret_file_contents_inspected": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "failure": {
+    "reason_code": "HCP04_POSTGRES_CUSTOM_TMPFS_MASKS_IMAGE_CONFIG",
+    "stage": "postgres_container_health_after_pgsodium_tmpfs",
+    "assessment": "Empty tmpfs at /etc/postgresql-custom is writable but hides the image-baked include files required by postgresql.conf. pgsodium_root.key is not present in the image and must be created at runtime into a directory that also retains those includes.",
+    "recovery": "Preserve container, network, and data volume. Obtain a new exact HCP-04 amendment that provides a writable /etc/postgresql-custom containing the image default config files (for example a disposable named volume seeded once by copying image directory contents without reading secret values), then recreate Postgres and resume health/T054 checks."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact new HCP-04 approval for seeded writable /etc/postgresql-custom (not an empty tmpfs overlay)"
+  }
+}

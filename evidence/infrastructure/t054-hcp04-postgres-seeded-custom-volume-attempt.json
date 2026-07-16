@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_seed_helper_chown_capability_denied",
+  "completion_claim": false,
+  "completion_scope": "approved seeded-custom-volume source/test/verification completed; authorized seed helper exited nonzero on chown under cap_drop ALL; Postgres was not recreated under this amendment; T054 gates not started",
+  "generated_at": "2026-07-14T13:56:30-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-seeded-custom-volume-decision.json",
+    "decision_evidence_sha256": "292eb74f680717dda972ae53230fd24862b2cf945542f9a87ef8895f04ee5deb",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T13:55:34-07:00",
+    "statement_supplied": "approve the seeded custom-config volume amendment.",
+    "bindings_matched_before_implementation": true
+  },
+  "source_result": {
+    "test_extended": true,
+    "test_red_reached": true,
+    "test_green_passed": true,
+    "test_sha256_after": "3397eafa28227a0624d604bb83408c1864887324b9167781fa44ad39c7df4b4d",
+    "compose_sha256_after": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14",
+    "compose_hash_matched_target": true,
+    "verify_authority": "pass_2_artifacts",
+    "verify": "pass_10_legacy_9_compat_8_traceability"
+  },
+  "runtime_result": {
+    "seed_command_executed": true,
+    "seed_command_exit_code": 1,
+    "seed_failure": {
+      "reason_code": "HCP04_SEED_CHOWN_CAPABILITY_DENIED",
+      "bounded_errors": [
+        "cp: can't preserve ownership of '/dest/...': Operation not permitted",
+        "chown: /dest/...: Operation not permitted"
+      ],
+      "approved_command_used_cap_drop_all_without_chown_caps": true
+    },
+    "custom_volume_partial_state": {
+      "volume": "foundation_postgres_custom",
+      "directory_names_present": ["conf.d", "extension-custom-scripts", "read-replica.conf", "supautils.conf", "wal-g.conf"],
+      "wal_g_conf": true,
+      "supautils_conf": true,
+      "conf_d": true,
+      "pgsodium_root_key": false,
+      "observed_owner": "root:root",
+      "ownership_normalized_to_100_101": false,
+      "secret_file_contents_inspected": false
+    },
+    "force_recreate_executed": false,
+    "postgres_container_state": "restarting",
+    "postgres_container_health": "unhealthy",
+    "data_volume_preserved": true,
+    "data_volume": "foundation_postgres_data",
+    "hcp03_guards": "not_run_seed_failed",
+    "t054_gates": "not_started"
+  },
+  "protected_actions": {
+    "data_volume_deleted_or_reset": false,
+    "seed_sql_applied": false,
+    "down_migration": false,
+    "teardown_or_prune": false,
+    "image_pulled": false,
+    "secret_value_recorded": false,
+    "secret_file_contents_inspected": false,
+    "unapproved_capability_added_to_seed": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "failure": {
+    "reason_code": "HCP04_SEED_CHOWN_CAPABILITY_DENIED",
+    "stage": "image_to_volume_directory_copy_seed",
+    "assessment": "Compose source reached the approved hash. The exact approved seed helper uses --cap-drop ALL and then chown -R 100:101, which fails closed without CHOWN/DAC_OVERRIDE/FOWNER. Directory names were copied into foundation_postgres_custom as root:root; ownership was not normalized. No unapproved capability was added and Postgres was not recreated under this amendment.",
+    "recovery": "Preserve data volume, custom volume, network, and container state. Obtain a new exact HCP-04 amendment authorizing the same seed helper with only CHOWN, DAC_OVERRIDE, and FOWNER added (matching the already-approved Postgres capability set), then re-run seed ownership normalization, recreate Postgres, and resume health/T054 checks."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact new HCP-04 approval to add CHOWN/DAC_OVERRIDE/FOWNER to the seeded custom-config volume helper"
+  }
+}

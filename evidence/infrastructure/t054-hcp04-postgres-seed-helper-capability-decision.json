@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T14:40:31-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "proceed",
+  "interpreted_as": "binding approval of the HCP-04 T054 Postgres seed-helper capability amendment exactly as recorded in HCP-04-infrastructure.md and restated in the execution request",
+  "exact_statement_consumed": "Approve the HCP-04 T054 Postgres seed-helper capability amendment exactly as recorded in HCP-04-infrastructure.md. Bind it to seeded-custom-volume attempt evidence evidence/infrastructure/t054-hcp04-postgres-seeded-custom-volume-attempt.json (SHA-256 bec81cc110dab49dac21c6f472ecf0b086ed3da8c44d1895c503e13d3279e3dc) and current compose.yaml SHA-256 1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14. Authorize one seed helper against existing foundation_postgres_custom using --cap-drop ALL plus only CHOWN, DAC_OVERRIDE, and FOWNER, the recorded image-to-volume directory copy and ownership normalization without secret inspection, then one Postgres-only --no-deps --force-recreate up with --no-build --pull never, and the bounded health/capability/tmpfs/non-root/HCP-03/T054 continuation checks. Preserve compose source, read-only root, data volume, network, image digest, contracts, migrations, manifests, lockfile, lifecycle restrictions, and exclusions. This does not authorize data-volume deletion/reset/restore, SQL seed, down migration, teardown, prune, secret inspection/disclosure, production, repository upload, or T055 and later.",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "seeded_custom_volume_attempt_sha256": "bec81cc110dab49dac21c6f472ecf0b086ed3da8c44d1895c503e13d3279e3dc",
+    "compose_sha256": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14",
+    "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+    "branch": "master"
+  },
+  "authorized": {
+    "one_seed_helper_cap_drop_all_plus_chown_dac_override_fowner": true,
+    "image_to_volume_directory_copy_and_ownership_normalization": true,
+    "no_secret_inspection": true,
+    "one_postgres_force_recreate_no_build_pull_never_no_deps": true,
+    "bounded_health_capability_tmpfs_nonroot_hcp03_t054_continuation": true
+  },
+  "not_authorized": {
+    "compose_source_change": true,
+    "data_volume_delete_reset_restore_wipe": true,
+    "secret_inspection_or_disclosure": true,
+    "seed_sql": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any bound hash, volume identity, capability set, command, guard, recovery rule, or exclusion change."
+}

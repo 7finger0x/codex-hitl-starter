@@ -1,77 +1,77 @@
 {
   "schema_version": 1,
   "task": "T054",
-  "status": "incomplete_runtime_gate_failure_after_forward_repair",
+  "status": "incomplete_approved_001_missing_platform_private_create",
   "completion_claim": false,
-  "completion_scope": "Approved HCP-04 forward-repair source and runtime steps completed; Postgres remained unhealthy due to data-directory layout mismatch; mandatory T054 gates were not run",
-  "generated_at": "2026-07-14T00:56:36-07:00",
+  "completion_scope": "Migration-source recovery replaced 001 and cleaned partial state; approved 001 fails because platform_private is never created; T054 incomplete",
+  "generated_at": "2026-07-14T15:32:35-07:00",
   "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
   "branch": "master",
   "worktree_state": "documented-dirty",
   "requirements": ["PF-024", "PF-026", "PF-029"],
   "approval_consumed": {
     "checkpoint": "HCP-04",
-    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-forward-repair-decision.json",
-    "attempt_evidence": "evidence/infrastructure/t054-hcp04-postgres-forward-repair-attempt.json"
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-migration-source-recovery-decision.json",
+    "attempt_evidence": "evidence/infrastructure/t054-hcp04-migration-source-recovery-attempt.json"
   },
   "source_verification": {
-    "compose_sha256": "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282",
-    "ownership_test_passed": true,
-    "verify_authority": "pass_2_artifacts",
-    "verify": "pass_10_legacy_9_compat_8_traceability"
+    "compose_sha256": "67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931",
+    "migration_001_sha256": "42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b",
+    "migration_002_sha256": "efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8",
+    "migration_003_sha256": "5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3",
+    "option_a_preserved": true
   },
   "gates": {
-    "contract": "not_run_postgres_unhealthy",
-    "migration_and_recovery": "not_run_postgres_unhealthy",
-    "rls_isolation": "not_run_postgres_unhealthy",
-    "cache_isolation_and_failure_mode": "not_run_postgres_unhealthy",
-    "runtime_role": "not_run_postgres_unhealthy",
-    "api_worker_web_health": "fail_postgres_restarting_data_directory_layout_mismatch",
-    "telemetry_and_redaction": "not_run_postgres_unhealthy",
-    "legacy_controller_and_compatibility": "verify_sh_pass_independent_not_as_t054_runtime_gate_completion",
-    "verify_authority": "pass_independent",
-    "verify": "pass_independent"
+    "contract": "not_rerun_after_migration_failure",
+    "migration_and_recovery": "fail_approved_001_missing_platform_private_create",
+    "rls_isolation": "not_run_blocked_by_migration_failure",
+    "cache_isolation_and_failure_mode": "not_rerun_after_migration_failure",
+    "runtime_role": "not_rerun_after_migration_failure",
+    "api_worker_web_health": "postgres_healthy_host_port_55432_reachable",
+    "telemetry_and_redaction": "not_rerun_after_migration_failure",
+    "legacy_controller_and_compatibility": "not_rerun_after_migration_failure",
+    "verify_authority": "not_rerun_after_migration_failure",
+    "verify": "not_rerun_after_migration_failure"
   },
   "runtime_state_observed": {
     "container": "platform-foundation-local-postgres-1",
-    "container_state": "restarting",
-    "container_health": "unhealthy",
-    "cap_add_observed": ["CAP_CHOWN", "CAP_DAC_OVERRIDE", "CAP_FOWNER", "CAP_SETGID", "CAP_SETUID"],
-    "tmpfs_observed": ["/tmp", "/var/run/postgresql"],
-    "volume": "foundation_postgres_data",
-    "volume_mount_mode": "700",
-    "pgdata_mode": "700",
-    "root_pg_version": "absent",
-    "pgdata_pg_version": "present",
-    "bounded_log": "FATAL: \"/var/lib/postgresql/data\" is not a valid data directory; PG_VERSION missing at mount root",
-    "database_connected": false,
+    "container_state": "running",
+    "container_health": "healthy",
+    "host_port_55432_reachable": true,
+    "role_postgres_nologin": true,
+    "database": "platform_foundation_hcp03",
+    "database_comment": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "platform_schemas_present": false,
+    "migrations_applied": false,
+    "data_volume_preserved": true,
+    "custom_volume_preserved": true,
     "teardown_run": false
   },
   "protected_actions": {
-    "forward_repair_source_applied": true,
-    "forward_repair_runtime_applied": true,
-    "volume_deleted_or_reset": false,
-    "seed_applied": false,
-    "migration_applied": false,
+    "migration_001_replaced_from_approved_backup": true,
+    "partial_platform_private_cleaned": true,
+    "invented_sql_rewrite": false,
+    "option_b_applied": false,
+    "data_volume_deleted_or_reset": false,
     "secret_value_recorded": false,
     "repository_content_uploaded": false,
     "production_action": false,
     "t055_or_later_started": false
   },
   "failure": {
-    "reason_code": "HCP04_POSTGRES_DATA_DIRECTORY_LAYOUT_MISMATCH",
-    "stage": "postgres_container_health_after_forward_repair",
-    "recovery": "Preserve state. Approve a new exact HCP-04 amendment to correct the mount-root vs pgdata cluster layout without volume deletion, then resume health checks and T054 gates."
+    "reason_code": "HCP03_APPROVED_001_MISSING_PLATFORM_PRIVATE_CREATE",
+    "stage": "reapply_migration_001",
+    "recovery": "Approve exact HCP-03 forward fix inserting create schema if not exists platform_private before first use in migration 001, then re-apply, attest, finish T054."
   },
   "result": {
     "t054_checked": false,
     "completion_claim": false,
     "reason_codes": [
-      "FORWARD_REPAIR_SOURCE_AND_RUNTIME_APPLIED",
-      "HCP04_POSTGRES_DATA_DIRECTORY_LAYOUT_MISMATCH",
-      "T054_LATER_GATES_NOT_RUN",
+      "MIGRATION_001_REPLACED",
+      "PARTIAL_STATE_CLEANED",
+      "APPROVED_001_MISSING_PLATFORM_PRIVATE_CREATE",
       "US1_NOT_STARTED"
     ],
-    "next_required_action": "Human owner must approve an exact HCP-04 Postgres data-directory layout correction amendment for the preserved disposable volume."
+    "next_required_action": "Human owner must approve exact HCP-03 migration-001 platform_private create forward fix."
   }
 }

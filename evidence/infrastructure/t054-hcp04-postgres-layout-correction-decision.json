@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T10:37:00-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "proceeed to approveb",
+  "interpreted_as": "binding approval to proceed with the HCP-04 T054 Postgres data-directory layout correction amendment exactly as recorded in HCP-04-infrastructure.md",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "forward_repair_attempt_evidence": "evidence/infrastructure/t054-hcp04-postgres-forward-repair-attempt.json",
+    "forward_repair_attempt_sha256": "674122ce88749c0075e04fbf5995bd28c059156c514a2bb2b8fc4e2517632755",
+    "checkpoint_sha256_at_decision": "79f4d5375aed95d320c51a092d4e686f6a16925d0a0b33a91a5c0e29b909549c",
+    "compose_sha256_before": "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282",
+    "test_sha256_before": "20e10c9474795acb80001b2fcecb9ac29d2f5019f3783bab6f2abae8c9b2709d",
+    "target_compose_sha256_dry_computation": "96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642",
+    "pgdata_change": {
+      "from": "/var/lib/postgresql/data/pgdata",
+      "to": "/var/lib/postgresql/data"
+    }
+  },
+  "authorized": {
+    "extend_ownership_test_for_pgdata_mount_root": true,
+    "compose_pgdata_realignment_only": true,
+    "non_destructive_pgdata_promote_to_mount_root": true,
+    "one_postgres_force_recreate_no_build_pull_never_no_deps": true,
+    "bounded_health_capability_tmpfs_nonroot_hcp03_t054_continuation": true
+  },
+  "not_authorized": {
+    "volume_delete_reset_restore_wipe": true,
+    "seed": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "secret_inspection_or_disclosure": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any bound hash, layout fact, command, source/test result, capability, guard, recovery rule, or exclusion change."
+}

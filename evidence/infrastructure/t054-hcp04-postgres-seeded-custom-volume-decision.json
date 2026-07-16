@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T13:55:34-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "approve the seeded custom-config volume amendment.",
+  "interpreted_as": "binding approval of the HCP-04 T054 Postgres seeded custom-config volume amendment exactly as recorded in HCP-04-infrastructure.md",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "pgsodium_path_attempt_sha256": "50298f15f77f5be93e1c1519fb2c0dff382696346c2eb8f36568e2fcc0964af9",
+    "compose_sha256_before": "bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0",
+    "checkpoint_sha256_at_decision": "09ac7fb1ee8a8fe20f81751480f9ffc7d51723527768f07793ce2c5f6440830b",
+    "test_sha256_before": "0b9ee659d06dca1a993c33515d886c90a0eebd9f8e40dea54f3b8956e4eec422",
+    "target_compose_sha256": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14"
+  },
+  "authorized": {
+    "extend_ownership_test_for_seeded_custom_volume": true,
+    "remove_etc_postgresql_custom_tmpfs": true,
+    "add_foundation_postgres_custom_volume_and_mount": true,
+    "one_image_to_volume_directory_copy_seed": true,
+    "one_postgres_force_recreate_no_build_pull_never_no_deps": true,
+    "bounded_health_capability_tmpfs_nonroot_hcp03_t054_continuation": true
+  },
+  "not_authorized": {
+    "data_volume_delete_reset_restore_wipe": true,
+    "secret_inspection_or_disclosure": true,
+    "seed_sql": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any bound hash, volume identity, command, source/test result, capability, mount, guard, recovery rule, or exclusion change."
+}

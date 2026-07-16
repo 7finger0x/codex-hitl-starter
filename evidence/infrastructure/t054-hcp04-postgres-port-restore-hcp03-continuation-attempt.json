@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_migration_requires_postgres_role_and_host_port_unbound",
+  "completion_claim": false,
+  "completion_scope": "continuation decision recorded; migrations restored; override recreate executed; disposable DB created with required comment; migration 001 failed on missing role postgres and rolled back; host port 55432 unbound; T054 incomplete",
+  "generated_at": "2026-07-14T14:50:30-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-port-restore-hcp03-continuation-decision.json",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T14:47:51-07:00",
+    "statement_supplied": "continue",
+    "bindings_matched_before_implementation": true,
+    "bound_attempt_sha256": "e304b0899c899a1b449e9129f57db4376a7ab10f3b6140e5e8dc990a3a2e864d",
+    "bound_compose_sha256": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14"
+  },
+  "source_result": {
+    "stub_removed": "202607140001_bootstrap.sql",
+    "migrations_restored_byte_identical": true,
+    "migration_sha256": {
+      "202607100001_foundation_bootstrap.sql": "4e1e9a5a4211b877328f64f2b0a4a22278cccfef3d644bfe6a54496c14aa4e6f",
+      "202607100002_identity_tenancy_foundation.sql": "efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8",
+      "202607100003_control_and_evidence_foundation.sql": "5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3"
+    },
+    "sql_rewrite_performed": false
+  },
+  "runtime_result": {
+    "force_recreate_executed": true,
+    "compose_files_used": [
+      "compose.yaml",
+      "infra/environments/local/compose.override.yaml"
+    ],
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "project": "platform-foundation-local",
+    "container_state": "running",
+    "container_health": "healthy",
+    "host_config_port_bindings": {"5432/tcp": [{"HostIp": "127.0.0.1", "HostPort": "55432"}]},
+    "network_settings_ports_observed": {"5432/tcp": []},
+    "docker_ps_ports_observed": "5432/tcp",
+    "host_tcp_127_0_0_1_55432": false,
+    "data_volume_preserved": true,
+    "custom_volume_preserved": true,
+    "database_created": true,
+    "database_name": "platform_foundation_hcp03",
+    "database_comment_verified_via_shobj_description": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "migration_001_attempted": true,
+    "migration_001_exit_code": 3,
+    "migration_001_bounded_error": "ERROR: role \"postgres\" does not exist",
+    "migration_001_failing_statement": "grant usage on schema platform_private to postgres;",
+    "migration_001_transaction_rolled_back": true,
+    "platform_schemas_present_after_failure": false,
+    "migration_ledger_present_after_failure": false,
+    "migrations_002_003_attempted": false,
+    "secret_file_contents_inspected": false,
+    "attestation_written": false,
+    "t054_gates_after_apply": "not_started_apply_failed"
+  },
+  "protected_actions": {
+    "data_volume_deleted_or_reset": false,
+    "sql_beyond_create_db_comment_and_approved_migrations": false,
+    "down_migration": false,
+    "teardown_or_prune": false,
+    "image_pulled": false,
+    "secret_value_recorded": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false,
+    "second_recreate_after_port_failure": false,
+    "invented_postgres_role_created": false
+  },
+  "failure": {
+    "reason_code": "HCP03_MIGRATION_REQUIRES_MISSING_POSTGRES_ROLE",
+    "secondary_reason_code": "HCP04_HOST_PORT_55432_UNBOUND",
+    "stage": "apply_migration_001_after_db_create",
+    "assessment": "Authorized continuation restored migration sources, recreated Postgres with override, and created disposable database platform_foundation_hcp03 with the required comment. Migration 001 fails closed because it grants to role postgres, which does not exist in the supabase/postgres image (supabase_admin is the superuser). HostConfig records 127.0.0.1:55432 but NetworkSettings did not publish the port and host TCP to 55432 failed. No invented ROLE postgres was created and no second recreate was performed.",
+    "recovery": "Preserve container, volumes, restored migrations, and empty disposable database. Obtain an exact HCP-03/HCP-04 amendment authorizing (1) a minimal precondition CREATE ROLE postgres (or equivalent peer-map/grant target correction that does not rewrite migration SQL beyond reviewed text) before re-applying migrations 001-003, and (2) one additional Postgres-only override recreate or equivalent bounded port-publish repair to make 127.0.0.1:55432 reachable, then refresh attestation and finish T054 gates."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact HCP-03/HCP-04 amendment for postgres role precondition and host-port publish repair"
+  }
+}

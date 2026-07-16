@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "also_authorizes": ["HCP-03 migration 001 replacement", "partial platform_private cleanup", "migration re-apply and attestation"],
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T15:31:40-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "continue",
+  "interpreted_as": "binding approval of the HCP-03/HCP-04 T054 migration-source recovery amendment exactly as recorded in HCP-04-infrastructure.md (not Option B)",
+  "exact_statement_consumed": "Approve the HCP-03/HCP-04 T054 migration-source recovery amendment exactly as recorded in HCP-04-infrastructure.md. Bind it to Option A attempt evidence evidence/infrastructure/t054-hcp04-postgres-publishability-option-a-attempt.json (SHA-256 0b7b9296f26e15711d2d73386b85c0c00ac8f23021e3559eda4b83c30acb8c31) and current compose.yaml SHA-256 67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931. Authorize replacement of incomplete restored migration 001 with 202607100001_foundation_bootstrap.backup.sql (SHA-256 42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b) into supabase/migrations/202607100001_foundation_bootstrap.sql, retain current 002/003 hashes unless separately named, guarded cleanup of partial platform_private objects on disposable platform_foundation_hcp03, re-apply of migrations 001-003, HCP-03 attestation refresh, and T054 gate completion. Preserve Option A topology, data/custom volumes, postgres NOLOGIN role, disposable database identity/comment, contracts, manifests, lockfile, and exclusions. This does not authorize data-volume wipe, down migration, teardown, prune, secret inspection/disclosure, production, repository upload, Option B, or T055 and later.",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "option_a_attempt_sha256": "0b7b9296f26e15711d2d73386b85c0c00ac8f23021e3559eda4b83c30acb8c31",
+    "compose_sha256": "67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931",
+    "replacement_001_source": "202607100001_foundation_bootstrap.backup.sql",
+    "replacement_001_sha256": "42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b",
+    "retain_002_sha256": "efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8",
+    "retain_003_sha256": "5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3",
+    "host_port_55432_reachable_before": true,
+    "postgres_health_before": "healthy",
+    "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a"
+  },
+  "authorized": {
+    "replace_migration_001_from_named_backup": true,
+    "retain_migration_002_003": true,
+    "drop_schema_platform_private_cascade_on_disposable_db": true,
+    "reapply_migrations_001_002_003": true,
+    "refresh_hcp03_target_attestation": true,
+    "finish_t054_gates": true
+  },
+  "not_authorized": {
+    "option_b": true,
+    "data_volume_wipe": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "secret_inspection_or_disclosure": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any bound hash, replacement source, cleanup command, or exclusion change."
+}

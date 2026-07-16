@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_host_port_blocked_by_internal_data_network",
+  "completion_claim": false,
+  "completion_scope": "CREATE ROLE postgres NOLOGIN succeeded and survived recreate; authorized override recreate executed; host 127.0.0.1:55432 remained unreachable because foundation_data network is internal:true; migrations not re-applied; T054 incomplete",
+  "generated_at": "2026-07-14T15:05:30-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-role-port-repair-decision.json",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T15:04:11-07:00",
+    "statement_supplied": "continue",
+    "bindings_matched_before_implementation": true,
+    "bound_attempt_sha256": "ea9e25802896712301d57e42f573a006f44a0f9a4722cd0671bdf5b62ac1a8f8",
+    "bound_compose_sha256": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14"
+  },
+  "runtime_result": {
+    "create_role_postgres_nologin_executed": true,
+    "create_role_exit_code": 0,
+    "role_postgres_canlogin": false,
+    "role_survived_recreate": true,
+    "force_recreate_executed": true,
+    "compose_files_used": [
+      "compose.yaml",
+      "infra/environments/local/compose.override.yaml"
+    ],
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "container_state": "running",
+    "container_health": "healthy",
+    "host_config_port_bindings": {"5432/tcp": [{"HostIp": "127.0.0.1", "HostPort": "55432"}]},
+    "network_settings_ports_observed": {"5432/tcp": []},
+    "docker_ps_ports_observed": "5432/tcp",
+    "host_tcp_127_0_0_1_55432": false,
+    "postgres_networks": ["platform-foundation-local-data"],
+    "foundation_data_network_internal": true,
+    "root_cause": "Postgres is attached only to foundation_data (platform-foundation-local-data) which is defined with internal: true in compose.yaml; Docker does not publish host ports for containers solely on internal networks. Override port mapping is present in HostConfig but cannot become active.",
+    "data_volume_preserved": true,
+    "custom_volume_preserved": true,
+    "database_present": "platform_foundation_hcp03",
+    "database_comment": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "migrations_reapplied": false,
+    "attestation_written": false,
+    "t054_gates": "not_started_port_verify_failed"
+  },
+  "protected_actions": {
+    "broader_role_or_grant_changes": false,
+    "migration_sql_rewrite": false,
+    "data_volume_deleted_or_reset": false,
+    "network_topology_changed": false,
+    "internal_flag_changed": false,
+    "second_recreate_after_port_failure": false,
+    "migrations_applied_after_failed_port_verify": false,
+    "teardown_or_prune": false,
+    "secret_value_recorded": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "failure": {
+    "reason_code": "HCP04_HOST_PORT_BLOCKED_BY_INTERNAL_DATA_NETWORK",
+    "stage": "verify_host_tcp_after_override_recreate",
+    "assessment": "Authorized CREATE ROLE postgres NOLOGIN succeeded. Authorized override recreate left Postgres healthy with role and disposable DB intact, but 127.0.0.1:55432 is unreachable because compose.yaml marks foundation_data as internal:true and Postgres is not attached to a non-internal network. No topology change, migration re-apply, or second recreate was performed after this failed verification.",
+    "recovery": "Preserve container, volumes, role, DB, and restored migrations. Obtain an exact HCP-04 amendment authorizing one of: (A) attach postgres also to foundation_edge for publishability while keeping foundation_data internal; (B) set foundation_data.internal to false for local disposable use; or (C) amend the HCP-03 harness/attestation to use docker-exec transport without host port 55432. Then re-verify port or approved alternate transport, re-apply migrations, attest, and finish T054 gates."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact HCP-04 amendment to unblock host publish or authorize docker-exec-only HCP-03 transport"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T12:09:21-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "proceed",
+  "interpreted_as": "binding approval of the HCP-04 T054 Postgres pgsodium writable-path amendment exactly as recorded in HCP-04-infrastructure.md",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "layout_correction_attempt_sha256": "68d5b153d5a6bcd7d1d72057a506fabe324d872b9e48a05533d224b57a0f9f1d",
+    "compose_sha256_before": "96a45acf0b2c376e91a14b5594f1e714b045cf09cdc2951ab75772fa3acec642",
+    "checkpoint_sha256_at_decision": "e69829c17e8481b1d5b29b05bb4ca50b8d133e534d5572d644b09990bda010e4",
+    "test_sha256_before": "83059f95d82c4c1843e047ca2d13df2effa043133b1f66f379c6e87781400cd3",
+    "target_compose_sha256": "bbaf7ebba6e226d7e9606c9e2b6b0f6ee344aa4a8a537761f70deaedd933dcc0"
+  },
+  "authorized": {
+    "extend_ownership_test_for_postgresql_custom_tmpfs": true,
+    "postgres_tmpfs_add_etc_postgresql_custom_only": true,
+    "one_postgres_force_recreate_no_build_pull_never_no_deps": true,
+    "bounded_health_capability_tmpfs_nonroot_hcp03_t054_continuation": true
+  },
+  "not_authorized": {
+    "volume_delete_reset_restore_wipe": true,
+    "secret_inspection_or_disclosure": true,
+    "seed": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any bound hash, runtime fact, command, source/test result, capability, tmpfs, guard, recovery rule, or exclusion change."
+}

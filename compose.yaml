@@ -148,12 +148,14 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-platform_foundation_hcp03}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA: /var/lib/postgresql/data
       PLATFORM_DATABASE_COMMENT: DISPOSABLE:002-platform-foundation:HCP-03
     volumes:
       - foundation_postgres_data:/var/lib/postgresql/data
+      - foundation_postgres_custom:/etc/postgresql-custom
       - ./infra/environments/local/postgres/010-platform-foundation-identity.sql:/docker-entrypoint-initdb.d/010-platform-foundation-identity.sql:ro
     networks:
+      - foundation_edge
       - foundation_data
     cpus: "2.00"
     mem_limit: 2g
@@ -456,6 +458,11 @@ networks:
 volumes:
   foundation_postgres_data:
     name: foundation_postgres_data
+    labels:
+      <<: *foundation-labels
+      com.7fingerstudios.disposable: "true"
+  foundation_postgres_custom:
+    name: foundation_postgres_custom
     labels:
       <<: *foundation-labels
       com.7fingerstudios.disposable: "true"

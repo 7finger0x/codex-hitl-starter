@@ -1,0 +1,93 @@
+﻿{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_restored_migration_001_missing_platform_schema",
+  "completion_claim": false,
+  "completion_scope": "Option A topology applied; host 127.0.0.1:55432 reachable; migration 001 from authorized migrations_backup applied partial private-schema/functions only; migration 002 failed because schema platform is absent; T054 incomplete",
+  "generated_at": "2026-07-14T15:13:30-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-publishability-option-a-decision.json",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T15:11:48-07:00",
+    "option": "A",
+    "bindings_matched_before_implementation": true,
+    "bound_attempt_sha256": "4281ddd2701b96236b40bc83029cb72b8526cd50a591529910ec87b20e0387be",
+    "bound_compose_sha256_before": "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14"
+  },
+  "source_result": {
+    "compose_change": "added foundation_edge to postgres.networks; foundation_data.internal remained true",
+    "compose_sha256_after": "67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931",
+    "option_b_applied": false,
+    "option_c_applied": false
+  },
+  "runtime_result": {
+    "force_recreate_executed": true,
+    "compose_files_used": [
+      "compose.yaml",
+      "infra/environments/local/compose.override.yaml"
+    ],
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "networks_observed": [
+      "platform-foundation-local-data",
+      "platform-foundation-local-edge"
+    ],
+    "foundation_data_internal": true,
+    "foundation_edge_internal": false,
+    "network_settings_ports": {"5432/tcp": [{"HostIp": "127.0.0.1", "HostPort": "55432"}]},
+    "host_tcp_127_0_0_1_55432": true,
+    "container_state": "running",
+    "container_health": "healthy",
+    "role_postgres_nologin_preserved": true,
+    "database_preserved": "platform_foundation_hcp03",
+    "data_volume_preserved": true,
+    "custom_volume_preserved": true,
+    "migration_001_exit_code": 0,
+    "migration_001_sha256": "4e1e9a5a4211b877328f64f2b0a4a22278cccfef3d644bfe6a54496c14aa4e6f",
+    "migration_001_created_platform_schema": false,
+    "migration_001_created_ledger": false,
+    "migration_001_partial_state": {
+      "schemas_present": ["platform_private"],
+      "platform_private_functions_count": 6,
+      "platform_roles_count": 0
+    },
+    "migration_002_exit_code": 3,
+    "migration_002_bounded_error": "ERROR: schema \"platform\" does not exist",
+    "migration_002_rolled_back": true,
+    "migration_003_attempted": false,
+    "attestation_written": false,
+    "evidence_bound_migration_hashes_present_in_workspace": false,
+    "more_complete_001_candidate_observed_not_used": {
+      "path": "202607100001_foundation_bootstrap.backup.sql",
+      "sha256": "42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b",
+      "contains_create_schema_platform": true,
+      "contains_platform_roles": true,
+      "contains_foundation_migration_ledger": true,
+      "authorized_for_use": false
+    }
+  },
+  "protected_actions": {
+    "option_b_or_c_applied": false,
+    "migration_sql_rewrite": false,
+    "data_volume_deleted_or_reset": false,
+    "ungarded_schema_drop": false,
+    "secret_value_recorded": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "failure": {
+    "reason_code": "HCP03_RESTORED_MIGRATION_001_INCOMPLETE",
+    "stage": "reapply_migration_002_after_option_a_port_success",
+    "assessment": "Option A succeeded: Postgres is on foundation_edge and foundation_data, data network remains internal, and 127.0.0.1:55432 is reachable. Re-apply used the previously authorized migrations_backup bytes. Migration 001 committed only platform_private helpers and does not create schema platform, roles, or the migration ledger. Migration 002 therefore fails closed. A larger root-level 001 backup candidate exists but was not substituted because it was outside the authorized migrations_backup restore set and does not match historical t039 evidence hash.",
+    "recovery": "Preserve volumes, role, disposable DB, Option A topology, and partial platform_private objects. Obtain an exact HCP-03/HCP-04 amendment authorizing (1) replacement of supabase/migrations/*.sql with complete reviewed sources (either recovered evidence-hash matches or an explicitly approved alternate such as the root 001 backup plus matching 002/003), (2) a guarded forward-recovery cleanup of the partial platform_private objects if required, then (3) re-apply 001-003, attest, and finish T054 gates."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact HCP-03/HCP-04 amendment to replace incomplete restored migration sources and recover partial apply state"
+  }
+}

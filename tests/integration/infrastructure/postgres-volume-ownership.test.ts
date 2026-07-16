@@ -7,7 +7,7 @@ import test from "node:test";
 const repositoryRoot = resolve(process.cwd());
 const composePath = resolve(repositoryRoot, "compose.yaml");
 const composeSource = readFileSync(composePath, "utf8");
-const expectedComposeSha256 = "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282";
+const expectedComposeSha256 = "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14";
 const expectedCapabilities = ["CHOWN", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"];
 const expectedTmpfs = [
   "/tmp:size=64m,mode=1777,nosuid,nodev,noexec",
@@ -37,7 +37,7 @@ test("Postgres receives only the bounded entrypoint capabilities", () => {
   );
 });
 
-test("Postgres receives the exact writable runtime tmpfs override", () => {
+test("Postgres receives the exact writable runtime tmpfs override without custom overlay", () => {
   const postgres = serviceSource("postgres", "auth");
   const expectedBlock = ["    tmpfs:", ...expectedTmpfs.map((entry) => `      - ${entry}`)].join(
     "\n",
@@ -45,13 +45,25 @@ test("Postgres receives the exact writable runtime tmpfs override", () => {
 
   assert.equal((postgres.match(/^\s{4}tmpfs:$/gmu) ?? []).length, 1);
   assert.match(postgres, new RegExp(`${expectedBlock.replaceAll("\n", "\\n")}\\n    image:`, "u"));
-  assert.match(postgres, /\/var\/run\/postgresql:size=16m,mode=0755,uid=100,gid=101,nosuid,nodev,noexec/u);
+  assert.doesNotMatch(postgres, /\/etc\/postgresql-custom:size=/u);
   assert.deepEqual(
     [...postgres.matchAll(/^\s{6}- (.+)$/gmu)]
       .map((match) => match[1])
       .filter((entry) => entry.startsWith("/")),
     expectedTmpfs,
   );
+});
+
+test("Postgres mounts seeded disposable custom-config volume at /etc/postgresql-custom", () => {
+  const postgres = serviceSource("postgres", "auth");
+  assert.match(postgres, /foundation_postgres_custom:\/etc\/postgresql-custom/u);
+  assert.match(composeSource, /^\s{2}foundation_postgres_custom:\n\s{4}name: foundation_postgres_custom$/mu);
+});
+
+test("Postgres PGDATA is the mount root, not a nested pgdata path", () => {
+  const postgres = serviceSource("postgres", "auth");
+  assert.match(postgres, /PGDATA: \/var\/lib\/postgresql\/data$/mu);
+  assert.doesNotMatch(postgres, /PGDATA: \/var\/lib\/postgresql\/data\/pgdata/u);
 });
 
 test("the repair preserves every surrounding Postgres boundary", () => {
@@ -68,7 +80,6 @@ test("the repair preserves every surrounding Postgres boundary", () => {
     postgres,
     /docker\.io\/supabase\/postgres:17\.6\.1\.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00/u,
   );
-  assert.match(postgres, /PGDATA: \/var\/lib\/postgresql\/data\/pgdata/u);
   assert.match(postgres, /foundation_postgres_data:\/var\/lib\/postgresql\/data/u);
   assert.match(postgres, /foundation_data/u);
   assert.match(postgres, /cpus: "2\.00"/u);
