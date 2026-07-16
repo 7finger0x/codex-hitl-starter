@@ -1992,7 +1992,7 @@ the approved local override and no volume deletion.
 
 ## Plaintext bootstrap security invalidation
 
-**Status**: `recovery_approval_required`
+**Status**: `recovery_approved_and_applied`
 **Detected**: 2026-07-16
 
 Commit `163a49c` replaced the approved one-line disposable database-comment
@@ -2028,3 +2028,15 @@ secret access, history rewrite, force push, or any unrelated Compose edit.
 > the existing read-only Compose mount, and run offline repository verification.
 > This does not authorize container restart, Docker/Compose execution, database
 > mutation, secret access, history rewrite, force push, or unrelated changes.
+
+### Recovery decision and result
+
+- **Decision**: `approved_with_conditions` for the exact recovery above.
+- **Approver/time**: user in the Codex task (response: `proceed`), 2026-07-16;
+  no clock time supplied by the user.
+- **Applied result**: restored only the approved one-line disposable database
+  comment source; the existing read-only Compose mount was unchanged.
+- **Excluded actions**: no container restart, Docker/Compose execution, database
+  mutation, secret access, history rewrite, force push, or unrelated source edit.
+- **Decision evidence**:
+  `evidence/persistence/plaintext-bootstrap-forward-removal.json`.
