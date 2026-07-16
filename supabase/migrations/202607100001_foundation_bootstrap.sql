@@ -68,9 +68,9 @@ grant platform_owner to platform_migrator;
 grant platform_runtime to platform_api, platform_worker, platform_evidence_reader;
 
 create schema
-if not exists platform;
+if not exists platform authorization platform_owner;
 create schema
-if not exists platform_private;
+if not exists platform_private authorization platform_owner;
 
 revoke all privileges on schema platform from public;
 revoke all privileges on schema platform_private from public;

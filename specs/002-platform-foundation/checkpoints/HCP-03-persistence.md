@@ -670,9 +670,9 @@ an HCP-04 port amendment, not changed by HCP-03.
 
 ## T054 runtime-application amendment draft
 
-**Status**: `awaiting_exact_user_decision`  
-**Prepared**: 2026-07-13  
-**Runtime application authorized**: no
+**Status**: `approved_with_conditions`
+**Prepared**: 2026-07-13
+**Runtime application authorized**: yes under the later Windows adapter refresh
 
 The approved source repair is complete and retained in
 `evidence/persistence/t054-hcp03-conformance-repair.json` at SHA-256
@@ -759,3 +759,102 @@ reset, restore, seed reapplication, or volume deletion is allowed.
 - **Invalidation**: any target, comment, version, synthetic guard, adapter/tool
   path or hash, backup path, migration/scenario, suite, recovery rule, source
   hash, command, evidence field, or exclusion change.
+
+## T054 Windows adapter refresh decision
+
+**Decision**: `approved_with_conditions`
+**Decision time**: 2026-07-16T06:43:02-07:00
+**Approver**: user in the Codex task (response: `pro ceed`)
+
+The user approved replacing only the invalidated runtime adapter bindings with
+Windows Node.js 24.18.0 and
+`C:\Program Files\Docker\Docker\resources\bin\docker.exe` at SHA-256
+`834d45bd30c6d08f1045f39a48fda64cf563f89e6f217a0dac53742612634fe2`.
+The approval authorizes refreshing the guarded target/tool attestation, resetting
+only `platform_foundation_hcp03`, applying the exact current migrations 001-003,
+running the migration/RLS gates, and writing sanitized T054 evidence. It
+preserves data/custom volumes and excludes production, secrets, teardown,
+restore, repository upload, and T055 or later work.
+
+The approval is bound to source revision
+`e68da50612cd1fc092bc600a9e4cfb89da487f5d`, compose SHA-256
+`67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931`,
+and migration SHA-256 values
+`451abf46bacd182d310fb59266689562d5e333da376e36d027c967416a7127f4`,
+`efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8`,
+and `5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3`.
+Any target, adapter, hash, migration, recovery rule, or exclusion change
+invalidates this decision.
+
+### T054 database-comment inspection correction
+
+During the approved guard run, the exact disposable comment was restored but
+the guard still returned an empty value because both test sources used
+`obj_description` for a `pg_database` object. PostgreSQL database comments are
+shared-object comments and require `shobj_description`. T054 therefore changes
+only those two test expressions in
+`tests/integration/migrations/foundation-migrations.test.ts` and
+`supabase/tests/000_foundation_migration_test.sql`. No migration, schema, role,
+policy, target, comment value, or product behavior changes. Recovery is to
+revert the two expressions; validation is the guarded four-scenario suite.
+
+## T054 migration-001 schema-ownership forward-fix proposal
+
+**Status**: `approved_with_conditions`
+**Prepared**: 2026-07-16
+**Migration application authorized**: yes, only as recorded below
+
+The guarded empty-schema scenario stopped transactionally at migration 001 with
+`permission denied for schema platform_private`. Migration 001 creates
+`platform` and `platform_private` as the executing `supabase_admin` role, then
+executes `set local role platform_owner`; `platform_owner` therefore cannot
+create the migration ledger in `platform_private`. The transaction rolled back.
+Post-checks show zero platform schemas and zero platform roles, while the exact
+disposable database comment remains intact.
+
+The minimal proposed forward fix changes only the two schema statements in
+`supabase/migrations/202607100001_foundation_bootstrap.sql` to:
+
+```sql
+create schema if not exists platform authorization platform_owner;
+create schema if not exists platform_private authorization platform_owner;
+```
+
+No table, role attributes, grant, function, policy, migration 002/003, contract,
+volume, topology, or target changes. After approval, create a new external
+backup run directory, re-run the exact four guarded scenarios, and preserve the
+existing failed backups. A failure remains transactional and stops T054.
+
+### Exact approval statement
+
+> Approve the HCP-03 T054 migration-001 schema-ownership forward fix exactly as
+> recorded in HCP-03-persistence.md. Authorize only replacing the two current
+> schema creation statements with `create schema if not exists platform
+> authorization platform_owner;` and `create schema if not exists
+> platform_private authorization platform_owner;`, then rerun the already
+> approved guarded four-scenario migration/RLS suite against only
+> `platform_foundation_hcp03`. Preserve migrations 002/003, existing external
+> backups, volumes, Option A topology, contracts, manifests, lockfile, roles,
+> grants, and exclusions. This does not authorize any other SQL, restore,
+> volume deletion, teardown, secrets, production, repository upload, or T055+.
+
+### Decision record
+
+- **Decision**: `approved_with_conditions` for the exact two-statement change
+  and guarded rerun above.
+- **Approver/time**: user in the Codex task (response: `proceed`), 2026-07-16;
+  no clock time supplied by the user.
+- **Decision evidence**:
+  `evidence/persistence/t054-hcp03-schema-ownership-decision.json`.
+- **Invalidation**: any additional SQL, target, migration, recovery, or exclusion
+  change.
+
+### Forward-fix application result
+
+The approved two-statement ownership fix produced migration 001 SHA-256
+`3c6a1aef975e638eda95a721afeca255d3e192e68ffe240694fccfc20643279d`.
+All four guarded scenarios and the real PostgreSQL RLS/grant/runtime-role suite
+passed. Final target facts show the exact disposable comment, three migration
+ledger rows, 37 `platform` tables plus the private ledger, and all six no-login
+platform roles. T054 evidence is retained in
+`evidence/phases/phase-2-foundation.json`; T055 and later were not started.

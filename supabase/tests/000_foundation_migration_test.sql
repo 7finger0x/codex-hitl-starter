@@ -21,12 +21,12 @@ select pg_temp.assert_true(
 );
 
 select pg_temp.assert_true(
-  coalesce(obj_description(oid, 'pg_database'), '') =
+  coalesce(shobj_description(oid, 'pg_database'), '') =
     'DISPOSABLE:002-platform-foundation:HCP-03',
   'database comment differs'
-  from pg_database
-  where datname = current_database()
-);
+)
+from pg_database
+where datname = current_database();
 
 select pg_temp.assert_true(
   current_setting('server_version_num')::integer between 170000 and 179999,
@@ -49,7 +49,7 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select array_agg(nspname order by nspname)
+    select array_agg(nspname::text order by nspname)
     from pg_namespace
     where nspname like 'platform%'
   ) = array['platform', 'platform_private'],
@@ -58,7 +58,7 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select array_agg(rolname order by rolname)
+    select array_agg(rolname::text order by rolname)
     from pg_roles
     where rolname like 'platform_%'
   ) = array[
@@ -174,7 +174,7 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select array_agg(p.proname order by p.proname)
+    select array_agg(p.proname::text order by p.proname)
     from pg_proc p
     join pg_namespace n on n.oid = p.pronamespace
     where n.nspname in ('platform', 'platform_private')
@@ -530,7 +530,7 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select array_agg(c.relname order by c.relname)
+    select array_agg(c.relname::text order by c.relname)
     from pg_trigger t
     join pg_class c on c.oid = t.tgrelid
     join pg_namespace n on n.oid = c.relnamespace
@@ -549,7 +549,7 @@ select pg_temp.assert_true(
 
 select pg_temp.assert_true(
   (
-    select array_agg(c.relname order by c.relname)
+    select array_agg(c.relname::text order by c.relname)
     from pg_trigger t
     join pg_class c on c.oid = t.tgrelid
     join pg_namespace n on n.oid = c.relnamespace

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision_date": "2026-07-16",
+  "approver": "User in Codex task / human owner",
+  "approval_response": "proceed",
+  "bound_attempt": "evidence/infrastructure/t054-hcp04-windows-adapter-attempt.json",
+  "authorized_command": [
+    "docker",
+    "compose",
+    "--project-name",
+    "platform-foundation-local",
+    "--file",
+    "compose.yaml",
+    "--file",
+    "infra/environments/local/compose.override.yaml",
+    "up",
+    "--detach",
+    "--no-deps",
+    "--force-recreate",
+    "--no-build",
+    "--pull",
+    "never",
+    "postgres"
+  ],
+  "authorized_continuation": [
+    "revalidate all guards",
+    "reset only platform_foundation_hcp03",
+    "apply migrations 001-003",
+    "run migration and RLS gates",
+    "write sanitized evidence"
+  ],
+  "preserve": ["data volume", "custom volume", "Option A topology"],
+  "excluded": [
+    "teardown",
+    "volume deletion",
+    "secret access or disclosure",
+    "production",
+    "repository upload",
+    "T055 or later"
+  ]
+}

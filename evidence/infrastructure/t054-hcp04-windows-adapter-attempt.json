@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "stopped_before_database_access",
+  "attempt_time": "2026-07-16T06:43:02-07:00",
+  "source_revision": "e68da50612cd1fc092bc600a9e4cfb89da487f5d",
+  "decision_evidence": "evidence/persistence/t054-hcp03-windows-adapter-decision.json",
+  "guards": {
+    "docker_sha256": "pass",
+    "postgres_image": "pass",
+    "postgres_health": "pass",
+    "psql_version_and_sha256": "pass",
+    "pg_dump_version_and_sha256": "pass",
+    "host_127_0_0_1_port_55432": "fail_unpublished"
+  },
+  "observed": {
+    "docker_sha256": "834d45bd30c6d08f1045f39a48fda64cf563f89e6f217a0dac53742612634fe2",
+    "postgres_image": "docker.io/supabase/postgres:17.6.1.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "postgres_health": "healthy",
+    "container_port_mapping": "5432/tcp=null",
+    "psql_sha256": "96577e53f4c3558b7f27c5747b533bc7180a4b22a232e8a71af7724257d7efcc",
+    "pg_dump_sha256": "858f1d46d266b6d3aa514e8483cd4d8ca43ac792b72451b448fcd00903b48eb4"
+  },
+  "mutations": {
+    "database_access": false,
+    "database_reset": false,
+    "backup_written": false,
+    "migration_applied": false,
+    "volume_changed": false,
+    "container_recreated": false,
+    "teardown": false
+  },
+  "next_required_action": "Exact HCP-04 approval for one Postgres-only local-override recreate preserving all volumes, followed by guard revalidation."
+}

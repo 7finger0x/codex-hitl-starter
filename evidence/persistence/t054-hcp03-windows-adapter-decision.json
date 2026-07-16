@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-03",
+  "status": "approved_with_conditions",
+  "decision_time": "2026-07-16T06:43:02-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_response": "pro ceed",
+  "source_revision": "e68da50612cd1fc092bc600a9e4cfb89da487f5d",
+  "runtime": "Node.js 24.18.0 on Windows",
+  "docker_path": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+  "docker_sha256": "834d45bd30c6d08f1045f39a48fda64cf563f89e6f217a0dac53742612634fe2",
+  "target": {
+    "host": "127.0.0.1",
+    "port": 55432,
+    "database": "platform_foundation_hcp03",
+    "database_comment": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "postgres_major": 17,
+    "synthetic_only": true
+  },
+  "bindings": {
+    "compose_sha256": "67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931",
+    "migration_001_sha256": "451abf46bacd182d310fb59266689562d5e333da376e36d027c967416a7127f4",
+    "migration_002_sha256": "efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8",
+    "migration_003_sha256": "5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3"
+  },
+  "authorized": [
+    "refresh guarded target/tool attestation",
+    "reset only platform_foundation_hcp03",
+    "apply migrations 001-003",
+    "run migration and RLS gates",
+    "write sanitized T054 evidence"
+  ],
+  "excluded": [
+    "volume deletion",
+    "production",
+    "secret access or disclosure",
+    "teardown",
+    "restore",
+    "repository upload",
+    "T055 or later"
+  ]
+}

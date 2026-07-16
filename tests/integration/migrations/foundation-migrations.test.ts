@@ -90,8 +90,8 @@ type TargetAttestation = {
   readonly target_facts_recorded: boolean;
 };
 
-const approvedDockerPath = "/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe";
-const approvedDockerSha256 = "7bc66b018b9da43fea986f893288bb93970d3d1217f5063201fd97c827f20732";
+const approvedDockerPath = "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe";
+const approvedDockerSha256 = "834d45bd30c6d08f1045f39a48fda64cf563f89e6f217a0dac53742612634fe2";
 const approvedPostgresImage =
   "docker.io/supabase/postgres:17.6.1.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00";
 const migrationPhases = [
@@ -143,7 +143,7 @@ function runDocker(
   attestation: TargetAttestation,
   args: readonly string[],
   input?: string,
-): { readonly status: number | null; readonly stdout: Buffer } {
+): { readonly status: number | null; readonly stderr: Buffer; readonly stdout: Buffer } {
   const result = spawnSync(attestation.docker_path, args, {
     cwd: repositoryRoot,
     encoding: null,
@@ -154,7 +154,7 @@ function runDocker(
     timeout: 60_000,
   });
   assert.equal(result.error, undefined, "approved Docker tool adapter could not start");
-  return { status: result.status, stdout: result.stdout };
+  return { status: result.status, stderr: result.stderr, stdout: result.stdout };
 }
 
 function runPostgresTool(
@@ -162,10 +162,18 @@ function runPostgresTool(
   tool: "/usr/bin/psql" | "/usr/bin/pg_dump" | "/usr/bin/sha256sum",
   args: readonly string[],
   input?: string,
-): { readonly status: number | null; readonly stdout: Buffer } {
+): { readonly status: number | null; readonly stderr: Buffer; readonly stdout: Buffer } {
   return runDocker(
     attestation,
-    ["exec", "--interactive", "--user=postgres", attestation.postgres_container, tool, ...args],
+    [
+      "exec",
+      "--interactive",
+      "--user=postgres",
+      "--env=PGUSER=supabase_admin",
+      attestation.postgres_container,
+      tool,
+      ...args,
+    ],
     input,
   );
 }
@@ -183,7 +191,11 @@ function runPsql(attestation: TargetAttestation, sql: string): string {
     ],
     sql,
   );
-  assert.equal(result.status, 0, "approved PostgreSQL command failed");
+  assert.equal(
+    result.status,
+    0,
+    `approved PostgreSQL command failed: ${result.stderr.toString("utf8").trim().slice(-2048)}`,
+  );
   return result.stdout.toString("utf8");
 }
 
@@ -233,7 +245,7 @@ end;
 $guard$;
 select
     current_database(),
-    coalesce(obj_description(oid, 'pg_database'), ''),
+    coalesce(shobj_description(oid, 'pg_database'), ''),
     current_setting('server_version_num')::integer / 10000,
     pg_is_in_recovery(),
     (select count(*) from pg_replication_slots),
@@ -268,7 +280,7 @@ function createBackup(attestation: TargetAttestation, phase: string): string {
   ]);
   assert.equal(result.status, 0, "pre-migration backup failed");
   const backupPath = resolve(attestation.backup_directory, `${phase}.dump`);
-  assert.ok(backupPath.startsWith(`${resolve(attestation.backup_directory)}/`));
+  assert.ok(backupPath.startsWith(`${resolve(attestation.backup_directory)}\\`));
   writeFileSync(backupPath, result.stdout, { flag: "wx", mode: 0o600 });
   const digest = sha256(backupPath);
   assert.match(digest, /^[0-9a-f]{64}$/u);
@@ -290,7 +302,11 @@ function applyMigration(attestation: TargetAttestation, path: string): void {
     ],
     readFileSync(path, "utf8"),
   );
-  assert.equal(result.status, 0, `migration failed: ${basename(path)}`);
+  assert.equal(
+    result.status,
+    0,
+    `migration failed: ${basename(path)}: ${result.stderr.toString("utf8").trim().slice(-2048)}`,
+  );
 }
 
 function resetTarget(attestation: TargetAttestation): void {

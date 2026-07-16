@@ -1,77 +1,93 @@
 {
   "schema_version": 1,
   "task": "T054",
-  "status": "incomplete_approved_001_missing_platform_private_create",
-  "completion_claim": false,
-  "completion_scope": "Migration-source recovery replaced 001 and cleaned partial state; approved 001 fails because platform_private is never created; T054 incomplete",
-  "generated_at": "2026-07-14T15:32:35-07:00",
-  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "status": "complete_pass",
+  "completion_claim": true,
+  "completion_scope": "Phase 2 foundation gates only; T055 and later were not started",
+  "generated_at": "2026-07-16T06:56:47-07:00",
+  "source_revision": "e68da50612cd1fc092bc600a9e4cfb89da487f5d",
   "branch": "master",
-  "worktree_state": "documented-dirty",
+  "worktree_state": "documented-dirty-with-relevant-file-hashes",
   "requirements": ["PF-024", "PF-026", "PF-029"],
-  "approval_consumed": {
-    "checkpoint": "HCP-04",
-    "decision_evidence": "evidence/infrastructure/t054-hcp04-migration-source-recovery-decision.json",
-    "attempt_evidence": "evidence/infrastructure/t054-hcp04-migration-source-recovery-attempt.json"
-  },
+  "approvals": [
+    "evidence/persistence/t054-hcp03-windows-adapter-decision.json",
+    "evidence/infrastructure/t054-hcp04-windows-port-restore-decision.json",
+    "evidence/persistence/t054-hcp03-schema-ownership-decision.json"
+  ],
   "source_verification": {
     "compose_sha256": "67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931",
-    "migration_001_sha256": "42f05e7f705a7a37a36e9cfd966c8c4625db55c0ca038f39d47bfe45443dc77b",
+    "migration_001_sha256": "3c6a1aef975e638eda95a721afeca255d3e192e68ffe240694fccfc20643279d",
     "migration_002_sha256": "efa1c9180bea07803dbd371979ae6bbbe2a56500b99dde9f224c7063581db4c8",
     "migration_003_sha256": "5a1171ebfd9a40a53815113df6614b5f089e31f2ce90fc5ed4a362d262c4b4e3",
-    "option_a_preserved": true
+    "migration_sql_suite_sha256": "c5e6f65de4147fe01a72bcf89802112d30aba43630811d9ac59368ed8f52ebbd",
+    "migration_harness_sha256": "1958b1c7fbdd56c9f0fed2ad53796f484b8a76189f0571a1dbeb8b690bf2fed6",
+    "infrastructure_test_sha256": "655b19eeb2ead01336c5f13a554aea35d76c71581545bcdfaff8f312d5b95ba9",
+    "target_attestation_sha256": "c135c0b11e668f8789689da77f477d3d00e8f89485c1ec30fd7eeac6ba53eba9"
   },
   "gates": {
-    "contract": "not_rerun_after_migration_failure",
-    "migration_and_recovery": "fail_approved_001_missing_platform_private_create",
-    "rls_isolation": "not_run_blocked_by_migration_failure",
-    "cache_isolation_and_failure_mode": "not_rerun_after_migration_failure",
-    "runtime_role": "not_rerun_after_migration_failure",
-    "api_worker_web_health": "postgres_healthy_host_port_55432_reachable",
-    "telemetry_and_redaction": "not_rerun_after_migration_failure",
-    "legacy_controller_and_compatibility": "not_rerun_after_migration_failure",
-    "verify_authority": "not_rerun_after_migration_failure",
-    "verify": "not_rerun_after_migration_failure"
+    "contract": "pass",
+    "migration_and_recovery": "pass_four_guarded_scenarios",
+    "rls_isolation": "pass_real_postgres_sql_suite",
+    "cache_isolation_and_failure_mode": "pass",
+    "runtime_role": "pass_non_owner_non_superuser_non_bypass",
+    "api_worker_web_health": "pass",
+    "telemetry_and_redaction": "pass",
+    "legacy_controller_and_compatibility": "pass_19_tests",
+    "format": "pass",
+    "lint": "pass",
+    "typecheck": "pass",
+    "workspace_policy": "pass",
+    "verify_authority": "pass",
+    "verify": "pass"
+  },
+  "test_evidence": {
+    "typescript_foundation": {
+      "tests": 68,
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0
+    },
+    "migration_scenarios": [
+      "empty",
+      "representative_prior",
+      "interrupted_001_002_then_003",
+      "rolling_compatibility_and_forward_recovery"
+    ],
+    "python_controller": {
+      "legacy_tests": 10,
+      "compatibility_tests": 9,
+      "failed": 0
+    }
   },
   "runtime_state_observed": {
     "container": "platform-foundation-local-postgres-1",
-    "container_state": "running",
     "container_health": "healthy",
-    "host_port_55432_reachable": true,
-    "role_postgres_nologin": true,
+    "published_port": "127.0.0.1:55432",
     "database": "platform_foundation_hcp03",
     "database_comment": "DISPOSABLE:002-platform-foundation:HCP-03",
-    "platform_schemas_present": false,
-    "migrations_applied": false,
-    "data_volume_preserved": true,
-    "custom_volume_preserved": true,
-    "teardown_run": false
+    "postgres_major": 17,
+    "migration_ledger_rows": 3,
+    "platform_tables": 37,
+    "platform_roles": 6,
+    "external_backup_directory": "C:\\Users\\brand\\codex-hitl-backups\\t054\\20260716-guarded-final"
   },
+  "warnings": [
+    "WSL emitted non-fatal PATH translation warnings for unrelated unavailable drives during bash verifiers.",
+    "pnpm lifecycle scripts remained disabled; no approve-builds action was taken.",
+    "Unrelated concurrent untracked files EDGE_RUNTIME_MEMORY_GUIDE.md and docker-compose.override.yml were excluded and not modified."
+  ],
   "protected_actions": {
-    "migration_001_replaced_from_approved_backup": true,
-    "partial_platform_private_cleaned": true,
-    "invented_sql_rewrite": false,
-    "option_b_applied": false,
-    "data_volume_deleted_or_reset": false,
-    "secret_value_recorded": false,
-    "repository_content_uploaded": false,
     "production_action": false,
+    "secret_value_read_or_recorded": false,
+    "volume_deleted": false,
+    "restore_run": false,
+    "teardown_or_prune_run": false,
+    "repository_content_uploaded": false,
     "t055_or_later_started": false
   },
-  "failure": {
-    "reason_code": "HCP03_APPROVED_001_MISSING_PLATFORM_PRIVATE_CREATE",
-    "stage": "reapply_migration_001",
-    "recovery": "Approve exact HCP-03 forward fix inserting create schema if not exists platform_private before first use in migration 001, then re-apply, attest, finish T054."
-  },
   "result": {
-    "t054_checked": false,
-    "completion_claim": false,
-    "reason_codes": [
-      "MIGRATION_001_REPLACED",
-      "PARTIAL_STATE_CLEANED",
-      "APPROVED_001_MISSING_PLATFORM_PRIVATE_CREATE",
-      "US1_NOT_STARTED"
-    ],
-    "next_required_action": "Human owner must approve exact HCP-03 migration-001 platform_private create forward fix."
+    "t054_checked": true,
+    "completion_claim": true,
+    "next_task": "T055 at the Phase 3 boundary"
   }
 }

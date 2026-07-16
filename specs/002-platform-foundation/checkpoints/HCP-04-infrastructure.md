@@ -1951,3 +1951,41 @@ disposable DB identity/comment.
 - **Decision**: pending; preparation only.
 - **Required approver**: user in the Codex task.
 - **Invalidation**: any bound hash, edit text, command, or exclusion change.
+
+## T054 Windows Docker adapter refresh
+
+On 2026-07-16 the user approved the HCP-03 T054 continuation with Windows
+Node.js 24.18.0 and the existing Docker executable at
+`C:\Program Files\Docker\Docker\resources\bin\docker.exe`, SHA-256
+`834d45bd30c6d08f1045f39a48fda64cf563f89e6f217a0dac53742612634fe2`.
+Only the guarded harness/attestation adapter bindings, disposable database
+application, migration/RLS gates, and sanitized evidence are authorized.
+Volumes, Option A topology, and every production/secret/teardown/T055 exclusion
+remain unchanged. The exact decision is retained in
+`evidence/persistence/t054-hcp03-windows-adapter-decision.json`.
+
+### Windows adapter attempt result
+
+The pre-mutation check on 2026-07-16 confirmed the approved Docker executable,
+image digest, healthy container, PostgreSQL 17.6 tool versions, and exact tool
+hashes. It stopped before database access because the container reported
+`{"5432/tcp":null}` and `127.0.0.1:55432` was unreachable. No database query,
+reset, backup, migration, volume operation, or teardown occurred. Continuing
+requires a separate exact HCP-04 approval for one Postgres-only recreate with
+the approved local override and no volume deletion.
+
+### Windows port-restore decision
+
+- **Decision**: `approved_with_conditions`.
+- **Approver**: user in the Codex task (response: `proceed`).
+- **Decision time**: 2026-07-16; no clock time supplied by the user.
+- **Authorized action**: one Postgres-only `--no-deps --force-recreate
+  --no-build --pull never` using `compose.yaml` plus
+  `infra/environments/local/compose.override.yaml`, solely to restore
+  `127.0.0.1:55432`; after guard revalidation, continue the already-approved
+  disposable database reset, migrations 001-003, RLS gates, and evidence.
+- **Preserved/excluded**: all data/custom volumes and Option A topology are
+  preserved; teardown, volume deletion, secrets, production, repository upload,
+  and T055 or later remain excluded.
+- **Decision evidence**:
+  `evidence/infrastructure/t054-hcp04-windows-port-restore-decision.json`.

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-03",
+  "status": "approved_with_conditions",
+  "decision_date": "2026-07-16",
+  "approver": "User in Codex task / human owner",
+  "approval_response": "proceed",
+  "migration_001_sha256_after": "3c6a1aef975e638eda95a721afeca255d3e192e68ffe240694fccfc20643279d",
+  "bound_failure": "evidence/persistence/t054-hcp03-schema-ownership-failure.json",
+  "authorized_changes": [
+    "create schema if not exists platform authorization platform_owner;",
+    "create schema if not exists platform_private authorization platform_owner;"
+  ],
+  "authorized_continuation": "Rerun the guarded four-scenario migration/RLS suite only against platform_foundation_hcp03.",
+  "preserve": [
+    "migrations 002 and 003",
+    "existing external backups",
+    "data and custom volumes",
+    "Option A topology",
+    "contracts and manifests",
+    "lockfile",
+    "roles and grants",
+    "existing exclusions"
+  ],
+  "excluded": [
+    "any other SQL",
+    "restore",
+    "volume deletion",
+    "teardown",
+    "secret access or disclosure",
+    "production",
+    "repository upload",
+    "T055 or later"
+  ]
+}

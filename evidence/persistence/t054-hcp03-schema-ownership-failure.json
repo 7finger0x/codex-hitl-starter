@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-03",
+  "status": "stopped_transactionally",
+  "attempt_date": "2026-07-16",
+  "source_revision": "e68da50612cd1fc092bc600a9e4cfb89da487f5d",
+  "target": "platform_foundation_hcp03",
+  "scenario": "empty",
+  "migration": "supabase/migrations/202607100001_foundation_bootstrap.sql",
+  "migration_sha256": "451abf46bacd182d310fb59266689562d5e333da376e36d027c967416a7127f4",
+  "failure": {
+    "reason_code": "MIGRATION_001_SCHEMA_OWNER_MISMATCH",
+    "sqlstate_class": "insufficient_privilege",
+    "operation": "create platform_private.foundation_migration_ledger",
+    "assessment": "Schemas are owned by the executor; platform_owner cannot create the ledger after SET LOCAL ROLE."
+  },
+  "post_failure_guards": {
+    "platform_schema_count": 0,
+    "platform_role_count": 0,
+    "database_comment_intact": true,
+    "transaction_rolled_back": true
+  },
+  "backups_preserved_under": [
+    "C:\\Users\\brand\\codex-hitl-backups\\t054\\20260716-guarded-run",
+    "C:\\Users\\brand\\codex-hitl-backups\\t054\\20260716-guarded-retry1"
+  ],
+  "completion_claim": false,
+  "next_required_action": "Exact HCP-03 approval for the two-statement schema ownership forward fix."
+}

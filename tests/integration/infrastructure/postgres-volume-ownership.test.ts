@@ -7,7 +7,7 @@ import test from "node:test";
 const repositoryRoot = resolve(process.cwd());
 const composePath = resolve(repositoryRoot, "compose.yaml");
 const composeSource = readFileSync(composePath, "utf8");
-const expectedComposeSha256 = "1d27c72aba138d0ba7a8d83a401ddd38224a6a81e2c5f48201825f2d225d6e14";
+const expectedComposeSha256 = "67ff1a75bbeaa48159a90828d0ef865d04b62758b72a3a8feb54f7dfa1d3f931";
 const expectedCapabilities = ["CHOWN", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"];
 const expectedTmpfs = [
   "/tmp:size=64m,mode=1777,nosuid,nodev,noexec",
@@ -57,7 +57,10 @@ test("Postgres receives the exact writable runtime tmpfs override without custom
 test("Postgres mounts seeded disposable custom-config volume at /etc/postgresql-custom", () => {
   const postgres = serviceSource("postgres", "auth");
   assert.match(postgres, /foundation_postgres_custom:\/etc\/postgresql-custom/u);
-  assert.match(composeSource, /^\s{2}foundation_postgres_custom:\n\s{4}name: foundation_postgres_custom$/mu);
+  assert.match(
+    composeSource,
+    /^\s{2}foundation_postgres_custom:\n\s{4}name: foundation_postgres_custom$/mu,
+  );
 });
 
 test("Postgres PGDATA is the mount root, not a nested pgdata path", () => {
