@@ -120,7 +120,7 @@ storage/cache/job/export/audit path is denied without target disclosure.
 
 ### Tests for User Story 1
 
-- [ ] T055 [P] [US1] Write failing contract tests for session, tenant creation/listing, context selection, invitations, and role-assignment endpoints (PF-001, PF-002, PF-004) in `tests/contract/api/identity-tenancy.contract.test.ts`
+- [x] T055 [P] [US1] Write failing contract tests for session, tenant creation/listing, context selection, invitations, and role-assignment endpoints (PF-001, PF-002, PF-004) in `tests/contract/api/identity-tenancy.contract.test.ts`
 - [ ] T056 [P] [US1] Write failing real-Postgres RLS tests for tenants, users, memberships, environments, teams, roles, invitations, sessions, and service identities (PF-003, PF-011, SC-001) in `supabase/tests/010_identity_tenancy_rls_test.sql`
 - [ ] T057 [P] [US1] Write failing cross-tenant matrix tests for select/insert/update/delete/function/storage/cache/job/export/audit access and opaque denial responses (PF-011, SC-001) in `packages/testing/src/tenancy/cross-tenant-matrix.test.ts`
 - [ ] T058 [P] [US1] Write failing tenant-creation atomicity tests for tenant, owner, default environment, baseline config/capabilities, audit, and outbox rollback (PF-001, PF-013, SC-004) in `tests/integration/identity/create-tenant.test.ts`
