@@ -1,0 +1,11 @@
+{
+  "chat.mcp.apps.enabled": false,
+  "chat.mcp.autostart": "never",
+  "chat.mcp.access": "none",
+  "dart.mcpServer": false,
+  "ggMCP.autoReloadModifiedFiles": false,
+  "github.copilot.chat.cli.mcp.enabled": false,
+  "github.copilot.chat.githubMcpServer.channel": "insiders",
+  "gitlens.gitkraken.mcp.autoEnabled": false,
+  "Perplexity.autoRegenerateStaleConfigs": false
+}

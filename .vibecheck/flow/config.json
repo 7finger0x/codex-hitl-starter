@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "projectName": "codex-hitl-starter",
+  "userName": "developer",
+  "skillLevel": "intermediate",
+  "outputFolder": ".vibecheck/flow",
+  "planningArtifacts": ".vibecheck\\flow\\planning-artifacts",
+  "implementationArtifacts": ".vibecheck\\flow\\implementation-artifacts",
+  "installedAt": "2026-07-16T12:42:13.593Z",
+  "ide": [
+    "claude-code",
+    "codex"
+  ]
+}
