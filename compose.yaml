@@ -177,7 +177,7 @@ services:
     environment:
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: "9999"
-      GOTRUE_API_EXTERNAL_URL: http://127.0.0.1:55433
+      API_EXTERNAL_URL: http://127.0.0.1:55433
       GOTRUE_DB_DRIVER: postgres
       GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}@postgres:5432/${POSTGRES_DB:-platform_foundation_hcp03}
       GOTRUE_SITE_URL: ${SITE_URL:-http://127.0.0.1:3000}

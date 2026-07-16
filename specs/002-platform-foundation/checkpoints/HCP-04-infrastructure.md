@@ -1989,3 +1989,42 @@ the approved local override and no volume deletion.
   and T055 or later remain excluded.
 - **Decision evidence**:
   `evidence/infrastructure/t054-hcp04-windows-port-restore-decision.json`.
+
+## Plaintext bootstrap security invalidation
+
+**Status**: `recovery_approval_required`
+**Detected**: 2026-07-16
+
+Commit `163a49c` replaced the approved one-line disposable database-comment
+initialization source with out-of-scope role creation statements containing a
+plaintext synthetic login credential. The user approved removal of that unsafe
+tracked source. Commit `73c93cb` records the forward deletion, so the HCP-04
+comment-init source hash and the corresponding Compose bind-mount assumption
+are no longer valid. A running local Docker bind mount subsequently left an
+empty directory at the deleted source path. During verification, an external
+writer then recreated the credential-bearing SQL file at that path; it was
+removed again under the existing approval. The source path is therefore
+unstable and must not support a clean-worktree or readiness claim until the
+writer is stopped or the approved safe source is restored.
+
+HCP-04 requires a new exact decision before repairing the infrastructure source.
+The minimal proposed recovery is to replace the empty runtime-created directory
+with the previously approved source file containing only:
+
+```sql
+COMMENT ON DATABASE platform_foundation_hcp03 IS 'DISPOSABLE:002-platform-foundation:HCP-03';
+```
+
+The existing read-only Compose mount would remain unchanged. This proposal does
+not authorize container restart, Docker/Compose execution, database mutation,
+secret access, history rewrite, force push, or any unrelated Compose edit.
+
+### Exact recovery approval statement
+
+> Approve the HCP-04 plaintext-bootstrap recovery exactly as recorded in
+> HCP-04-infrastructure.md: replace only the empty runtime-created path
+> `infra/environments/local/postgres/010-platform-foundation-identity.sql` with
+> the previously approved one-line disposable database `COMMENT` source, retain
+> the existing read-only Compose mount, and run offline repository verification.
+> This does not authorize container restart, Docker/Compose execution, database
+> mutation, secret access, history rewrite, force push, or unrelated changes.

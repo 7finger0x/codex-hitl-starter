@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "checkpoint": "HCP-03",
+  "status": "forward_removal_unstable_external_writer",
+  "decision_date": "2026-07-16",
+  "approver": "User in Codex task / human owner",
+  "approval_response": "proceed",
+  "source_commit": "163a49c",
+  "removed_path": "infra/environments/local/postgres/010-platform-foundation-identity.sql",
+  "defect": "A plaintext synthetic login credential was committed in an out-of-scope local role-bootstrap script.",
+  "verification": {
+    "credential_bearing_file_removed": true,
+    "source_path_state": "credential-bearing file recurred during verification and was removed again",
+    "sql_plaintext_password_files_after_first_removal": 0,
+    "sql_plaintext_password_files_after_recurrence": 1,
+    "git_diff_check_exit_code": 0,
+    "verify_authority_exit_code": 0,
+    "verify_exit_code": 0,
+    "python_tests_passed": 19
+  },
+  "excluded": [
+    "secret access or disclosure",
+    "database mutation",
+    "Git history rewrite",
+    "force push",
+    "production action"
+  ],
+  "human_follow_up": "Stop or identify the external writer, and rotate or invalidate the exposed synthetic credential in every environment where it may have been used. The value remains present in existing Git history until separately authorized remediation occurs. HCP-04 recovery approval is also required before restoring the previously approved safe comment-only initialization source."
+}
