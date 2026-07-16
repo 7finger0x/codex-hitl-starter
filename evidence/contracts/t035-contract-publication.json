@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "task": "T035",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "HCP-02-approved in-repository contract authority and deterministic typed bindings",
+  "generated_at": "2026-07-13T03:29:44-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["PF-019", "PF-021", "PF-028"],
+  "approvals": {
+    "contract_authority": {
+      "checkpoint": "HCP-02",
+      "decision": "approved Option A",
+      "decision_evidence": "evidence/contracts/t033-hcp02-decision.json"
+    },
+    "supported_runtime_verification": {
+      "checkpoint": "HCP-01",
+      "decision": "approved_with_conditions",
+      "decision_time": "2026-07-13T03:23:16-07:00",
+      "approval_statement": "Approve the HCP-01 T035 verification amendment exactly as recorded in HCP-01-dependencies.md.",
+      "decision_evidence": "specs/002-platform-foundation/checkpoints/HCP-01-dependencies.md#t035-verification-amendment-decision"
+    }
+  },
+  "canonical_sources": {
+    "specs/002-platform-foundation/contracts/foundation-api.openapi.json": "a923218bd0a2093d1d05ad65d7576bafd8828ff89eb6941b2605e52b540810cc",
+    "specs/002-platform-foundation/contracts/domain-event.schema.json": "219754d7e785d5dbf861e16f1fe8c6751c8f6c25bd4a1eff8fb1b5600a192812",
+    "specs/002-platform-foundation/contracts/capability-manifest.schema.json": "6e6ebae61c85aa13d6eb6c62630ffedf7cd9bb666b64446a175aa0bf475a1a37",
+    "specs/002-platform-foundation/contracts/platform-configuration.schema.json": "346d5b7d1c12f8dbfbf5c68ab5b2657807673c35384138769df271c8d104a936",
+    "specs/002-platform-foundation/contracts/evidence-manifest.schema.json": "49152b5b461c1a0bc14e1ed6024b072fe599364dfe5ef44cf1e98cbf253aa901",
+    "specs/002-platform-foundation/contracts/traceability.schema.json": "eec08c72b379d6ec99997c93619a00b54dc2e516ae8fda9c613d0d53eabc211f"
+  },
+  "publication_surface": {
+    "packages/core/src/contracts/index.ts": "0436463c944a6ac6ca38710a135f5576feb84b92128f5ceb2f4ce738eb589c74",
+    "packages/core/src/contracts/contract-sources.json": "5220bda2c21c3a0435fd89d9c90832eb9ed5e36ff07cf99b9d716c4e4bd10714",
+    "packages/core/scripts/generate-contracts.ts": "2f323e9ed33cb19d095fef6997ad0a521ed65ae14874465b1dbc34629a66c7c3",
+    "packages/core/src/generated/foundation-contracts.ts": "dcf438349464fc2a7e64dfb54716c86478dae884caaabfa90f0c8687afbe5ebf"
+  },
+  "contract_result": {
+    "api_version": "1.0.0",
+    "retained_operations": 14,
+    "added_operations": 34,
+    "total_operations": 48,
+    "unique_method_paths": 48,
+    "unique_operation_ids": 48,
+    "internal_refs_resolved": 612,
+    "duplicate_json_keys": 0,
+    "historical_sketches_excluded": true,
+    "historical_sketch_hashes_unchanged": true,
+    "generated_output_hand_edited": false
+  },
+  "host_validation": {
+    "runtime": "Node.js 22.23.0",
+    "supported_runtime": false,
+    "contract_tests": "pass: 7 of 7",
+    "generator_check": "pass",
+    "eslint": "pass",
+    "strict_typescript_core": "pass",
+    "strict_typescript_testing": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "supported_runtime_validation": {
+    "runtime": "Node.js 24.18.0",
+    "runtime_path": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "runtime_sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+    "contract_tests": "pass: 7 of 7",
+    "generator_check": "pass: generated contracts current",
+    "prettier_changed_and_generated_files": "pass",
+    "approved_immutable_source_prettier_observation": {
+      "path": "specs/002-platform-foundation/contracts/domain-event.schema.json",
+      "result": "pre-existing style warning retained",
+      "reason": "HCP-02 requires this canonical source and hash to remain unchanged",
+      "sha256_unchanged": "219754d7e785d5dbf861e16f1fe8c6751c8f6c25bd4a1eff8fb1b5600a192812"
+    },
+    "eslint": "pass",
+    "strict_typescript_core": "pass",
+    "strict_typescript_testing": "pass",
+    "contract_audit": "pass: 48 operations; 612 canonical internal refs; 0 duplicate keys; exact path parameters; all response correlation headers",
+    "directory_instructions": "pass: 4 files; root rules not weakened",
+    "ignore_rules": "pass: 4 files; controlled evidence visible",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "git_diff_check": "pass",
+    "new_file_whitespace_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7",
+    "network_access": false
+  },
+  "supplemental_observation": {
+    "check": "tooling/typescript/verify-workspace-boundaries.mjs",
+    "result": "not_applicable_to_T035",
+    "output": "T025-only guard rejects the T035-approved core/testing exports and scripts",
+    "disposition": "retained without change because the amendment prohibits policy changes; not part of scripts/verify-authority.sh or scripts/verify.sh"
+  },
+  "protected_actions": {
+    "approved_public_contract_materialized": true,
+    "repository_dependency_added": false,
+    "lockfile_changed": false,
+    "persistence_schema_changed": false,
+    "infrastructure_changed": false,
+    "engineering_policy_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_publication": false,
+    "production_action": false,
+    "later_task_started": false
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_postgres_data_directory_layout_mismatch",
+  "completion_claim": false,
+  "completion_scope": "approved forward-repair source/runtime steps executed; Postgres remained unhealthy; T054 gates not started",
+  "generated_at": "2026-07-14T00:56:36-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "decision_evidence": "evidence/infrastructure/t054-hcp04-postgres-forward-repair-decision.json",
+    "decision_evidence_sha256": "c6455176bbb07a05a999023e195f5132fb40b5a33bcfaecf45e13620da3e781c",
+    "approver": "human owner via Codex task",
+    "decision_time": "2026-07-14T00:52:17-07:00",
+    "bindings_matched_before_implementation": true
+  },
+  "source_result": {
+    "test_extended": true,
+    "test_red_reached": true,
+    "test_green_passed": true,
+    "test_sha256_after": "20e10c9474795acb80001b2fcecb9ac29d2f5019f3783bab6f2abae8c9b2709d",
+    "compose_sha256_after": "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282",
+    "compose_hash_matched_target": true,
+    "verify_authority": "pass_2_artifacts",
+    "verify": "pass_10_legacy_9_compat_8_traceability"
+  },
+  "runtime_result": {
+    "chmod_0700_executed": true,
+    "volume_mount_mode_after": "700",
+    "pgdata_mode_after": "700",
+    "pgdata_preserved": true,
+    "force_recreate_executed": true,
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "project": "platform-foundation-local",
+    "image_digest_unchanged": true,
+    "network_preserved": true,
+    "volume_preserved": true,
+    "cap_add_observed": ["CAP_CHOWN", "CAP_DAC_OVERRIDE", "CAP_FOWNER", "CAP_SETGID", "CAP_SETUID"],
+    "tmpfs_observed": ["/tmp", "/var/run/postgresql"],
+    "readonly_rootfs": true,
+    "container_state": "restarting",
+    "container_health": "unhealthy",
+    "container_exit_code": 1,
+    "bounded_logs": [
+      "PostgreSQL Database directory appears to contain a database; Skipping initialization",
+      "FATAL: \"/var/lib/postgresql/data\" is not a valid data directory",
+      "DETAIL: File \"/var/lib/postgresql/data/PG_VERSION\" is missing."
+    ],
+    "layout_facts_ro": {
+      "env_pgdata": "/var/lib/postgresql/data/pgdata",
+      "root_pg_version": "absent",
+      "pgdata_pg_version": "present",
+      "mount_entries": ["pgdata"]
+    },
+    "non_root_process_check": "not_available_while_restarting",
+    "hcp03_guards": "not_run_postgres_unhealthy",
+    "t054_gates": "not_started"
+  },
+  "protected_actions": {
+    "volume_deleted_or_reset": false,
+    "seed_applied": false,
+    "down_migration": false,
+    "teardown_or_prune": false,
+    "image_pulled": false,
+    "secret_value_recorded": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "failure": {
+    "reason_code": "HCP04_POSTGRES_DATA_DIRECTORY_LAYOUT_MISMATCH",
+    "stage": "postgres_container_health_after_forward_repair",
+    "assessment": "Approved tmpfs and mount-root mode repairs succeeded. The preserved volume stores a PostgreSQL cluster under pgdata/, while the running server validates /var/lib/postgresql/data/PG_VERSION at the mount root and fails closed. No further layout mutation was authorized.",
+    "recovery": "Preserve container, network, and volume. Obtain a new exact HCP-04 amendment authorizing a non-destructive data-directory layout correction (and any required PGDATA/compose alignment) without volume deletion, then retry health and T054 gates."
+  },
+  "result": {
+    "t054_checked": false,
+    "completion_claim": false,
+    "next_required_action": "Exact new HCP-04 approval for Postgres data-directory layout correction on the preserved volume"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-01",
+  "status": "incomplete_offline_frozen_install_rejected",
+  "completion_claim": false,
+  "generated_at": "2026-07-13T22:19:26-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "approval": {
+    "checkpoint_sha256": "6b4d89123dd0f93cd68130589d09f41abb5978a6986f7fa295d577ba74c198b8",
+    "proposal_evidence_sha256": "7053ed56602b2aff447e07c03563018620808c72b761b6a431adc45b9207a0cd",
+    "approver": "user in Codex task",
+    "exact_statement_supplied": true
+  },
+  "preflight": {
+    "approval_bindings_matched": true,
+    "node_sha256_matched": true,
+    "pnpm_sha256_matched": true,
+    "protected_input_hashes_matched": true,
+    "approved_generated_directories_present": true,
+    "linked_platform_before": "@esbuild/win32-x64@0.28.1",
+    "linked_linux_esbuild_before": false
+  },
+  "deletion_result": {
+    "performed": true,
+    "paths": [
+      "node_modules",
+      "apps/api/node_modules",
+      "apps/web/node_modules"
+    ],
+    "other_paths_deleted": false
+  },
+  "install_attempt": {
+    "attempt_count": 1,
+    "shell": false,
+    "argv": [
+      "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+      "/home/ricebran/.cache/codex-hitl-t024/corepack/v1/pnpm/11.11.0/bin/pnpm.cjs",
+      "install",
+      "--offline",
+      "--frozen-lockfile",
+      "--ignore-scripts",
+      "--store-dir=/mnt/c/Users/brand/.pnpm-store/v11",
+      "--config.auto-install-peers=false",
+      "--config.strict-peer-dependencies=true",
+      "--config.verify-store-integrity=true",
+      "--config.registry=https://registry.npmjs.org/"
+    ],
+    "minimal_environment_keys": [
+      "PATH",
+      "HOME",
+      "TMPDIR",
+      "LANG",
+      "CI",
+      "NO_COLOR",
+      "NPM_CONFIG_USERCONFIG",
+      "COREPACK_ENABLE_DOWNLOAD_PROMPT",
+      "NPM_CONFIG_UPDATE_NOTIFIER"
+    ],
+    "credential_or_proxy_environment_inherited": false,
+    "exit_code": 1,
+    "reason_code": "ERR_PNPM_LOCKFILE_CONFIG_MISMATCH",
+    "sanitized_error": "settings.autoInstallPeers in pnpm-lock.yaml is true, but the approved frozen command required auto-install-peers=false",
+    "network_access_authorized_or_used": false,
+    "retry_performed": false,
+    "lifecycle_script_run": false
+  },
+  "resulting_generated_state": {
+    "node_modules": "absent",
+    "apps/api/node_modules": "absent",
+    "apps/web/node_modules": "absent",
+    "linux_esbuild_gate_run": false,
+    "core_loader_gate_run": false,
+    "boundary_authority_legacy_post_gates_run": false,
+    "reason_post_gates_skipped": "the amendment requires all post-recovery gates to run only after an exit-zero offline install"
+  },
+  "protected_state_after": {
+    ".npmrc_sha256": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c",
+    "pnpm_workspace_sha256": "95174f36c18b64bdd8ee8ef92757acd3a3cc73dbdcb99a4552dd14f80f51aed9",
+    "root_manifest_sha256": "ccc4a85fa5431636339b0cb3bf7cc248fedc4e0c217a6be5bb0180f6526ab15d",
+    "api_manifest_sha256": "9d9803dad1dd99ec9f61b0b7574430c9753b7084c773b69b403063f54383fccc",
+    "web_manifest_sha256": "3cbdca2ca1e62de0b6d5420931f8cc0b2e34ce0613297241905072caf59c3d64",
+    "workers_manifest_sha256": "331c47e6cd572d92d6b28c3e09feedfea8cb0a00c18bba25c8c6d842365ea757",
+    "pnpm_lock_sha256": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "compose_sha256": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad",
+    "docker_or_infrastructure_state_changed": false,
+    "secret_accessed": false
+  },
+  "task_result": {
+    "t054_checked": false,
+    "hcp04_repair_started": false,
+    "t054_runtime_gates_started": false,
+    "t055_or_later_started": false
+  },
+  "required_next_action": "Prepare and obtain a new exact HCP-01 recovery amendment that resolves the autoInstallPeers=true lockfile binding without changing the lockfile or approved dependency graph; do not retry under this approval."
+}

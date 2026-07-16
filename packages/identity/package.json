@@ -1,0 +1,12 @@
+{
+  "name": "@ai-trading-os/identity",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Users, tenants, memberships, teams, environments, sessions, and service identities.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "11.11.0"
+  }
+}

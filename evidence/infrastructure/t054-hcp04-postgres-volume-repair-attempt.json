@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "incomplete_test_runner_failure",
+  "completion_claim": false,
+  "completion_scope": "approved test-first Postgres volume-ownership repair attempt stopped before the behavioral red assertion and before compose source implementation",
+  "generated_at": "2026-07-13T22:03:37-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval": {
+    "checkpoint_sha256": "f2c33115777201f884a1ed616d8cf6a3379290e2544d48425a19cb5642dd9284",
+    "proposal_evidence_sha256": "0abd26c3b589c87ae86995edbaf775048bb627606df5b0cd944902db83887cd5",
+    "approver": "user in Codex task",
+    "exact_statement_supplied": true
+  },
+  "preconditions": {
+    "docker_sha256_match": true,
+    "context": "desktop-linux",
+    "endpoint_local": true,
+    "swarm": "inactive",
+    "compose_sha256": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad",
+    "pnpm_lock_sha256": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "preserved_container": "platform-foundation-local-postgres-1",
+    "preserved_network": "platform-foundation-local-data",
+    "preserved_volume": "foundation_postgres_data"
+  },
+  "test_first_attempt": {
+    "test_path": "tests/integration/infrastructure/postgres-volume-ownership.test.ts",
+    "test_sha256": "3843428287a8cdd992f63351ca45bcdfd2035080c37f9c0a2a6b8817e38801bb",
+    "command_runtime": "Node.js 24.18.0 with the existing approved tsx loader",
+    "exit_code": 1,
+    "behavioral_red_reached": false,
+    "reason_code": "ESBUILD_PLATFORM_BINARY_MISMATCH",
+    "bounded_error": "@esbuild/win32-x64 is present but the WSL/Linux runtime requires @esbuild/linux-x64",
+    "causal_context": "the user-reported Windows npm install attempt changed generated node_modules platform state without changing repository manifests or pnpm-lock.yaml"
+  },
+  "source_result": {
+    "compose_changed": false,
+    "compose_sha256_after": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad",
+    "expected_repaired_sha256_not_materialized": "caf9de5a94c365aecc796eb1256459bc5313fdc4fff385ec80653c4d1d754330",
+    "capability_block_added": false
+  },
+  "runtime_result": {
+    "compose_invoked": false,
+    "container_recreated_or_restarted_by_attempt": false,
+    "network_or_volume_changed": false,
+    "database_accessed": false,
+    "backup_or_migration_applied": false,
+    "t054_gates_run": false
+  },
+  "protected_actions": {
+    "dependency_install_or_repair_run": false,
+    "lifecycle_script_run": false,
+    "secret_accessed": false,
+    "volume_deleted_or_reset": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "recovery": "Do not install, rebuild, approve-build, or mutate dependencies under the repair approval. Obtain a separate exact HCP-01 generated-node_modules platform recovery approval, restore the approved Linux-compatible offline dependency state with lifecycle scripts disabled, then obtain any required refreshed HCP-04 repair binding before retrying the behavioral red test."
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "task": "T032",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T032 checkpoint preparation only",
+  "hcp_02_approval_claim": false,
+  "phase_1_completion_claim_allowed": false,
+  "generated_at": "2026-07-13T02:30:58-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": [
+    "PF-006",
+    "PF-008",
+    "PF-012",
+    "PF-019",
+    "PF-021",
+    "PF-028",
+    "PF-031"
+  ],
+  "review_record": {
+    "path": "specs/002-platform-foundation/checkpoints/HCP-02-public-contracts.md",
+    "sha256": "65fa47025e5e414d453811f53edf8e76ac98e6d5b8277fc5012a7cd36b9711e6",
+    "decision": "pending",
+    "protected_implementation_started": false
+  },
+  "canonical_candidates": {
+    "specs/002-platform-foundation/contracts/foundation-api.openapi.json": "2d2e6a128bdfff148906de1ccb5e62c7f65105c4977e6d487bdf314c3e930689",
+    "specs/002-platform-foundation/contracts/domain-event.schema.json": "219754d7e785d5dbf861e16f1fe8c6751c8f6c25bd4a1eff8fb1b5600a192812",
+    "specs/002-platform-foundation/contracts/capability-manifest.schema.json": "6e6ebae61c85aa13d6eb6c62630ffedf7cd9bb666b64446a175aa0bf475a1a37",
+    "specs/002-platform-foundation/contracts/platform-configuration.schema.json": "346d5b7d1c12f8dbfbf5c68ab5b2657807673c35384138769df271c8d104a936",
+    "specs/002-platform-foundation/contracts/evidence-manifest.schema.json": "79dad0bd9493fb4f6555d8c6f473d0fbfe2ec9651ad0e6a4192df6067150242f",
+    "specs/002-platform-foundation/contracts/traceability.schema.json": "fc5483c9b6bd949703a76c7bfc4abda97a7760b8bb45550aeb381e9345964344"
+  },
+  "rest_review": {
+    "existing_operations": 14,
+    "proposed_additions": 34,
+    "proposed_total": 48,
+    "unique_method_paths": 48,
+    "unique_operation_ids": 48,
+    "addition_groups": {
+      "membership_and_invitation_lifecycle": 5,
+      "custom_roles_and_permissions": 5,
+      "tenant_environment_management": 4,
+      "service_identity_and_credentials": 6,
+      "support_access": 7,
+      "evidence_runs": 3,
+      "capability_definition_and_exposure": 4
+    },
+    "public_contract_changed": false,
+    "future_candidate_intentionally_incomplete": true
+  },
+  "superseded_sketches": {
+    "disposition": "retained as guarded historical planning artifacts; excluded from authority, generation, publication, and consumer references",
+    "specs/002-platform-foundation/contracts/openapi.yaml": "95db9549ab9ece986dca4852396ebcb3973c0463916c0c4a88cb4c5d92a6ab36",
+    "specs/002-platform-foundation/contracts/event-envelope.schema.json": "541f279f7fcf6346f85b199b6218ea2a4514971ca96f42f0da1ee73405bf7ad6",
+    "files_deleted": false
+  },
+  "review_coverage": {
+    "rest_and_error_rules": "documented",
+    "domain_event_reconciliation": "documented",
+    "configuration_capability_evidence_traceability": "documented",
+    "consumer_inventory_and_owners": "documented",
+    "threat_model_and_controls": "documented",
+    "compatibility_and_versioning": "documented",
+    "test_first_acceptance_plan": "documented",
+    "recovery_and_invalidation": "documented"
+  },
+  "validation": {
+    "json_documents_parsed": 7,
+    "yaml_documents_parsed": 1,
+    "internal_refs_resolved": 114,
+    "candidate_hashes_match_review": true,
+    "operation_counts_match_review": true,
+    "method_path_pairs_unique": true,
+    "operation_ids_unique": true,
+    "required_review_sections_present": true,
+    "post_hooks": "absent",
+    "pnpm_lock_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "checkpoint": {
+    "next_task": "T033",
+    "hcp": "HCP-02",
+    "state": "pending",
+    "blocks": [
+      "T034",
+      "T035",
+      "all public and cross-service contract implementation"
+    ],
+    "exact_approval_required": true
+  },
+  "protected_actions": {
+    "public_contract_changed": false,
+    "persistence_schema_changed": false,
+    "repository_dependency_added": false,
+    "lockfile_changed": false,
+    "infrastructure_changed": false,
+    "engineering_policy_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_publication": false,
+    "production_action": false,
+    "later_task_started": false
+  },
+  "warnings": [
+    {
+      "code": "HCP_02_PENDING",
+      "message": "This evidence completes T032 preparation only. It is not approval and cannot authorize T034 or T035."
+    },
+    {
+      "code": "CONTRACT_CANDIDATE_INTENTIONALLY_INCOMPLETE",
+      "message": "The current REST candidate contains 14 operations and has not been changed; the proposed 34-operation delta remains review material only."
+    }
+  ]
+}

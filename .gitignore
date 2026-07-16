@@ -1,11 +1,63 @@
+# Node and generated application output
+node_modules/
+.pnpm-store/
+.turbo/
+.next/
+dist/
+build/
+out/
+*.tsbuildinfo
+*.log
+
+# Python and local controller state
 .venv/
+venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-build/
-dist/
 *.egg-info/
 runtime/
+
+# Coverage and browser test output
+coverage/
+.coverage
+htmlcov/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Supabase local state
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# Terraform generated state (retain .terraform.lock.hcl)
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Container and process artifacts
+.container-cache/
+*.pid
+*.pid.lock
+
+# Secrets and machine-local configuration
 .env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.secret.*
+secrets/
+kubeconfig*
+
+# Controlled evidence/ is intentionally not ignored.

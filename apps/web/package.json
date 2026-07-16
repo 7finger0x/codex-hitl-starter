@@ -1,0 +1,28 @@
+{
+  "name": "@ai-trading-os/web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Accessible platform shell and session-aware API consumer.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "11.11.0"
+  },
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --hostname 0.0.0.0 --port 3000",
+    "start": "next start --hostname 0.0.0.0 --port 3000",
+    "test": "node --import tsx --test src/components/platform-shell.test.tsx",
+    "typecheck": "tsc --noEmit --project tsconfig.json"
+  },
+  "dependencies": {
+    "next": "16.2.10",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3"
+  }
+}

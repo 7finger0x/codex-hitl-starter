@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "task": "T033",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T033 checkpoint decision recording only",
+  "generated_at": "2026-07-13T02:45:52-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": [
+    "PF-019",
+    "PF-021",
+    "PF-031"
+  ],
+  "checkpoint": {
+    "id": "HCP-02",
+    "decision": "approved",
+    "option": "A",
+    "approver": "User in Codex task",
+    "decision_time": "2026-07-13T02:45:52-07:00",
+    "record": "specs/002-platform-foundation/checkpoints/HCP-02-public-contracts.md",
+    "review_evidence": "evidence/contracts/t032-hcp02-review.json"
+  },
+  "approved_scope": {
+    "canonical_files": 6,
+    "retained_operations": 14,
+    "rest_additions": 34,
+    "final_operations": 48,
+    "superseded_sketches": [
+      "specs/002-platform-foundation/contracts/openapi.yaml",
+      "specs/002-platform-foundation/contracts/event-envelope.schema.json"
+    ],
+    "superseded_disposition": "historical-only retention",
+    "security_and_compatibility_conditions": "all conditions recorded in HCP-02-public-contracts.md",
+    "authorized_tasks": [
+      "T034",
+      "T035"
+    ]
+  },
+  "approval_statement": "0Approve HCP-02 Option A and authorize T034-T035 exactly as recorded in HCP-02-public-contracts.md, including the six canonical files, the 14 retained operations and exact 34-operation REST delta, historical-only retention of openapi.yaml and event-envelope.schema.json, and all recorded security and compatibility conditions.",
+  "excluded_authority": [
+    "dependency addition or installation",
+    "persistence schema or migration changes",
+    "infrastructure changes",
+    "engineering policy changes",
+    "secret access",
+    "production or deployment actions",
+    "remote CI or repository-content transmission",
+    "external publication",
+    "later-task protected actions"
+  ],
+  "validation": {
+    "exact_checkpoint_identified": true,
+    "option_identified": true,
+    "six_canonical_files_identified": true,
+    "operation_delta_identified": true,
+    "superseded_disposition_identified": true,
+    "security_and_compatibility_conditions_identified": true,
+    "t034_t035_authorized": true
+  },
+  "protected_actions": {
+    "contract_implementation_started_by_t033": false,
+    "repository_dependency_added": false,
+    "lockfile_changed": false,
+    "persistence_schema_changed": false,
+    "infrastructure_changed": false,
+    "engineering_policy_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_publication": false,
+    "production_action": false
+  }
+}

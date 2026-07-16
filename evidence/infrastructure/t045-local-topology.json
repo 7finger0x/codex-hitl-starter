@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "task": "T045",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "HCP-04-approved repository source creation only; container validation and application are incomplete and not claimed",
+  "generated_at": "2026-07-13T05:23:39-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-017", "PF-018", "PF-022", "PF-023"],
+  "approval": {
+    "checkpoint": "HCP-04",
+    "decision": "approved_with_conditions Option A",
+    "decision_time": "2026-07-13T05:13:46-07:00",
+    "evidence": "evidence/infrastructure/t044-hcp04-decision.json"
+  },
+  "sources": {
+    "compose.yaml": "33026e8e9ace74318cc9d45c5c7e119c045b33976b819c3bc0da433ef5ab26c4",
+    "infra/environments/local/compose.override.yaml": "fa3b697a4dbb4d6128271760f56f09f1e75bb22bbf997f1ec8e42a062acfa10e",
+    ".env.example": "67715a53c14b7abe38f289b31ed6c011f752b6dc81a4505d93cc0ea775f0ec85"
+  },
+  "inventory": {
+    "services": 14,
+    "unique_digest_pinned_images": 12,
+    "application_profile_services": 3,
+    "observability_profile_services": 5,
+    "networks": 3,
+    "internal_networks": 2,
+    "named_disposable_volumes": 7,
+    "loopback_published_ports": 10,
+    "non_loopback_published_ports": 0,
+    "plaintext_secret_values": 0,
+    "build_contexts": 0,
+    "privileged_services": 0,
+    "docker_socket_mounts": 0
+  },
+  "security_controls": {
+    "read_only_root_for_every_service": true,
+    "capabilities_dropped_for_every_service": true,
+    "no_new_privileges_for_every_service": true,
+    "bounded_cpu_memory_pids_for_every_service": true,
+    "repository_mounts_read_only": true,
+    "required_secret_inputs_blank_in_example": true,
+    "project_name": "platform-foundation-local",
+    "database_target": "127.0.0.1:55432/platform_foundation_hcp03",
+    "database_comment_marker": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "production_target": false
+  },
+  "ordered_tdd_result": {
+    "red_command": "inline Node approved-source existence assertion before source creation",
+    "red_exit_code": 1,
+    "red_reason": "approved source is absent: compose.yaml",
+    "green_command": "offline Python PyYAML and exact inventory/security audit",
+    "green_exit_code": 0,
+    "green_result": "pass: 14 services, 12 images, 3 networks, 7 volumes, 10 loopback ports"
+  },
+  "validation": {
+    "yaml_parse": "pass using existing PyYAML 6.0.1",
+    "source_inventory_and_security": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "runtime_validation": {
+    "status": "incomplete_by_approval",
+    "docker_or_compose_invoked": false,
+    "image_pulled": false,
+    "container_health_executed": false,
+    "target_attested": false,
+    "secret_accessed": false,
+    "infrastructure_applied": false,
+    "teardown_executed": false
+  },
+  "protected_actions": {
+    "repository_definition_created": true,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "database_or_seed_applied": false,
+    "repository_content_uploaded": false,
+    "external_deployment": false,
+    "production_action": false
+  }
+}

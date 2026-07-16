@@ -1,0 +1,52 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: Foundation Prometheus
+    orgId: 1
+  - name: Foundation Loki
+    orgId: 1
+  - name: Foundation Tempo
+    orgId: 1
+
+datasources:
+  - name: Foundation Prometheus
+    uid: foundation-prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      httpMethod: POST
+      timeInterval: 15s
+
+  - name: Foundation Loki
+    uid: foundation-loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    editable: false
+    jsonData:
+      derivedFields:
+        - name: TraceID
+          matcherRegex: '"trace_id":"([A-Za-z0-9_-]+)"'
+          datasourceUid: foundation-tempo
+          url: "$${__value.raw}"
+
+  - name: Foundation Tempo
+    uid: foundation-tempo
+    type: tempo
+    access: proxy
+    url: http://tempo:3200
+    editable: false
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: foundation-loki
+        spanStartTimeShift: -5m
+        spanEndTimeShift: 5m
+        filterByTraceID: true
+        filterBySpanID: false
+      serviceMap:
+        datasourceUid: foundation-prometheus
+      nodeGraph:
+        enabled: true

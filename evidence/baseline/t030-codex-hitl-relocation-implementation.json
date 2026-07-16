@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "task": "T030",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T030 only",
+  "generated_at": "2026-07-13T02:17:26-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["PF-026", "HITL-016"],
+  "approvals": {
+    "relocation": "specs/002-platform-foundation/checkpoints/T030-relocation-approval.md",
+    "node_verification_amendment": "specs/002-platform-foundation/checkpoints/HCP-01-dependencies.md"
+  },
+  "relocation": {
+    "source_root_removed": true,
+    "boundary": "tooling/codex-hitl",
+    "import_name": "codex_hitl",
+    "cli_entry_point": "codex-hitl = codex_hitl.cli:main",
+    "root_policy_sha256_unchanged": "a10f058d110d4ae383615edfbe4ce4ad4f2d4a50d3bc2d5a8d6db803c4f118fe",
+    "root_verifier": "scripts/verify.sh",
+    "readme_resolved_without_copy": true
+  },
+  "artifact_sha256": {
+    "README.md": "80364e47ee276dc5cbf9180d652f5e2e7f72f270fd8bb6b2ea1b222cbd5f9076",
+    "scripts/verify.sh": "2356920f10ea6aa34da4599972bcabc82fe84cc937d069322d04f412bfe91acc",
+    "tests/compat/test_codex_hitl_relocation.py": "1f55c0803c5a7a3ed15fd34452bb35ab53e7cc0a4f76fcca5ed331ba84f46290",
+    "tooling/codex-hitl/pyproject.toml": "a25d15f9512daa97693063b08371061c1b9f204dfed0af89335e92815b925e4b",
+    "tooling/codex-hitl/src/codex_hitl/__init__.py": "a6e0c350a2b364ea755fb7cd14f6a487b88d7f529c7f8b05a92f2ad6ccd0663d",
+    "tooling/codex-hitl/src/codex_hitl/cli.py": "0520beb17e1e079758ffce4025da921a7e973886855710dcd7349e3210db222c",
+    "tooling/codex-hitl/src/codex_hitl/executor.py": "c8e4974a5f8beac508eef2e1ac1c6e70ddaa7b0e982fc89014c82209f02a3a57",
+    "tooling/codex-hitl/src/codex_hitl/models.py": "ba2f25b10f27dd602a3a66b6727ed6c7b36d0ac3b55746933d8bc142e31c2681",
+    "tooling/codex-hitl/src/codex_hitl/policy.py": "1ee972194474f920f0fe8472d3d2824d620b263ccacf26e2eb6d28d909a009ea",
+    "tooling/codex-hitl/src/codex_hitl/store.py": "a584eff94fe25a036d4a4642d9c3700412f209fc74866c1fc1540c66caec286c",
+    "tooling/codex-hitl/tests/test_executor.py": "5efa3795a755d306e6c93e2c770442397f6be694e7d57cd22fe58b1f2c335387",
+    "tooling/codex-hitl/tests/test_policy.py": "3dd5a2522341a6f22844d5232109f69a1e3f7217eb5dc7583e389666a110a871",
+    "tooling/codex-hitl/tests/test_store.py": "27abe278330791ec9428bb0f32228351b5c7eaa5cdec061965c767387d84996c"
+  },
+  "test_driven_delivery": {
+    "red": "pass: real-boundary suite failed 5 of 5 before relocation for the intended missing boundary",
+    "green": "pass: real-boundary suite passed 5 of 5 after relocation"
+  },
+  "supported_toolchain": {
+    "node_version": "24.18.0",
+    "node_archive_sha256": "55aa7153f9d88f28d765fcdad5ae6945b5c0f98a36881703817e4c450fa76742",
+    "node_binary_sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+    "checksum_manifest_sha256": "3927bab574a00ca0560c9583fe19655ba19603a1c5851414e4325d34ac50e469",
+    "signature_sha256": "d771440acfe010e7510a3c01d248525f771daa9cf75dae5784c97ea2b08d9393",
+    "signature_result": "good signature",
+    "signer_fingerprint": "C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C",
+    "release_keys_commit": "b28073028e6d6855cfb53bf7fa0137599c01f967",
+    "pnpm_version": "11.11.0",
+    "lifecycle_scripts_disabled": true
+  },
+  "verification": {
+    "focused_relocation": "pass: 5 of 5",
+    "legacy_baseline": "pass: exact 10 of 10",
+    "root_compatibility": "pass: 9 of 9",
+    "legacy_traceability": "pass: 8 requirements",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "aggregate_workspace": "pass under Node.js 24.18.0 and pnpm 11.11.0",
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "directory_instructions": "pass",
+    "ignore_rules": "pass",
+    "workspace_boundaries": "pass: 12 dependency-free workspaces",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "warnings": [
+    {
+      "code": "UNSUPPORTED_RUNTIME_ATTEMPT_NOT_ACCEPTED",
+      "message": "A Node.js 22.23.0 aggregate attempt emitted an unsupported-engine warning and was not used as completion evidence; the supported Node.js 24.18.0 rerun passed."
+    },
+    {
+      "code": "GPG_LOCAL_TRUST_UNCERTIFIED",
+      "message": "GnuPG reported a good signature from the official Node.js release key but no locally certified owner trust; the exact fingerprint came from the approved official release-keys repository."
+    }
+  ],
+  "network": {
+    "approved_read_download_origins_only": true,
+    "repository_content_uploaded": false,
+    "authenticated_requests": false
+  },
+  "protected_actions": {
+    "repository_dependency_added": false,
+    "lockfile_changed": false,
+    "policy_semantics_changed": false,
+    "secret_accessed": false,
+    "external_publication": false,
+    "later_task_started": false
+  },
+  "working_tree": {
+    "clean_claim": false,
+    "pre_evidence_porcelain_sha256": "f55f6831e4fd9ce2b49adee39557038ac2a33e3220952f6ba27e4175bc805e12",
+    "user_changes_preserved": true,
+    "t031_exact_dirty_state_evidence_deferred": true
+  }
+}

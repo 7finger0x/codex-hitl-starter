@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "task": "T024",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T024 only",
+  "generated_at": "2026-07-11T19:37:56-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": [
+    "PF-023",
+    "PF-026",
+    "PF-028",
+    "HITL-001",
+    "HITL-002"
+  ],
+  "checkpoint": {
+    "id": "HCP-01",
+    "decision": "approved_with_conditions",
+    "initial_approval": "2026-07-11T19:07:53-07:00",
+    "origin_amendment": "2026-07-11T19:09:49-07:00",
+    "attestation_verifier_amendment": "2026-07-11T19:15:12-07:00",
+    "osv_advisory_service_amendment": "2026-07-11T19:34:52-07:00",
+    "lifecycle_scripts_disabled": true,
+    "secret_access_performed": false,
+    "repository_content_uploaded": false
+  },
+  "toolchain": {
+    "node": {
+      "version": "24.18.0",
+      "archive_sha256": "verified against signed SHASUMS256.txt",
+      "signature": "good signature from an official nodejs/release-keys key",
+      "binary_sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+      "installation": "repository-external isolated directory"
+    },
+    "corepack": {
+      "version": "0.34.6",
+      "source": "pre-existing /usr/bin/corepack"
+    },
+    "pnpm": {
+      "version": "11.11.0",
+      "activation": "corepack prepare pnpm@11.11.0 --activate",
+      "lifecycle_policy": [
+        ".npmrc ignore-scripts=true",
+        "install commands used --ignore-scripts",
+        "pnpm-workspace.yaml onlyBuiltDependencies=[]"
+      ]
+    },
+    "uv": {
+      "version": "0.11.21",
+      "archive_sha256": "8c88519b0ef0af9801fcdee419bbb12116bd9e6b18e162ae093c932d8b264050",
+      "binary_sha256": "2856d1bf7e5bcfba7df20ae6f939340ae1f8022d2d103cada1a6da597df86e32",
+      "attestation_bundle_sha256": "5116ed8506f8e413de8ba03f1dcf5bbc3d30e21dd430ee48313048eb397093c0",
+      "attestation_verification_sha256": "85e99e374b3564b9a9489f2bb7e1f70e35b4ae4f12125f0d5ff34cf192b4fbb4",
+      "attestation_result": "pass: GitHub SLSA provenance bundle verified by GitHub CLI 2.96.0"
+    },
+    "github_cli": {
+      "version": "2.96.0",
+      "archive_sha256": "83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60",
+      "binary_sha256": "56b8bbbb27b066ecb33dbef9a256dc9d1314adaeff0908a752feba6c34053b40",
+      "authenticated": false,
+      "use": "uv 0.11.21 artifact-attestation verification only"
+    },
+    "spec_kit": {
+      "version": "0.12.9",
+      "tag": "v0.12.9",
+      "commit": "80ac47e2576750036409f132a3639c9becae64aa",
+      "python": "3.12.3",
+      "installed_packages": 15,
+      "dependency_check": "pass: all installed packages compatible",
+      "audit_lock_records": 17,
+      "audit_lock_sha256": "36ce15048ed3cef1060fdf8788bd5d2e7c8ec918951e03e6a32df8486d8d5074",
+      "integration_reconciliation": {
+        "agents_skills": "exact match to disposable official v0.12.9 generation",
+        "bash_scripts": "exact match to disposable official v0.12.9 generation before adding the GOV-01-required updater",
+        "templates": "repository governance hardening retained after reviewed diff",
+        "manifests": "updated to official v0.12.9 generation metadata",
+        "official_updater_present": false,
+        "replacement": "GOV-01 agent-context update contract implemented"
+      }
+    }
+  },
+  "workspace": {
+    "lockfile": "pnpm-lock.yaml",
+    "lockfile_sha256": "313a2bfd6ccf56afa5c1e6af00189d22feaae603734dd8987a8b4289033ab8f2",
+    "lockfile_package_records": 127,
+    "lockfile_records_missing_integrity": 0,
+    "installed_packages": 96,
+    "frozen_offline_install": "pass",
+    "store_status": "pass: packages in the store are untouched",
+    "engine_constraints": {
+      "node": "24.18.0",
+      "pnpm": "11.11.0",
+      "python": "3.11-3.13"
+    },
+    "checks": {
+      "format": "pass",
+      "lint": "pass",
+      "typecheck": "pass",
+      "typescript_eslint_compatibility": "pass"
+    }
+  },
+  "agent_context": {
+    "generator": ".specify/scripts/bash/update-agent-context.sh",
+    "generation_version": "spec-kit-v0.12.9+t024.1",
+    "active_feature": "specs/002-platform-foundation",
+    "check": "pass",
+    "dry_run": "pass: no diff",
+    "first_update": "pass: unchanged",
+    "second_update": "pass: unchanged",
+    "unsupported_agent": "pass: rejected with exit status 2",
+    "outside_managed_block_preserved": true
+  },
+  "repository_verification": {
+    "aggregate_command": "corepack pnpm run verify",
+    "result": "pass",
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "legacy_tests": "pass: 10 of 10",
+    "legacy_traceability": "pass: 8 requirements",
+    "git_diff_check": "pass"
+  },
+  "security": {
+    "pnpm_audit": {
+      "result": "pass",
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "output_sha256": "b08a247e3cb09750d0b9ac3873cc4f9ca37d782aa3699676a88e62b8f10012a7"
+    },
+    "pnpm_licenses": {
+      "result": "pass",
+      "counts": {
+        "MIT": 69,
+        "Apache-2.0": 12,
+        "BSD-2-Clause": 6,
+        "BSD-3-Clause": 1,
+        "ISC": 5,
+        "BlueOak-1.0.0": 1
+      },
+      "output_sha256": "b6c6efd7e78ad38ba4064291e52b2de88b54f8e44c48301c7e83ac8a0293e424"
+    },
+    "spec_kit_licenses": {
+      "result": "recorded",
+      "identified_families": [
+        "Apache-2.0",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "ISC",
+        "MIT",
+        "MPL-2.0"
+      ],
+      "project_license_denylist_present": false,
+      "note": "No license is identified as disallowed by an existing project policy; this is an inventory record, not legal advice."
+    },
+    "spec_kit_uv_audit": {
+      "result": "pass",
+      "service": "https://api.osv.dev/",
+      "request_sent": true,
+      "authenticated": false,
+      "audited_packages": 16,
+      "vulnerabilities": 0,
+      "adverse_statuses": 0,
+      "output_sha256": "b773dcf78cac9b184d04d285600d075d7d1163013b42cfaaab12c42a8d4bc39d"
+    }
+  },
+  "blocker": {
+    "checkpoint": "HCP-01",
+    "status": "resolved",
+    "resolution": "The user approved the exact OSV amendment and the uv audit passed with zero vulnerabilities or adverse statuses.",
+    "downstream_work_started": false,
+    "task_checkbox_updated": true
+  },
+  "working_tree": {
+    "classification": "documented-dirty",
+    "pre_evidence_porcelain_sha256": "1f8a247e063618235f4f58d306730953ab8453b8380c02af783e67b20e2f5efd",
+    "user_changes_preserved": true
+  }
+}

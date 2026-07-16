@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.trading-os.example/v1/capability-manifest.schema.json",
+  "title": "Capability Manifest",
+  "description": "A display/discovery artifact, never an authorization token. Proposed; HCP-02 applies.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_id",
+    "tenant_id",
+    "environment_id",
+    "principal_id",
+    "membership_version",
+    "policy_version",
+    "configuration_version",
+    "issued_at",
+    "expires_at",
+    "capabilities",
+    "signature"
+  ],
+  "properties": {
+    "manifest_id": { "type": "string", "format": "uuid" },
+    "tenant_id": { "type": "string", "format": "uuid" },
+    "environment_id": { "type": "string", "format": "uuid" },
+    "principal_id": { "type": "string", "format": "uuid" },
+    "membership_version": { "type": "integer", "minimum": 1 },
+    "policy_version": { "type": "integer", "minimum": 1 },
+    "configuration_version": { "type": "integer", "minimum": 1 },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "routes", "actions"],
+        "properties": {
+          "code": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$" },
+          "routes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^/" }
+          },
+          "actions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" }
+          },
+          "constraints": { "type": "object" }
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "key_id", "value"],
+      "properties": {
+        "algorithm": { "enum": ["EdDSA"] },
+        "key_id": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "value": { "type": "string", "minLength": 32, "maxLength": 2048 }
+      }
+    }
+  }
+}

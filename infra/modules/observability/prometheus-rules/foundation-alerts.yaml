@@ -1,0 +1,87 @@
+groups:
+  - name: platform-foundation-readiness
+    interval: 30s
+    rules:
+      - alert: FoundationServiceUnavailable
+        expr: min_over_time(up{job=~"prometheus|otel-collector|loki|tempo|grafana"}[2m]) == 0
+        for: 2m
+        labels:
+          severity: critical
+          owner: platform-operations
+          runbook: platform-foundation-service-unavailable
+        annotations:
+          summary: A required local foundation service is unavailable
+          description: The service has failed readiness continuously for two minutes.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#service-unavailable
+
+      - alert: FoundationAuditPersistenceFailure
+        expr: increase(foundation_audit_persist_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          owner: platform-security
+          runbook: platform-foundation-audit-persistence
+        annotations:
+          summary: An authoritative audit write failed
+          description: A protected mutation must remain failed until audit persistence recovers.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#audit-persistence
+
+      - alert: FoundationDatabaseUnavailable
+        expr: min_over_time(foundation_database_ready[2m]) < 1
+        for: 2m
+        labels:
+          severity: critical
+          owner: platform-data
+          runbook: platform-foundation-database-unavailable
+        annotations:
+          summary: The platform database readiness gate is failing
+          description: API and worker commands must fail closed while the database is unavailable.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#database-unavailable
+
+      - alert: FoundationOutboxStale
+        expr: max_over_time(foundation_outbox_oldest_pending_seconds[5m]) > 60
+        for: 5m
+        labels:
+          severity: warning
+          owner: platform-workers
+          runbook: platform-foundation-outbox-stale
+        annotations:
+          summary: The oldest pending outbox event exceeds the local threshold
+          description: Inspect lease state and preserve idempotent replay evidence.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#outbox-stale
+
+      - alert: FoundationTelemetryDropped
+        expr: increase(otelcol_processor_dropped_log_records_total[5m]) + increase(otelcol_processor_dropped_spans_total[5m]) + increase(otelcol_processor_dropped_metric_points_total[5m]) > 0
+        for: 2m
+        labels:
+          severity: warning
+          owner: platform-observability
+          runbook: platform-foundation-telemetry-dropped
+        annotations:
+          summary: The collector dropped foundation telemetry
+          description: Diagnose capacity or malformed telemetry without weakening redaction.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#telemetry-dropped
+
+      - alert: FoundationConfigurationActivationFailure
+        expr: increase(foundation_configuration_activation_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          owner: platform-configuration
+          runbook: platform-foundation-configuration-activation
+        annotations:
+          summary: Immutable configuration activation failed
+          description: Retain the prior active version and inspect validation evidence.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#configuration-activation
+
+      - alert: FoundationTenantIsolationTestFailure
+        expr: increase(foundation_tenant_isolation_test_failures_total[15m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          owner: platform-security
+          runbook: platform-foundation-tenant-isolation
+        annotations:
+          summary: A tenant-isolation acceptance check failed
+          description: Stop readiness and preserve the exact failing tenant-boundary evidence.
+          runbook_url: docs/runbooks/platform-foundation-operations.md#tenant-isolation

@@ -1,0 +1,12 @@
+{
+  "name": "@ai-trading-os/audit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Append-only audit models, fail-closed transactional writing, search, and export.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "11.11.0"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "task": "T052",
+  "status": "complete",
+  "completion_claim": true,
+  "generated_at": "2026-07-13T13:31:20-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "worktree_status_digest_before_evidence": "e6b896c35de3a408456c4bbf7a11260c42a3d3c9be7232d47aa4b7576bd2b336",
+  "requirements": ["PF-003", "PF-019", "PF-020", "PF-022"],
+  "traceability": {
+    "task_source": "specs/002-platform-foundation/tasks.md:101",
+    "documentation": "docs/architecture/foundation-runtime-skeletons.md",
+    "test": "apps/workers/src/worker.test.ts"
+  },
+  "sources": {
+    "apps/workers/src/main.ts": "e2877f9f7682558c0c68b95ed2b0af094cab826ba0288c0e2657d46b935e1162",
+    "apps/workers/src/worker.ts": "1bb48ffb94f2e4902208c5413de2035fde77345f695ad7704f226155e9203e08",
+    "apps/workers/src/worker.test.ts": "c04a691b047ab036e0ddbc92b7640a7d3e55890fca5a0e93972853e22df036bb",
+    "apps/workers/tsconfig.json": "b52ecd61a7af963682366b2791e8ca18d2d62e1dd2a3f98d3820930ba27b6a8a"
+  },
+  "ordered_tdd_result": {
+    "initial_red_exit_code": 1,
+    "initial_red_reason": "ERR_MODULE_NOT_FOUND for apps/workers/src/worker.js before the T052 implementation existed",
+    "heartbeat_red_exit_code": 1,
+    "heartbeat_red_reason": "initial heartbeat adapter failure escaped instead of entering bounded retry",
+    "green_exit_code": 0,
+    "green_result": "6 worker skeleton tests passed"
+  },
+  "acceptance_evidence": {
+    "tenant_context": "pass: job, tenant, and environment UUIDv7 values fail closed before handler execution",
+    "trace_propagation": "pass: W3C traceparent is parsed, canonicalized, and supplied to the handler",
+    "lease_heartbeat": "pass: immediate and non-overlapping periodic heartbeat; heartbeat failures use stable bounded retry",
+    "bounded_retry": "pass: deterministic exponential delay respects attempt and configured caps; terminal exhaustion is stable",
+    "shutdown": "pass: active work is aborted and released, no second lease is taken, and health reports draining",
+    "health": "pass: local liveness shape is bounded, no-store, and secret-free"
+  },
+  "validation": {
+    "node": "v24.18.0",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "authority": "pass",
+    "root_verifier": "pass: 10 legacy, 9 compatibility, 8 traceability requirements"
+  },
+  "runtime_boundary": {
+    "idle_adapter_only": true,
+    "database_or_cache_connected": false,
+    "collector_connected": false,
+    "container_or_compose_started": false
+  },
+  "protected_actions": {
+    "dependency_added": false,
+    "public_contract_changed": false,
+    "persistence_or_infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "t054_or_later_started": false
+  }
+}

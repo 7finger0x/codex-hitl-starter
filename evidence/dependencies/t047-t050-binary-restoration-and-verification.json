@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "checkpoint": "HCP-01",
+  "scope": "Exact Node.js 24.18.0 restoration and T047-T050 verification only",
+  "decision": "approved_with_conditions",
+  "approver": "User in Codex task",
+  "restoration_decision_time": "2026-07-13T11:21:47-07:00",
+  "completed_at": "2026-07-13T11:25:59-07:00",
+  "result": "pass",
+  "scope_completion_claim": true,
+  "feature_completion_claim": false,
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "worktree_state": "documented-dirty",
+  "restoration": {
+    "binary_path": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "version": "v24.18.0",
+    "binary_sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+    "archive_sha256": "55aa7153f9d88f28d765fcdad5ae6945b5c0f98a36881703817e4c450fa76742",
+    "checksum_manifest_sha256": "3927bab574a00ca0560c9583fe19655ba19603a1c5851414e4325d34ac50e469",
+    "checksum_signature_sha256": "d771440acfe010e7510a3c01d248525f771daa9cf75dae5784c97ea2b08d9393",
+    "release_keys_commit": "b28073028e6d6855cfb53bf7fa0137599c01f967",
+    "signing_primary_fingerprint": "C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C",
+    "signature_valid": true,
+    "archive_paths_validated": true,
+    "origins": [
+      "https://nodejs.org/dist/v24.18.0/",
+      "https://github.com/nodejs/release-keys"
+    ]
+  },
+  "tests": {
+    "runtime": "Node.js 24.18.0",
+    "total": 32,
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "tasks": {
+      "T047": 9,
+      "T048": 8,
+      "T049": 7,
+      "T050": 8
+    }
+  },
+  "static_checks": {
+    "typescript_core_project": "pass",
+    "typescript_testing_project": "pass",
+    "typescript_targeted_strict": "pass",
+    "eslint_targeted": "pass",
+    "prettier_targeted": "pass"
+  },
+  "repository_checks": {
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_traceability": "pass: 8 requirements",
+    "legacy_tests": "pass: 10",
+    "compatibility_tests": "pass: 9",
+    "source_hash_inventory": "pass",
+    "evidence_json": "pass",
+    "whitespace": "pass",
+    "lockfile_sha256": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "protected_actions": {
+    "lifecycle_scripts_enabled": false,
+    "dependency_or_package_manifest_changed": false,
+    "lockfile_changed": false,
+    "public_contract_changed": false,
+    "persistence_schema_or_grant_changed": false,
+    "infrastructure_changed_or_applied": false,
+    "database_cache_collector_or_container_access": false,
+    "secret_or_raw_environment_access": false,
+    "repository_content_uploaded": false,
+    "remote_repository_or_ci_access": false,
+    "t051_or_later_task_execution": false
+  },
+  "task_status": {
+    "T047": "complete",
+    "T048": "complete",
+    "T049": "complete",
+    "T050": "complete"
+  }
+}

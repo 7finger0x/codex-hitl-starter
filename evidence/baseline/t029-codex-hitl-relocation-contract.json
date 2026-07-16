@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "task": "T029",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T029 only",
+  "generated_at": "2026-07-11T20:47:24-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["PF-026", "HITL-011"],
+  "test": {
+    "path": "tests/compat/test_codex_hitl_relocation.py",
+    "sha256": "3729a387d505702e626b8b9dd783a10888f257e952dc903a38cd8bc2ffc033a0",
+    "temporary_boundary": "tooling/codex-hitl",
+    "subprocess_shell": false,
+    "cases": {
+      "import": "pass: codex_hitl 0.1.0 imported from the planned boundary",
+      "entry_point": "pass: codex-hitl = codex_hitl.cli:main produced CLI help",
+      "legacy_baseline": "pass: exact 10 of 10 legacy tests from the planned boundary"
+    },
+    "result": "pass: 3 of 3"
+  },
+  "verification": {
+    "root_test_discovery": "pass: 17 of 17 including all relocation and updater compatibility cases",
+    "aggregate_pnpm_verify": "pass",
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "directory_instructions": "pass",
+    "ignore_rules": "pass",
+    "workspace_boundaries": "pass",
+    "authority": "pass",
+    "legacy_traceability": "pass: 8 requirements",
+    "agent_context": "pass",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "source_move_performed": false,
+  "protected_actions_performed": false,
+  "user_changes_preserved": true
+}

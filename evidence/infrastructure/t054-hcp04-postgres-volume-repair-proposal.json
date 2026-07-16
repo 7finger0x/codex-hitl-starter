@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "proposal_complete_implementation_blocked",
+  "completion_claim": true,
+  "completion_scope": "exact Postgres volume-ownership repair proposal only",
+  "generated_at": "2026-07-13T21:59:17-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "checkpoint_pre_proposal_sha256": "242f020f3852e76335778c0d73d9f16b8bac3884f003afa6c4579642dee144a7",
+  "bound_failure": {
+    "evidence": "evidence/phases/phase-2-foundation.json",
+    "evidence_sha256": "1d54f0de070b2f22272e80f252549215bf35bae20738e9588b64d4a84ddbfcfd",
+    "container": "platform-foundation-local-postgres-1",
+    "state": "restarting",
+    "exit_code": 1,
+    "health": "unhealthy",
+    "bounded_log": "mkdir: can't create directory '/var/lib/postgresql/data/pgdata': Permission denied",
+    "database_connected": false,
+    "migration_applied": false
+  },
+  "read_only_diagnosis": {
+    "compose_sha256": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad",
+    "postgres_image": "docker.io/supabase/postgres:17.6.1.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "image_user": "",
+    "image_entrypoint": ["docker-entrypoint.sh"],
+    "image_command": ["postgres", "-D", "/etc/postgresql"],
+    "container_user": "",
+    "cap_drop": ["ALL"],
+    "cap_add": [],
+    "security_options": ["no-new-privileges:true"],
+    "read_only_root_filesystem": true,
+    "data_mount": {
+      "name": "foundation_postgres_data",
+      "destination": "/var/lib/postgresql/data",
+      "read_write": true,
+      "driver": "local"
+    },
+    "source_basis": [
+      "https://github.com/supabase/postgres",
+      "https://github.com/docker-library/postgres/blob/master/docker-entrypoint.sh"
+    ]
+  },
+  "test_first_repair": {
+    "new_test": "tests/integration/infrastructure/postgres-volume-ownership.test.ts",
+    "red_requirement": "current Postgres service lacks its required bounded entrypoint capability exception",
+    "source_file": "compose.yaml",
+    "source_location": "postgres service immediately after the runtime-security merge",
+    "cap_add": ["CHOWN", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"],
+    "expected_compose_sha256": "caf9de5a94c365aecc796eb1256459bc5313fdc4fff385ec80653c4d1d754330",
+    "other_source_changes": 0,
+    "runtime_implemented": false
+  },
+  "preserved_controls": {
+    "cap_drop_all": true,
+    "no_new_privileges": true,
+    "read_only_root_filesystem": true,
+    "non_root_postgres_process_required": true,
+    "image_digest_unchanged": true,
+    "project_unchanged": true,
+    "network_unchanged": true,
+    "volume_unchanged": true,
+    "ports_unchanged": true,
+    "mounts_unchanged": true,
+    "contracts_migrations_manifests_lockfile_unchanged": true,
+    "lifecycle_scripts_disabled": true
+  },
+  "proposed_runtime_action": {
+    "count": 1,
+    "service": "postgres",
+    "compose_project": "platform-foundation-local",
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "volume_deletion": false,
+    "network_replacement": false,
+    "teardown": false,
+    "post_checks": [
+      "healthy container",
+      "exact capability configuration",
+      "non-root postgres server process",
+      "HCP-03 target/comment/version/synthetic/tool guard",
+      "T054 gates from the beginning"
+    ]
+  },
+  "stop_conditions": [
+    "source or image hash mismatch",
+    "capability set mismatch",
+    "unexpected project resource",
+    "permission error",
+    "unhealthy or restarting Postgres",
+    "root postgres server process",
+    "failed HCP-03 guard",
+    "secret exposure",
+    "any failed T054 gate"
+  ],
+  "exclusions": {
+    "implementation_before_approval": true,
+    "container_restart_before_approval": true,
+    "other_source_or_capability": true,
+    "other_service_or_image": true,
+    "image_pull": true,
+    "volume_or_network_deletion": true,
+    "database_reset_restore_or_seed": true,
+    "secret_inspection_or_disclosure": true,
+    "production_or_repository_upload": true,
+    "t055_or_later": true
+  },
+  "protected_actions_performed": {
+    "compose_source_changed": false,
+    "test_source_created": false,
+    "container_restarted_or_recreated": false,
+    "network_or_volume_changed": false,
+    "database_accessed": false,
+    "secret_accessed": false,
+    "repository_transmitted": false
+  }
+}

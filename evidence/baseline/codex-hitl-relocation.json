@@ -1,0 +1,1276 @@
+{
+  "schema_version": 1,
+  "task": "T031",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T031 only",
+  "phase_1_completion_claim_allowed": false,
+  "generated_at": "2026-07-13T02:21:14-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": [
+    "PF-026",
+    "PF-029",
+    "HITL-011"
+  ],
+  "baseline_scope": {
+    "controller_boundary": "tooling/codex-hitl",
+    "implementation_evidence": "evidence/baseline/t030-codex-hitl-relocation-implementation.json",
+    "result": "relocation compatibility only; not Phase 1 readiness"
+  },
+  "verification": {
+    "focused_relocation": "pass: 5 of 5",
+    "legacy_baseline": "pass: exact 10 of 10",
+    "root_compatibility": "pass: 9 of 9",
+    "legacy_traceability": "pass: 8 requirements",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7",
+    "policy_sha256_unchanged": "a10f058d110d4ae383615edfbe4ce4ad4f2d4a50d3bc2d5a8d6db803c4f118fe"
+  },
+  "working_tree": {
+    "classification": "documented-dirty",
+    "clean_claim": false,
+    "inventory_command": "git status --porcelain=v1 -z --untracked-files=all",
+    "inventory_excludes": [
+      "evidence/baseline/codex-hitl-relocation.json"
+    ],
+    "entry_count_excluding_manifest": 132,
+    "counts_excluding_manifest": {
+      "tracked_changed": 6,
+      "tracked_deleted": 10,
+      "untracked": 116
+    },
+    "current_bytes_excluding_manifest": {
+      "tracked_changed": 16216,
+      "untracked": 2390230
+    },
+    "canonical_porcelain_sha256": "ca1ddffc39bfab69dc70b6c7b24f4b845416f117b500e68be069382174e32878",
+    "inventory_sha256": "c5c36d4a7056bb12a3da969390d2bbb8c2178669ff00f074464c08b696b1a5dc",
+    "entries": [
+      {
+        "path": ".agents/skills/speckit-analyze/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 11640,
+        "sha256": "2e89ffed73764eb9d3ee2d9fba7e245a5e73229b809ddec52409ca74c44e585d"
+      },
+      {
+        "path": ".agents/skills/speckit-checklist/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 21190,
+        "sha256": "4eb7e030d04014e6bbf5177f84aeef19b11adfa8470a14dd18506f65c7cf9dcb"
+      },
+      {
+        "path": ".agents/skills/speckit-clarify/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 18082,
+        "sha256": "5095627c89a249d402ad2d0fad425ea0c0bd5e8559e9d6f5b682dea4f513ed54"
+      },
+      {
+        "path": ".agents/skills/speckit-constitution/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 9351,
+        "sha256": "87f247a2e947b44f9248491dcbedbfc650d095dde6498938b6be7a413b418d5e"
+      },
+      {
+        "path": ".agents/skills/speckit-converge/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 12637,
+        "sha256": "1355b748919c7750cc87be94534192e5ff227229c14cbd34ca993a5f977a4ce2"
+      },
+      {
+        "path": ".agents/skills/speckit-implement/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 12150,
+        "sha256": "d31986feebd257c7ebbca443d432c6484046a951149f831281fbba61adcd5889"
+      },
+      {
+        "path": ".agents/skills/speckit-plan/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 7916,
+        "sha256": "8c4fdc1920bd0ff1fdf17935efe8044d82437afb9935999f483556017e8540bb"
+      },
+      {
+        "path": ".agents/skills/speckit-specify/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 18367,
+        "sha256": "73518d4f228a59621e96c7787051057afd389d0978b73ac7e7721991df6b3f87"
+      },
+      {
+        "path": ".agents/skills/speckit-tasks/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 10953,
+        "sha256": "e08c8def433c9964e3e4446cb5ebbd97a1a85cb046ffd4c85c3405f58593f503"
+      },
+      {
+        "path": ".agents/skills/speckit-taskstoissues/SKILL.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 7194,
+        "sha256": "2c00fdc774cb9b435ea8566c7efa8b208568d533d57529e61c35f18aa52d6c67"
+      },
+      {
+        "path": ".dockerignore",
+        "status": " M",
+        "classification": "tracked_changed",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 398,
+        "sha256": "62288c8de022cda1c055212e6f66389e165629b4fd3aee55cefa8b57604390fe",
+        "head_mode": "100644",
+        "head_bytes": 37,
+        "head_sha256": "52b41205f1bbf9e55624038df653e19c69cbf314f31283937c6b483c26b92171"
+      },
+      {
+        "path": ".gitignore",
+        "status": " M",
+        "classification": "tracked_changed",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 847,
+        "sha256": "eb1a6aafd8d49d8ad577d082f7dc7691d4b3a078d7808ea8e0b4811423541281",
+        "head_mode": "100644",
+        "head_bytes": 110,
+        "head_sha256": "3afe4a07f397e7e03665e9d82df1e760f40505cffa3ab71c3fc8270e76128106"
+      },
+      {
+        "path": ".node-version",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 8,
+        "sha256": "55075b5ec4e8b31936cbbc282b8829116d1fd48f2f2f1856dee592a6650700ce"
+      },
+      {
+        "path": ".npmignore",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 421,
+        "sha256": "3484c182fb01139815100a12ddd2916f187b9dc558de6a8f431c9a1365826ef5"
+      },
+      {
+        "path": ".npmrc",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 169,
+        "sha256": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c"
+      },
+      {
+        "path": ".prettierignore",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 271,
+        "sha256": "40821ab0f9689f6d725f8d9dd8128ebdba56de737e61cbc35c705c11b9bdfe70"
+      },
+      {
+        "path": ".prettierrc.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 155,
+        "sha256": "975c02d646e4b457ea7e50f2c4095ea474d380e09db4dffa6af169d5da840362"
+      },
+      {
+        "path": ".specify/feature.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 54,
+        "sha256": "d1c134655e780b702d6d7405d29407433bdd09e3269f8702f5d642c62032504b"
+      },
+      {
+        "path": ".specify/init-options.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 176,
+        "sha256": "350cfcd9e62efd570603a0d9d9ac4180486141311e2b2e39ff1298b4c4f02459"
+      },
+      {
+        "path": ".specify/integration.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 381,
+        "sha256": "27764ebce63f543489513c31e7c6fd78a86884f82db398a4ab50ef8185a48f08"
+      },
+      {
+        "path": ".specify/integrations/codex.manifest.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1299,
+        "sha256": "3dad88fb383e8cbb8fcf1719f4597efc2206ca3dac27ddd0c2ddddb4841cbd57"
+      },
+      {
+        "path": ".specify/integrations/speckit.manifest.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1278,
+        "sha256": "7f6c9dc2eae28841ea82262374cbe96eb33bb3494382889eba0858411e98e9f9"
+      },
+      {
+        "path": ".specify/memory/constitution.md",
+        "status": " M",
+        "classification": "tracked_changed",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 8640,
+        "sha256": "b8331d40c3044b2df7483342fa7fb03acee4045f92b04f9bc3548ffe9071e52e",
+        "head_mode": "100644",
+        "head_bytes": 1363,
+        "head_sha256": "4c915e062899e7b26e9f71c83c5ba28b073fd77118ad2e33bf03753bf1a13963"
+      },
+      {
+        "path": ".specify/scripts/bash/check-prerequisites.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 6344,
+        "sha256": "768663bf3678ffe389665366c76372181dabf0cd9e2a51c30e9ebb9e2908a4a3"
+      },
+      {
+        "path": ".specify/scripts/bash/common.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 29810,
+        "sha256": "6ff86bf39f6b4684b0f80927dc7a1dadec26b4671988a3fe4d6c2523cbd3aa22"
+      },
+      {
+        "path": ".specify/scripts/bash/create-new-feature.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 11629,
+        "sha256": "0fc636621e9cf07898f848815927438b647a0ac06581720e3ad5a547a73f1b37"
+      },
+      {
+        "path": ".specify/scripts/bash/setup-plan.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2501,
+        "sha256": "4eb12c5b00f5c66a7d01b56c90898d320dcef4425d9b96652d57156c84948eda"
+      },
+      {
+        "path": ".specify/scripts/bash/setup-tasks.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3239,
+        "sha256": "cf21ba2212b4dd5b435c5ea8527500cfd27768b86c0bbc7ebc3207759f118d27"
+      },
+      {
+        "path": ".specify/scripts/bash/update-agent-context.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 4484,
+        "sha256": "1b25bb5dfc6eb2eacf1e4cb3a0d331c0c8fbe2c938e0307f7645de1346871b71"
+      },
+      {
+        "path": ".specify/templates/checklist-template.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1595,
+        "sha256": "481e6de67d00e1cb0ceb58490eab26b2385405ada42cab80d1c041d0bd773b03"
+      },
+      {
+        "path": ".specify/templates/constitution-template.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2346,
+        "sha256": "ce7549540fa45543cca797a150201d868e64495fdff39dc38246fb17bd4024b3"
+      },
+      {
+        "path": ".specify/templates/plan-template.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 5217,
+        "sha256": "376de777529c44a8ed65debc2994182fef0ae91e6ade195fa02fb30891ca08ee"
+      },
+      {
+        "path": ".specify/templates/spec-template.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 5941,
+        "sha256": "cabba7e4bff075b7aadaea30f4dc8beb352fc7cdc162e4cea904891a3bc1f951"
+      },
+      {
+        "path": ".specify/templates/tasks-template.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 9942,
+        "sha256": "b2d06d6512ba562d37641a568f94556ed7c432ddadf88acec9e58ffc2d999a82"
+      },
+      {
+        "path": ".specify/workflows/speckit/workflow.yml",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2197,
+        "sha256": "a3b7c17724df02c7f2ad4cfc58435dd428f11eaa13bd07fa5e46f7726142b2b7"
+      },
+      {
+        "path": ".specify/workflows/workflow-registry.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 380,
+        "sha256": "321fae1a2865322e3dfa6c19f781ce90714fdde635b503752ff84dbfe7dc8d8a"
+      },
+      {
+        "path": "AGENTS.md",
+        "status": " M",
+        "classification": "tracked_changed",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2283,
+        "sha256": "ac7523eb9baeec0376a4e81b9b2dd66278817d80b0eacaa7a5f0e050865cf631",
+        "head_mode": "100644",
+        "head_bytes": 1702,
+        "head_sha256": "05b2dd71f64197a0cbc1978cf52c0a507436b867fb26db8dd7264682d683e646"
+      },
+      {
+        "path": "README.md",
+        "status": " M",
+        "classification": "tracked_changed",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3650,
+        "sha256": "80364e47ee276dc5cbf9180d652f5e2e7f72f270fd8bb6b2ea1b222cbd5f9076",
+        "head_mode": "100644",
+        "head_bytes": 3628,
+        "head_sha256": "613fea4993d2136206ffc7eaa4a836718ad0b01fae608f293a55089e87f5b68f"
+      },
+      {
+        "path": "apps/api/AGENTS.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2024,
+        "sha256": "7fc23a1fd157125f83c867d7f4f554eb7011b311cabce7357950164df6ff2016"
+      },
+      {
+        "path": "apps/api/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 279,
+        "sha256": "cc39b59f03f0cea03e5c3da20ddf8968ae23a78f0d6af0edbac127100d57fe0f"
+      },
+      {
+        "path": "apps/web/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 266,
+        "sha256": "9f2a3308cfb8ef364a0f682510f7173f905ada7e35929cb23d3c84bf738670d0"
+      },
+      {
+        "path": "apps/workers/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 288,
+        "sha256": "9df8b15b6ff4916133fb71e8d6b76cf7963f7880e64e995107185bf0e612ea51"
+      },
+      {
+        "path": "docs/adr/0001-modular-monolith-api-boundary.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2725,
+        "sha256": "2c34b3730bde6838cc17d3265470183b79aae372af4464ccd0c35b7b6a78ca22"
+      },
+      {
+        "path": "docs/adr/0002-shared-schema-tenancy-rls.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2412,
+        "sha256": "f25f8d105ef3c2a2de30d20ae5fb663ebe6f22f0e4138e4939efbf15240c9e18"
+      },
+      {
+        "path": "docs/adr/0003-rest-json-schema-contracts.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2337,
+        "sha256": "983983f22821636b9490a7b474dd6ec5a9f7f7fdd00bd92993a93e1db7414807"
+      },
+      {
+        "path": "docs/adr/0004-canonical-identifiers.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2002,
+        "sha256": "9dabb2ec3abaf122ad70758ace7d8919592a38faf476b71a805750c32f837db1"
+      },
+      {
+        "path": "docs/adr/0005-transactional-outbox-inbox.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2149,
+        "sha256": "6cf3f1cd9d19833839beade87c0c7cffc82076a4e5f48cdedb77c4b84e5c3060"
+      },
+      {
+        "path": "docs/adr/0006-policy-configuration-versioning.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2311,
+        "sha256": "69704b6f90f0d9a56f48333ff179dff607e9a185c52cc046d7af8d672016bd9d"
+      },
+      {
+        "path": "docs/adr/0007-cache-isolation.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2158,
+        "sha256": "ffb40c83b093c062138b4eee79e1a3f7647ab29e51587853c860e03639902914"
+      },
+      {
+        "path": "docs/adr/0008-observability-topology.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2218,
+        "sha256": "28976e65ebaa7ddd8101a9aeb668aa21b64ea46cedd317a494e6a526ab7f08c3"
+      },
+      {
+        "path": "docs/adr/0009-codex-hitl-boundary.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2362,
+        "sha256": "30256f9937b78ae9b97aaac993c18f833c1690aa90591e43ab4e3c6715bcc89b"
+      },
+      {
+        "path": "docs/adr/0010-source-authority.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2342,
+        "sha256": "5686a51b2eed3ab7cfb6f0bff4d17b211df30581128c2bd2272cd928e3c77f7e"
+      },
+      {
+        "path": "docs/adr/README.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2655,
+        "sha256": "4852a83da949312894f35f133a0452a81b989cec47b3837e341332677f0ed821"
+      },
+      {
+        "path": "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.docx",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 127602,
+        "sha256": "72a37bb2aec0cde1d103d98b292b4f1073f4373bf1e96a270a473438b4ecc4dc"
+      },
+      {
+        "path": "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.pdf",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1574532,
+        "sha256": "9d075a82a6088ef446442a1113f59a6023196fd5304c12a4e7eaefdedee66a61"
+      },
+      {
+        "path": "docs/authority/final-production-paper-v3.manifest.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1401,
+        "sha256": "5a8689b647384a0e71ee6db88d61cc0a55491a3f7c6c743d6d2dfae5f444c4cd"
+      },
+      {
+        "path": "eslint.config.mjs",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 359,
+        "sha256": "24f191628e248b645ba02462658c8d5cc2b7430252cffa05a1da9029f517e385"
+      },
+      {
+        "path": "evidence/baseline/governance.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 16686,
+        "sha256": "77731dc8b6bc38356dc830d58599c2db0136230170a813185efb22ed70f109fc"
+      },
+      {
+        "path": "evidence/baseline/t025-package-boundaries.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 5449,
+        "sha256": "ff984a553446e157d2d0cff160e9b4a161d825d95492cecf0ff95ea05a6fa01d"
+      },
+      {
+        "path": "evidence/baseline/t026-directory-instructions.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2899,
+        "sha256": "ad1a19b29a8dc0b7e4eb4739e4692a69630919d18802ec09164daacb58cddf38"
+      },
+      {
+        "path": "evidence/baseline/t027-agent-context-compat.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1620,
+        "sha256": "c516ba05f02ffab8caad505946f98f9c369a263d9cecf45d366d571204d4807d"
+      },
+      {
+        "path": "evidence/baseline/t028-ignore-rules.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2049,
+        "sha256": "2ba13177ccb3a4e048c105f29e2da435964c2d77ba801a66c8266bfd8dff5b60"
+      },
+      {
+        "path": "evidence/baseline/t029-codex-hitl-relocation-contract.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1514,
+        "sha256": "6eb1481651e67191c0de7dc008ff361a27d41af43f08cc38c2b034ae1bd9f6bc"
+      },
+      {
+        "path": "evidence/baseline/t030-codex-hitl-relocation-implementation.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 5164,
+        "sha256": "be7b8b45710ade22b8e246d511d2ddf4c3b5263c66982f3be5813febca77c70e"
+      },
+      {
+        "path": "evidence/dependencies/t024-bootstrap.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 6592,
+        "sha256": "c4d9ed36666349368a1d644613cc400df4566ed8e20dfd0b1d356c0626a6c9f7"
+      },
+      {
+        "path": "infra/AGENTS.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2035,
+        "sha256": "d5df295a98f8ac5a09b88ed420154f7f5a327c94048090b6e56ac8d9d0935e0b"
+      },
+      {
+        "path": "package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1817,
+        "sha256": "ccc4a85fa5431636339b0cb3bf7cc248fedc4e0c217a6be5bb0180f6526ab15d"
+      },
+      {
+        "path": "packages/audit/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 291,
+        "sha256": "33d3fa54c6aec6768d085d644d45bce19f954afc0155488e1e1a3e007f80ee66"
+      },
+      {
+        "path": "packages/config/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 284,
+        "sha256": "063ec235017f046449addcd03e3338b74690533e8ee9ec4f98fb9a484ab054f3"
+      },
+      {
+        "path": "packages/core/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 304,
+        "sha256": "c2f7008abdf7b6a564d7b2e75dede3af5b6fff870baae0e2efd18d013a91689f"
+      },
+      {
+        "path": "packages/events/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 292,
+        "sha256": "fcfa285177c264a87f8dabc2a22640a35379c05e2c9e911dafa83d119e5b06fc"
+      },
+      {
+        "path": "packages/identity/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 297,
+        "sha256": "faacca23db46811b0386f3144c74c28bab81857569f9f1bd056d43aafceea705"
+      },
+      {
+        "path": "packages/observability/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 292,
+        "sha256": "b1d2f59cda6dd80e23321ddab9d27b81dea855a0714bf2a0c79f1459087e6951"
+      },
+      {
+        "path": "packages/policy/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 298,
+        "sha256": "369e93ac0e45f6b74a74c30361975bd4e982ca28cfac7f1a0a1f21a0e61c3c9e"
+      },
+      {
+        "path": "packages/testing/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 296,
+        "sha256": "ae5016d8d0056b86dad9f641bdf13dd63afd38b2ced4518fa3077eddbb21611b"
+      },
+      {
+        "path": "packages/ui/package.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 279,
+        "sha256": "50c32590aa7694c756d23b5d40b1f1ef9c358327c0ed57c3fb2ed03ed001e53e"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 38731,
+        "sha256": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 107,
+        "sha256": "efbf1809a4c99bf76f88d25647b689173ae43e829f9a5cc636d735d247fc2e96"
+      },
+      {
+        "path": "pyproject.toml",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 966,
+        "head_sha256": "4d2357bb03b8f1c605843a23b036cb06179e8ad0436d671f3d3b3942675a7127"
+      },
+      {
+        "path": "scripts/verify-authority.sh",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3599,
+        "sha256": "11b92a1919e235f014259a338bca022cc789edea94648ccffb4d6368ec8f6bab"
+      },
+      {
+        "path": "scripts/verify.sh",
+        "status": " M",
+        "classification": "tracked_changed",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 398,
+        "sha256": "2356920f10ea6aa34da4599972bcabc82fe84cc937d069322d04f412bfe91acc",
+        "head_mode": "100755",
+        "head_bytes": 167,
+        "head_sha256": "3b0a0eb9144d499bf384ac0cf60089126c9baed41dfd2fec5da2fcfe09ae214c"
+      },
+      {
+        "path": "specs/002-platform-foundation/checklists/requirements.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1550,
+        "sha256": "9cd1fe27e035e00475ed6e501927bc8ab32afe35e810a72feedeb2a899495047"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/GOV-01-governance-baseline.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 16989,
+        "sha256": "d4fec0c6d0ab4694d19aed0775ce9b9ee2b7e1f745996a38b109c1dd3d9da257"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/HCP-01-dependencies.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 26710,
+        "sha256": "ffda854f8efc63d9e1252b0912d2c91a9b9efe35aee618eb8986f1c2c3162c76"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/HCP-06-source-authority.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 4786,
+        "sha256": "11430d7b09a874eb944f5e79724ec8d31588083af025f10792ffbe369fb7aa1c"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/README.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 5379,
+        "sha256": "e48d0ff124ca09ad102ced142eedb961ab08a7507639249c568e1db4149acfea"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/T030-relocation-approval.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 4121,
+        "sha256": "19b2baf9f581f55e863b09c49e78421b698ad3ad4132115e37a6f0de45a93b93"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/capability-manifest.schema.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2240,
+        "sha256": "6e6ebae61c85aa13d6eb6c62630ffedf7cd9bb666b64446a175aa0bf475a1a37"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/domain-event.schema.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3370,
+        "sha256": "219754d7e785d5dbf861e16f1fe8c6751c8f6c25bd4a1eff8fb1b5600a192812"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/event-envelope.schema.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 4335,
+        "sha256": "541f279f7fcf6346f85b199b6218ea2a4514971ca96f42f0da1ee73405bf7ad6"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/evidence-manifest.schema.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 6502,
+        "sha256": "79dad0bd9493fb4f6555d8c6f473d0fbfe2ec9651ad0e6a4192df6067150242f"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/foundation-api.openapi.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 26842,
+        "sha256": "2d2e6a128bdfff148906de1ccb5e62c7f65105c4977e6d487bdf314c3e930689"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/openapi.yaml",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 28975,
+        "sha256": "95db9549ab9ece986dca4852396ebcb3973c0463916c0c4a88cb4c5d92a6ab36"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/platform-configuration.schema.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2854,
+        "sha256": "346d5b7d1c12f8dbfbf5c68ab5b2657807673c35384138769df271c8d104a936"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/traceability.schema.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3123,
+        "sha256": "fc5483c9b6bd949703a76c7bfc4abda97a7760b8bb45550aeb381e9345964344"
+      },
+      {
+        "path": "specs/002-platform-foundation/data-model.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 16107,
+        "sha256": "4643077a51733a8b2cefcfc2506dcc49f3bf32b9af0416d2b153870d8eda0a0e"
+      },
+      {
+        "path": "specs/002-platform-foundation/plan.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 29419,
+        "sha256": "61f0e8d53b22ed0db70a5d91ff05474f140e3d162cce1182eb0ea0ba03ec3c0f"
+      },
+      {
+        "path": "specs/002-platform-foundation/quickstart.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 8026,
+        "sha256": "7fb2b7434a1971115a42913b609afd9eaf3fe53ba9f94c70cbe740839cd82a87"
+      },
+      {
+        "path": "specs/002-platform-foundation/research.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 15541,
+        "sha256": "f3b0ae2299a9d39e8516ca07f156a9c7cd836445103a096d4ed310cd4aac27e7"
+      },
+      {
+        "path": "specs/002-platform-foundation/spec.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 22593,
+        "sha256": "d42842f42ba244cdc6718d287994878fc6a7e58a18b01a9343e2a2de87152196"
+      },
+      {
+        "path": "specs/002-platform-foundation/tasks.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 59757,
+        "sha256": "e213cf1ff4486fe20d1272b5700c22973f090e1a9a18652b527bb9f06c51c659"
+      },
+      {
+        "path": "specs/002-platform-foundation/traceability/requirements.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 9408,
+        "sha256": "d609c78413cd7365178809d29564b42c9e04be5667e09159a985084c2c5ac336"
+      },
+      {
+        "path": "src/codex_hitl/__init__.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 62,
+        "head_sha256": "a6e0c350a2b364ea755fb7cd14f6a487b88d7f529c7f8b05a92f2ad6ccd0663d"
+      },
+      {
+        "path": "src/codex_hitl/cli.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 6881,
+        "head_sha256": "c92d205ad117575b2bc4c564d16297e8d7fa4142a8beedc9573acd02abc59ef2"
+      },
+      {
+        "path": "src/codex_hitl/executor.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 1274,
+        "head_sha256": "c8e4974a5f8beac508eef2e1ac1c6e70ddaa7b0e982fc89014c82209f02a3a57"
+      },
+      {
+        "path": "src/codex_hitl/models.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 1061,
+        "head_sha256": "ba2f25b10f27dd602a3a66b6727ed6c7b36d0ac3b55746933d8bc142e31c2681"
+      },
+      {
+        "path": "src/codex_hitl/policy.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 3293,
+        "head_sha256": "1ee972194474f920f0fe8472d3d2824d620b263ccacf26e2eb6d28d909a009ea"
+      },
+      {
+        "path": "src/codex_hitl/store.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 11499,
+        "head_sha256": "a584eff94fe25a036d4a4642d9c3700412f209fc74866c1fc1540c66caec286c"
+      },
+      {
+        "path": "supabase/AGENTS.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1993,
+        "sha256": "8c2d77f21b8dc0cf8246558e767fda7b58383c1fd4aa82b60f4f2fdc3795ecb2"
+      },
+      {
+        "path": "tests/compat/__init__.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 81,
+        "sha256": "91d7269260ff646ec92fb9b026de7ecfd8c930f4d650f97f4ecb71ab64f82b0b"
+      },
+      {
+        "path": "tests/compat/test_codex_hitl_relocation.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3609,
+        "sha256": "1f55c0803c5a7a3ed15fd34452bb35ab53e7cc0a4f76fcca5ed331ba84f46290"
+      },
+      {
+        "path": "tests/compat/test_update_agent_context.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 5257,
+        "sha256": "27e1d251ede0b4b8e71f02f39830b4e1ad29da9dd8430041a9d8ac5bc94ecb1f"
+      },
+      {
+        "path": "tests/test_executor.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 497,
+        "head_sha256": "5efa3795a755d306e6c93e2c770442397f6be694e7d57cd22fe58b1f2c335387"
+      },
+      {
+        "path": "tests/test_policy.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 1163,
+        "head_sha256": "d4f9c829aced86de4dc6f70423902efd299c34b3cb9320b290ef7da78bb6b1d1"
+      },
+      {
+        "path": "tests/test_store.py",
+        "status": " D",
+        "classification": "tracked_deleted",
+        "head_mode": "100644",
+        "head_bytes": 1807,
+        "head_sha256": "27abe278330791ec9428bb0f32228351b5c7eaa5cdec061965c767387d84996c"
+      },
+      {
+        "path": "tooling/codex-hitl/AGENTS.md",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2190,
+        "sha256": "c85c9f278ab99c47098838f4ed031e66b9c9087c792f2297977407952b8a760c"
+      },
+      {
+        "path": "tooling/codex-hitl/pyproject.toml",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 972,
+        "sha256": "a25d15f9512daa97693063b08371061c1b9f204dfed0af89335e92815b925e4b"
+      },
+      {
+        "path": "tooling/codex-hitl/src/codex_hitl/__init__.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 62,
+        "sha256": "a6e0c350a2b364ea755fb7cd14f6a487b88d7f529c7f8b05a92f2ad6ccd0663d"
+      },
+      {
+        "path": "tooling/codex-hitl/src/codex_hitl/cli.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 7302,
+        "sha256": "0520beb17e1e079758ffce4025da921a7e973886855710dcd7349e3210db222c"
+      },
+      {
+        "path": "tooling/codex-hitl/src/codex_hitl/executor.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1274,
+        "sha256": "c8e4974a5f8beac508eef2e1ac1c6e70ddaa7b0e982fc89014c82209f02a3a57"
+      },
+      {
+        "path": "tooling/codex-hitl/src/codex_hitl/models.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1061,
+        "sha256": "ba2f25b10f27dd602a3a66b6727ed6c7b36d0ac3b55746933d8bc142e31c2681"
+      },
+      {
+        "path": "tooling/codex-hitl/src/codex_hitl/policy.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 3293,
+        "sha256": "1ee972194474f920f0fe8472d3d2824d620b263ccacf26e2eb6d28d909a009ea"
+      },
+      {
+        "path": "tooling/codex-hitl/src/codex_hitl/store.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 11499,
+        "sha256": "a584eff94fe25a036d4a4642d9c3700412f209fc74866c1fc1540c66caec286c"
+      },
+      {
+        "path": "tooling/codex-hitl/tests/test_executor.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 497,
+        "sha256": "5efa3795a755d306e6c93e2c770442397f6be694e7d57cd22fe58b1f2c335387"
+      },
+      {
+        "path": "tooling/codex-hitl/tests/test_policy.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1215,
+        "sha256": "3dd5a2522341a6f22844d5232109f69a1e3f7217eb5dc7583e389666a110a871"
+      },
+      {
+        "path": "tooling/codex-hitl/tests/test_store.py",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1807,
+        "sha256": "27abe278330791ec9428bb0f32228351b5c7eaa5cdec061965c767387d84996c"
+      },
+      {
+        "path": "tooling/typescript/verify-directory-instructions.mjs",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1375,
+        "sha256": "82ceba63f4039f3afe899bc80c558d274794a10d2fbee2fb4bd0cc6f751be447"
+      },
+      {
+        "path": "tooling/typescript/verify-ignore-rules.mjs",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 1638,
+        "sha256": "b69ef399573197ca51815147bfcda89b4c0d9bdb825c798fb1a2faad90a82abf"
+      },
+      {
+        "path": "tooling/typescript/verify-workspace-boundaries.mjs",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 2979,
+        "sha256": "b1009c2378c728481a33bb31b0571866f6b1364f5e4cd0e47e6e7ba1a424b800"
+      },
+      {
+        "path": "tooling/typescript/workspace.d.ts",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 11,
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "tsconfig.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 534,
+        "sha256": "555ffc3a2772ba2f7c315f4e5958c0fc99940c9ab26b9ce7480c878c30a3ffd2"
+      },
+      {
+        "path": "turbo.json",
+        "status": "??",
+        "classification": "untracked",
+        "kind": "file",
+        "mode": "0777",
+        "bytes": 320,
+        "sha256": "59d03a84af192e00c9ff4bcbce1476a181c75024bfc1bf29002d116ab3784e04"
+      }
+    ],
+    "prior_governance_baseline": "evidence/baseline/governance.json",
+    "user_changes_preserved": true
+  },
+  "warnings": [
+    {
+      "code": "DOCUMENTED_DIRTY_NOT_CLEAN",
+      "message": "Tracked changes, tracked deletions, and untracked files are retained and inventoried; no clean-worktree claim is made."
+    },
+    {
+      "code": "SELF_EXCLUDED_FROM_INVENTORY",
+      "message": "This manifest is the only excluded path so its own digest cannot make the inventory self-referential."
+    },
+    {
+      "code": "PHASE_1_INCOMPLETE",
+      "message": "This baseline proves only controller relocation compatibility and cannot support a Platform Foundation completion claim."
+    }
+  ],
+  "protected_actions": {
+    "dependency_added": false,
+    "lockfile_changed": false,
+    "policy_semantics_changed": false,
+    "secret_accessed": false,
+    "network_accessed": false,
+    "repository_content_uploaded": false,
+    "external_publication": false,
+    "later_task_started": false
+  }
+}

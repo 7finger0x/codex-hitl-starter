@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "task": "T036",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "HCP-03 review preparation only; no persistence action authorized or performed",
+  "generated_at": "2026-07-13T03:39:37-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-003", "PF-009", "PF-011", "PF-013", "PF-024"],
+  "review_artifact": {
+    "path": "specs/002-platform-foundation/checkpoints/HCP-03-persistence.md",
+    "sha256": "a0d0a1bc0d5fa7f12f4c2d112252c3c47b4be4cdac11ae62db0402b6b2cd8469",
+    "decision": "pending"
+  },
+  "design_authority": {
+    "data_model": {
+      "path": "specs/002-platform-foundation/data-model.md",
+      "sha256": "4643077a51733a8b2cefcfc2506dcc49f3bf32b9af0416d2b153870d8eda0a0e"
+    },
+    "tenancy_rls_adr": {
+      "path": "docs/adr/0002-shared-schema-tenancy-rls.md",
+      "sha256": "f25f8d105ef3c2a2de30d20ae5fb663ebe6f22f0e4138e4939efbf15240c9e18"
+    }
+  },
+  "inventory": {
+    "forward_only_migrations": 3,
+    "schemas": ["platform", "platform_private"],
+    "extensions_added": 0,
+    "group_roles": 6,
+    "functions": 18,
+    "tables": 38,
+    "identity_tenancy_tables": 15,
+    "control_evidence_tables": 22,
+    "migration_ledger_tables": 1,
+    "command_specific_forced_rls": true,
+    "append_only_and_immutability_triggers": true,
+    "runtime_owner_or_bypass_path": false
+  },
+  "test_and_recovery_review": {
+    "empty_state": "specified",
+    "representative_prior_state": "specified with synthetic sentinel rows and unrelated role",
+    "interrupted_series": "specified",
+    "rolling_compatibility": "specified",
+    "cross_tenant_and_context_leakage": "specified",
+    "backup": "specified but execution blocked pending approved PostgreSQL 17 client path",
+    "rollback": "transaction rollback before commit only",
+    "forward_recovery": "required after committed failure under a new HCP-03 amendment",
+    "destructive_scope": "only exact guarded disposable database after explicit Option A approval"
+  },
+  "disposable_target": {
+    "host": "127.0.0.1",
+    "port": 55432,
+    "database": "platform_foundation_hcp03",
+    "database_comment": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "postgres_major": 17,
+    "synthetic_data_only": true,
+    "remote_link": false,
+    "provisioned": false,
+    "connection_accessed": false
+  },
+  "environment_findings": {
+    "psql_available": false,
+    "supabase_cli_available": false,
+    "docker_wsl_integration_available": false,
+    "database_tools_approved_under_hcp01": false,
+    "database_execution_allowed": false
+  },
+  "review_validation": {
+    "migration_inventory": "pass: 3 exact filenames",
+    "role_inventory": "pass: 6 exact group roles",
+    "function_inventory": "pass: 18 exact functions",
+    "table_inventory": "pass: 38 exact tables",
+    "classification_target_tests_recovery": "pass: present",
+    "protected_supabase_implementation_files": "absent",
+    "new_file_whitespace": "pass"
+  },
+  "protected_actions": {
+    "persistence_schema_created": false,
+    "migration_created": false,
+    "migration_applied": false,
+    "database_connected": false,
+    "database_destroyed": false,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "container_or_infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "later_task_started": false
+  },
+  "next_checkpoint": {
+    "id": "HCP-03",
+    "task": "T037",
+    "status": "pending",
+    "required_decision": "Option A, exact amendment, or denial for the recorded inventory and target",
+    "separate_blocker": "Any database tool/client/image/provisioning operation requires its own exact HCP-01 and, when applicable, HCP-04 approval"
+  }
+}

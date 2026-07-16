@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "task": "T043",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "HCP-04 proposal preparation only; no infrastructure definition or application is claimed",
+  "generated_at": "2026-07-13T05:07:36-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-022", "PF-023"],
+  "checkpoint": {
+    "id": "HCP-04",
+    "path": "specs/002-platform-foundation/checkpoints/HCP-04-infrastructure.md",
+    "sha256": "a084618955e034d78245df452f8290b9f534c819d44c8de709eafd1991a388af",
+    "status": "pending",
+    "decision": "pending",
+    "production_disposition": "no_go",
+    "requested_scope": "T045-T046 repository definition creation only"
+  },
+  "review_inventory": {
+    "approved_paths_proposed": 11,
+    "immutable_image_references": 12,
+    "services": 14,
+    "networks": 3,
+    "named_volumes": 7,
+    "loopback_published_ports": 10,
+    "non_loopback_published_ports": 0,
+    "external_development_targets": 0,
+    "production_targets": 0
+  },
+  "source_research": {
+    "mode": "read-only official release and registry metadata; no image layer pulled",
+    "supabase_self_hosting_commit": "1d29b4c5b4af7a9a46ba460d0dfebbb7db528f5c",
+    "manifest_digest_resolution_date": "2026-07-13",
+    "repository_content_uploaded": false,
+    "dependency_or_tool_installed": false,
+    "image_downloaded": false
+  },
+  "security_review": {
+    "loopback_only": true,
+    "internal_data_network": true,
+    "internal_observability_network": true,
+    "host_network_or_namespace": false,
+    "docker_socket_mount": false,
+    "privileged_service": false,
+    "mutable_image_tag": false,
+    "plaintext_secret_value": false,
+    "production_or_staging_definition": false,
+    "volume_deletion_authorized": false,
+    "runtime_application_authorized": false
+  },
+  "validation": {
+    "proposal_source_audit": "pass: 12 unique digest-pinned images, 10 loopback ports, 3 networks, 7 volumes, source-only Option A",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "protected_actions": {
+    "infrastructure_definition_created": false,
+    "docker_or_compose_invoked": false,
+    "image_pulled": false,
+    "container_created": false,
+    "network_created": false,
+    "volume_created_or_deleted": false,
+    "port_bound": false,
+    "secret_accessed": false,
+    "database_or_seed_applied": false,
+    "external_deployment": false,
+    "repository_content_uploaded": false,
+    "production_action": false
+  },
+  "next_task": {
+    "id": "T044",
+    "status": "blocked_pending_exact_hcp04_decision",
+    "required_statement": "Approve HCP-04 Option A and authorize T045-T046 repository definition creation exactly as recorded in HCP-04-infrastructure.md."
+  }
+}

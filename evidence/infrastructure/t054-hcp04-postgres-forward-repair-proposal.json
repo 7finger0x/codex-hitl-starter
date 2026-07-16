@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "forward_repair_proposal_complete_implementation_blocked",
+  "completion_claim": false,
+  "completion_scope": "exact forward-repair proposal only after cap_add source/runtime drift and new failure mode; no source or runtime mutation performed by this proposal",
+  "generated_at": "2026-07-13T23:33:08-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "supersedes": {
+    "refresh_proposal_evidence": "evidence/infrastructure/t054-hcp04-postgres-volume-repair-refresh-proposal.json",
+    "refresh_proposal_sha256": "6489ccc1e8bd5e3bd8a86d149e31149a472257b33f8f6528173356387ceb9942",
+    "invalidation_reason": "compose.yaml already matches the prior repaired hash caf9de5a94c365aecc796eb1256459bc5313fdc4fff385ec80653c4d1d754330; running container already has the five approved capabilities; failure mode changed"
+  },
+  "bindings": {
+    "hcp01_linux_recovery_evidence_sha256": "ffe1bcc37df5844002f7ed481b62ac703d58ec6e57fe99bef4689c17fc5a488a",
+    "original_repair_proposal_sha256": "0abd26c3b589c87ae86995edbaf775048bb627606df5b0cd944902db83887cd5",
+    "stopped_repair_attempt_sha256": "af88acaaedc9da3047ba6cdd48bf89989898a8bad7b5a9d84355dd006e72d987",
+    "existing_test_sha256": "3843428287a8cdd992f63351ca45bcdfd2035080c37f9c0a2a6b8817e38801bb",
+    "compose_current_sha256": "caf9de5a94c365aecc796eb1256459bc5313fdc4fff385ec80653c4d1d754330",
+    "compose_expected_after_forward_sha256": "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282",
+    "pnpm_lock_sha256": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "phase2_evidence_pre_update_sha256": "351a5b6560044c4733eb8a7db2fddc4bf6cf6352b1a7de8ecd7edea48302205d"
+  },
+  "read_only_diagnosis": {
+    "container": "platform-foundation-local-postgres-1",
+    "state": "restarting",
+    "health": "unhealthy",
+    "cap_add_observed": ["CAP_CHOWN", "CAP_DAC_OVERRIDE", "CAP_FOWNER", "CAP_SETGID", "CAP_SETUID"],
+    "cap_drop_observed": ["ALL"],
+    "readonly_rootfs": true,
+    "tmpfs_observed": { "/tmp": "size=64m,mode=1777,nosuid,nodev,noexec" },
+    "missing_tmpfs": ["/var/run/postgresql"],
+    "volume": "foundation_postgres_data",
+    "network": "platform-foundation-local-data",
+    "bounded_logs": [
+      "chmod: /var/run/postgresql: Read-only file system",
+      "FATAL: data directory \"/var/lib/postgresql/data\" has invalid permissions",
+      "DETAIL: Permissions should be u=rwx (0700) or u=rwx,g=rx (0750).",
+      "PostgreSQL Database directory appears to contain a database; Skipping initialization"
+    ],
+    "volume_metadata_ro": {
+      "method": "one disposable read-only mount of foundation_postgres_data; directory metadata only; no SQL; no file content read",
+      "data_mount_mode": "2755",
+      "data_mount_uid_gid": "100:101",
+      "pgdata_mode": "700",
+      "pgdata_uid_gid": "100:101",
+      "pgdata_present": true,
+      "volume_deletion": false
+    }
+  },
+  "root_cause_assessment": {
+    "primary": "read_only root filesystem lacks a writable /var/run/postgresql tmpfs for the Postgres entrypoint chmod/socket path",
+    "secondary": "named-volume mount root /var/lib/postgresql/data is mode 2755; Postgres rejects any mode other than 0700 or 0750",
+    "not_primary_anymore": "missing cap_add (already present in compose.yaml and running container)",
+    "volume_wipe_required": false
+  },
+  "proposed_test_first_source": {
+    "test_path": "tests/integration/infrastructure/postgres-volume-ownership.test.ts",
+    "extend_existing_test": true,
+    "red_requirement": "Postgres service still lacks an explicit /var/run/postgresql tmpfs while retaining the five-capability block",
+    "only_source_file": "compose.yaml",
+    "postgres_only_tmpfs_override": [
+      "/tmp:size=64m,mode=1777,nosuid,nodev,noexec",
+      "/var/run/postgresql:size=16m,mode=0755,uid=100,gid=101,nosuid,nodev,noexec"
+    ],
+    "retain_cap_add": ["CHOWN", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"],
+    "expected_compose_sha256": "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282"
+  },
+  "proposed_runtime_actions": {
+    "count": 2,
+    "volume_deletion": false,
+    "network_replacement": false,
+    "teardown": false,
+    "image_pull": false,
+    "steps": [
+      {
+        "order": 1,
+        "purpose": "normalize volume mount-root mode only; preserve pgdata contents",
+        "equivalent_command": "docker.exe run --rm --network none --read-only --cap-drop ALL --cap-add CHOWN --cap-add DAC_OVERRIDE --cap-add FOWNER --security-opt no-new-privileges:true --tmpfs /tmp:size=8m,mode=1777,nosuid,nodev,noexec -v foundation_postgres_data:/var/lib/postgresql/data --entrypoint chmod docker.io/supabase/postgres:17.6.1.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00 0700 /var/lib/postgresql/data",
+        "post_check": "read-only remount must show /var/lib/postgresql/data mode 700 and intact pgdata mode 700"
+      },
+      {
+        "order": 2,
+        "purpose": "recreate Postgres once with updated compose tmpfs and existing caps",
+        "service": "postgres",
+        "compose_project": "platform-foundation-local",
+        "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+        "post_checks": [
+          "healthy container",
+          "exact five capabilities",
+          "tmpfs includes /var/run/postgresql",
+          "non-root postgres server process",
+          "HCP-03 target/comment/version/synthetic/tool guard",
+          "T054 gates from the beginning"
+        ]
+      }
+    ]
+  },
+  "preserved_controls": {
+    "cap_drop_all": true,
+    "no_new_privileges": true,
+    "read_only_root_filesystem": true,
+    "non_root_postgres_process_required": true,
+    "image_digest_unchanged": true,
+    "project_unchanged": true,
+    "network_unchanged": true,
+    "volume_retained": true,
+    "ports_unchanged": true,
+    "contracts_migrations_manifests_lockfile_unchanged": true,
+    "lifecycle_scripts_disabled": true
+  },
+  "stop_conditions": [
+    "binding, executable, context, Swarm, image, resource, or port mismatch",
+    "test fails to reach behavioral red for missing /var/run/postgresql tmpfs",
+    "compose hash deviation from e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282",
+    "volume mode fix deletes or truncates pgdata",
+    "image pull request or unexpected project resource",
+    "unhealthy/restarting Postgres or root process",
+    "failed HCP-03 guard, secret exposure, or failed gate"
+  ],
+  "actions_performed": {
+    "compose_source_changed": false,
+    "test_source_changed": false,
+    "volume_mode_changed": false,
+    "container_recreated_or_restarted": false,
+    "image_pulled": false,
+    "network_or_volume_deleted": false,
+    "database_sql_accessed": false,
+    "secret_accessed": false,
+    "t054_gate_started": false,
+    "t055_or_later_started": false,
+    "read_only_volume_metadata_listed": true
+  },
+  "decision": {
+    "state": "pending",
+    "implementation_before_exact_approval_allowed": false,
+    "required_approver": "user in Codex task",
+    "binding": "final SHA-256 values of HCP-04-infrastructure.md and this forward-repair proposal evidence",
+    "checkpoint_sha256_after_preparation": "96cec1b8d82a023446be107c8a1e813fc5859e5482bfbbdd37ab6821392cf209",
+    "note": "Approver must recompute and bind this file's SHA-256 after any edit; do not treat a stale self-hash as authority"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "task": "T050",
+  "status": "complete",
+  "completion_claim": true,
+  "completion_scope": "database port, transaction-local context orchestration, repository guards, and deterministic reused-client integration tests; live PostgreSQL execution is reserved for the foundation gate and is not claimed",
+  "generated_at": "2026-07-13T11:25:59-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "verification_evidence": "evidence/dependencies/t047-t050-binary-restoration-and-verification.json",
+  "requirements": ["PF-003", "PF-009", "PF-011"],
+  "sources": {
+    "apps/api/src/db/context.ts": "77fc345e43189712e5c59ab341844ed03903696164c63ba421feacaf491fb013",
+    "apps/api/src/db/pool.ts": "2184a875e3ec576aec6c697e822d658b78d0a5bb34ddc0c6c8a6d7b7c55047a5",
+    "apps/api/src/db/repository.ts": "ead19baf306ddc04ccee1fe0a96189d37a4ea7d24e429c53e1df435b63a322d1",
+    "tests/integration/database/request-context.test.ts": "bd6c36e34193925793d7ab7c40c0774aeb3647a6c8cc6b6c0a246d7cec680f9e"
+  },
+  "ordered_tdd_result": {
+    "red_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test tests/integration/database/request-context.test.ts",
+    "red_exit_code": 1,
+    "red_reason": "MODULE_NOT_FOUND for apps/api/src/db/context.js before the T050 database modules existed",
+    "green_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test tests/integration/database/request-context.test.ts",
+    "green_exit_code": 0,
+    "green_result": "8 request-context tests passed in the clean HCP-01-approved Node.js 24.18.0 rerun; T047-T050 total 32"
+  },
+  "acceptance_evidence": {
+    "boundary_validation": "pass: exact request-context keys, UUIDv7 IDs, principal types, authentication strength, and correlation are revalidated before pool lease",
+    "runtime_role": "pass: every lease attests exact platform_api identity, NOSUPERUSER, NOBYPASSRLS, NOINHERIT, and no platform schema/database/object ownership",
+    "transaction_local_context": "pass: approved platform_private.set_request_context is invoked inside BEGIN with parameters and database-observed getters must exactly match before callback capability is issued",
+    "pool_leakage": "pass: the same fake pooled client is reused across tenant A, commit, tenant B, rollback, and reuse; local state is absent outside each transaction",
+    "capability_lifetime": "pass: verified transaction query capability rejects all use after callback completion",
+    "repository_scope": "pass: tenant rows are checked against verified tenant and optional environment before return; malformed or cross-scope rows fail opaquely",
+    "expected_version": "pass: exact matches continue and mismatches throw an opaque non-enumerable repository error"
+  },
+  "validation": {
+    "supported_runtime": "pass: exact restored Node.js 24.18.0 binary and clean HCP-01-approved rerun",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "database_validation": {
+    "live_postgresql_connected": false,
+    "connection_environment_read": false,
+    "secret_accessed": false,
+    "migration_or_seed_applied": false,
+    "real_role_attestation": "not run and not claimed; required by T054 foundation gate",
+    "real_pool_leakage": "not run and not claimed; required by T054 foundation gate"
+  },
+  "protected_actions": {
+    "out_of_scope_node_binary_execution_detected": false,
+    "historical_approval_invalid_diagnostic_retained_separately": true,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "public_contract_or_error_vocabulary_changed": false,
+    "persistence_schema_or_grant_changed": false,
+    "infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_deployment": false,
+    "production_action": false
+  },
+  "next_task": {
+    "id": "T051",
+    "scope": "Fastify-shaped API skeleton source without adding or installing the unapproved runtime dependency"
+  }
+}

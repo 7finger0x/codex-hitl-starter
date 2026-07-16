@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "task": "T038",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T038 failing-test authoring and attributable RED evidence only",
+  "generated_at": "2026-07-13T03:55:53-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-003", "PF-011", "PF-013", "PF-024"],
+  "approval": {
+    "checkpoint": "HCP-03",
+    "decision": "approved_with_conditions Option A",
+    "decision_time": "2026-07-13T03:45:11-07:00",
+    "decision_evidence": "evidence/persistence/t037-hcp03-decision.json"
+  },
+  "test_sources": {
+    "supabase/tests/000_foundation_migration_test.sql": "63f46810cb444de3087f2c22ed3f17ce0b0d4f3552ee0040858b3d99484a6ab2",
+    "tests/integration/migrations/foundation-migrations.test.ts": "dc25bc8383d0fc51cf360a1b2e1d67cc22c3c3451c7540a2b5d6edef855cc2be"
+  },
+  "test_inventory": {
+    "empty_schema": true,
+    "representative_prior_schema": true,
+    "interrupted_series": true,
+    "runtime_role_attributes_and_grants": true,
+    "forced_rls": true,
+    "append_only_and_immutable_records": true,
+    "cross_tenant_foreign_keys": true,
+    "cross_tenant_runtime_write": true,
+    "transaction_local_context_leakage": true,
+    "backup_before_application": true,
+    "forward_recovery_without_down_migration": true,
+    "target_identity_and_remote_guard": true,
+    "skipped_tests": 0
+  },
+  "source_validation": {
+    "prettier_typescript": "pass",
+    "eslint_typescript": "pass",
+    "strict_typescript": "pass",
+    "sql_and_new_file_whitespace": "pass",
+    "new_dependency_required": false
+  },
+  "red_run": {
+    "runtime": "Node.js 22.23.0 host runtime",
+    "supported_runtime": false,
+    "command": "node --import tsx --test tests/integration/migrations/foundation-migrations.test.ts",
+    "exit_code": 1,
+    "tests": 5,
+    "passed": 2,
+    "failed": 3,
+    "skipped": 0,
+    "todo": 0,
+    "expected_failure": "T039-T041 exact migrations are not materialized",
+    "actual_migration_files": 0,
+    "expected_migration_files": 3,
+    "target_attestation_read": false,
+    "connection_environment_read": false,
+    "database_command_started": false,
+    "real_postgres_suite": "not run; approval, tool, and target gated"
+  },
+  "design_conflict": {
+    "status": "amendment_required",
+    "code": "PRIVATE_SCHEMA_USAGE_REQUIRED_FOR_APPROVED_SETTER",
+    "approved_requirement": "platform_api and platform_worker execute platform_private.set_request_context",
+    "conflicting_requirement": "runtime roles receive no USAGE on platform_private",
+    "postgres_requirement": "a direct qualified function call requires schema USAGE and function EXECUTE",
+    "amendment_request": "specs/002-platform-foundation/checkpoints/HCP-03-persistence.md#t038-red-result-and-grant-matrix-amendment-request",
+    "t039_blocked": true
+  },
+  "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7",
+  "protected_actions": {
+    "migration_created": false,
+    "migration_applied": false,
+    "database_connected": false,
+    "connection_secret_accessed": false,
+    "database_destroyed": false,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "container_or_infrastructure_changed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "later_task_started": false
+  }
+}

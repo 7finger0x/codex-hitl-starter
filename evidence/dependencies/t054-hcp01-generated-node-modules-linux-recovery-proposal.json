@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-01",
+  "status": "proposal_complete_recovery_blocked",
+  "completion_claim": false,
+  "completion_scope": "proposal and evidence only; generated dependency deletion and offline relink require a new exact approval",
+  "generated_at": "2026-07-13T22:15:17-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "bound_failure": {
+    "path": "evidence/infrastructure/t054-hcp04-postgres-volume-repair-attempt.json",
+    "sha256": "af88acaaedc9da3047ba6cdd48bf89989898a8bad7b5a9d84355dd006e72d987",
+    "reason_code": "ESBUILD_PLATFORM_BINARY_MISMATCH",
+    "behavioral_red_reached": false
+  },
+  "observed_generated_state": {
+    "generated_directories": [
+      "node_modules",
+      "apps/api/node_modules",
+      "apps/web/node_modules"
+    ],
+    "linked_windows_esbuild": "node_modules/.pnpm/@esbuild+win32-x64@0.28.1",
+    "linked_linux_esbuild_present": false,
+    "lockfile_contains_integrity_pinned_linux_and_windows_optional_records": true,
+    "offline_store_linux_content_proven": false,
+    "offline_store_inventory_result": "bounded raw content-addressable-store scan timed out; proposed operation must fail closed without network access if content is unavailable"
+  },
+  "approved_tool_candidates": {
+    "node": {
+      "path": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+      "version": "v24.18.0",
+      "sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c"
+    },
+    "pnpm": {
+      "path": "/home/ricebran/.cache/codex-hitl-t024/corepack/v1/pnpm/11.11.0/bin/pnpm.cjs",
+      "version": "11.11.0",
+      "sha256": "67b035e322203961795e8e34ca63a08c37a4386eda94107fb3d28f3246d882ad"
+    },
+    "store": "/mnt/c/Users/brand/.pnpm-store/v11"
+  },
+  "protected_inputs": {
+    ".npmrc": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c",
+    "pnpm-workspace.yaml": "95174f36c18b64bdd8ee8ef92757acd3a3cc73dbdcb99a4552dd14f80f51aed9",
+    "package.json": "ccc4a85fa5431636339b0cb3bf7cc248fedc4e0c217a6be5bb0180f6526ab15d",
+    "apps/api/package.json": "9d9803dad1dd99ec9f61b0b7574430c9753b7084c773b69b403063f54383fccc",
+    "apps/web/package.json": "3cbdca2ca1e62de0b6d5420931f8cc0b2e34ce0613297241905072caf59c3d64",
+    "apps/workers/package.json": "331c47e6cd572d92d6b28c3e09feedfea8cb0a00c18bba25c8c6d842365ea757",
+    "pnpm-lock.yaml": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa"
+  },
+  "proposed_deletion_scope": [
+    "node_modules",
+    "apps/api/node_modules",
+    "apps/web/node_modules"
+  ],
+  "proposed_exact_argv": [
+    "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "/home/ricebran/.cache/codex-hitl-t024/corepack/v1/pnpm/11.11.0/bin/pnpm.cjs",
+    "install",
+    "--offline",
+    "--frozen-lockfile",
+    "--ignore-scripts",
+    "--store-dir=/mnt/c/Users/brand/.pnpm-store/v11",
+    "--config.auto-install-peers=false",
+    "--config.strict-peer-dependencies=true",
+    "--config.verify-store-integrity=true",
+    "--config.registry=https://registry.npmjs.org/"
+  ],
+  "execution_constraints": {
+    "subprocess_shell": false,
+    "attempts": 1,
+    "network_allowed": false,
+    "minimal_environment_without_tokens_credentials_proxies_or_inherited_secrets": true,
+    "lifecycle_scripts_allowed": false,
+    "registry_setting_is_identity_binding_only": true
+  },
+  "post_recovery_gates": [
+    "all protected input hashes remain exact",
+    "@esbuild/linux-x64@0.28.1 is linked and @esbuild/win32-x64@0.28.1 is absent",
+    "prebuilt Linux esbuild --version returns 0.28.1 without lifecycle execution",
+    "existing packages/core/src/core.test.ts passes through the exact Node/tsx loader command",
+    "workspace-boundary verifier passes",
+    "./scripts/verify-authority.sh passes",
+    "./scripts/verify.sh passes",
+    "sanitized evidence is recorded and execution stops before the HCP-04 repair test"
+  ],
+  "stop_conditions": [
+    "tool, store, protected-input, or generated-directory mismatch",
+    "missing offline package content or metadata",
+    "any attempted network request",
+    "lockfile write or dependency graph deviation",
+    "lifecycle request or execution",
+    "unexpected generated path or nonzero exit",
+    "any failed post-recovery gate"
+  ],
+  "exclusions": [
+    "npm or yarn",
+    "Corepack download",
+    "registry access or authentication",
+    "--force, approve-builds, rebuild, retry, fallback, or alternate store",
+    "any deletion outside the three generated dependency directories",
+    "manifest, lockfile, dependency-version, source, contract, migration, or infrastructure mutation",
+    "HCP-04 source or runtime repair",
+    "container, database, cache, or telemetry action",
+    "secret inspection or disclosure",
+    "production or repository upload",
+    "T055 and later"
+  ],
+  "protected_actions_performed": {
+    "generated_directory_deleted": false,
+    "dependency_install_or_relink_run": false,
+    "network_accessed": false,
+    "lifecycle_script_run": false,
+    "docker_or_runtime_state_changed": false,
+    "secret_accessed": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  },
+  "decision": {
+    "state": "pending",
+    "required_approver": "user in Codex task",
+    "implementation_before_approval_allowed": false,
+    "binding": "the final SHA-256 values of HCP-01-dependencies.md and this proposal evidence"
+  }
+}

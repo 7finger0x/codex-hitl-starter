@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-01",
+  "status": "incomplete_offline_retry_timeout",
+  "completion_claim": false,
+  "generated_at": "2026-07-13T22:42:54-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "approval": {
+    "checkpoint_sha256": "b4b93b22712862ef29283a00332f0bb3451393cc21ce9a757eda45ef477fb87f",
+    "retry_proposal_evidence_sha256": "566b369955333f174998dc970d5b17a7e1bd06526d4cca6d322a4bcc23d37199",
+    "failed_attempt_evidence_sha256": "99c34f840a07a3cbc130f0f4b983766bb5f45311849467ed2bb411c0528efffa",
+    "approver": "user in Codex task",
+    "exact_statement_supplied": true
+  },
+  "preflight": {
+    "all_approval_bindings_matched": true,
+    "tool_hashes_matched": true,
+    "protected_input_hashes_matched": true,
+    "lockfile_auto_install_peers": true,
+    "generated_directories_absent": true,
+    "deletion_performed": false
+  },
+  "retry_attempt": {
+    "attempt_count": 1,
+    "shell": false,
+    "argv": [
+      "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+      "/home/ricebran/.cache/codex-hitl-t024/corepack/v1/pnpm/11.11.0/bin/pnpm.cjs",
+      "install",
+      "--offline",
+      "--frozen-lockfile",
+      "--ignore-scripts",
+      "--store-dir=/mnt/c/Users/brand/.pnpm-store/v11",
+      "--config.auto-install-peers=true",
+      "--config.strict-peer-dependencies=true",
+      "--config.verify-store-integrity=true",
+      "--config.registry=https://registry.npmjs.org/"
+    ],
+    "minimal_environment_without_inherited_credentials_or_proxies": true,
+    "bounded_seconds": 120,
+    "exit_code": 124,
+    "reason_code": "BOUNDED_OFFLINE_INSTALL_TIMEOUT",
+    "resolved_packages": 169,
+    "reused_packages": 169,
+    "downloaded_packages": 0,
+    "added_packages_at_termination": 168,
+    "network_authorized": false,
+    "network_request_observed": false,
+    "lifecycle_script_run": false,
+    "additional_retry_performed": false,
+    "pnpm_process_remaining_after_termination": false
+  },
+  "resulting_generated_state": {
+    "node_modules": "present_partial",
+    "apps/api/node_modules": "absent",
+    "apps/web/node_modules": "absent",
+    "virtual_store_linux_esbuild_0_28_1_present": true,
+    "virtual_store_windows_esbuild_0_28_1_present": false,
+    "esbuild_executable_link_observed": false,
+    "state_must_be_preserved_until_new_review": true
+  },
+  "post_retry_gates": {
+    "run": false,
+    "reason": "the approved offline command did not exit zero",
+    "linux_esbuild_execution": false,
+    "core_loader_test": false,
+    "workspace_boundary": false,
+    "verify_authority": false,
+    "verify": false,
+    "hcp04_repair": false
+  },
+  "protected_state_after": {
+    ".npmrc_sha256": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c",
+    "pnpm_workspace_sha256": "95174f36c18b64bdd8ee8ef92757acd3a3cc73dbdcb99a4552dd14f80f51aed9",
+    "root_manifest_sha256": "ccc4a85fa5431636339b0cb3bf7cc248fedc4e0c217a6be5bb0180f6526ab15d",
+    "api_manifest_sha256": "9d9803dad1dd99ec9f61b0b7574430c9753b7084c773b69b403063f54383fccc",
+    "web_manifest_sha256": "3cbdca2ca1e62de0b6d5420931f8cc0b2e34ce0613297241905072caf59c3d64",
+    "workers_manifest_sha256": "331c47e6cd572d92d6b28c3e09feedfea8cb0a00c18bba25c8c6d842365ea757",
+    "pnpm_lock_sha256": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "compose_sha256": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad",
+    "docker_or_infrastructure_state_changed": false,
+    "secret_accessed": false
+  },
+  "task_result": {
+    "t054_checked": false,
+    "t054_runtime_gates_started": false,
+    "t055_or_later_started": false
+  },
+  "required_next_action": "Do not retry or mutate the partial generated state. Review the bounded timeout and prepare a new exact HCP-01 continuation or recovery amendment before any dependency operation."
+}

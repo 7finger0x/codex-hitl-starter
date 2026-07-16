@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "authority": "HCP-02 approved Option A",
+  "authority_record": "specs/002-platform-foundation/checkpoints/HCP-02-public-contracts.md",
+  "sources": [
+    {
+      "kind": "foundationApi",
+      "path": "specs/002-platform-foundation/contracts/foundation-api.openapi.json",
+      "sha256": "a923218bd0a2093d1d05ad65d7576bafd8828ff89eb6941b2605e52b540810cc"
+    },
+    {
+      "kind": "domainEvent",
+      "path": "specs/002-platform-foundation/contracts/domain-event.schema.json",
+      "sha256": "219754d7e785d5dbf861e16f1fe8c6751c8f6c25bd4a1eff8fb1b5600a192812"
+    },
+    {
+      "kind": "capabilityManifest",
+      "path": "specs/002-platform-foundation/contracts/capability-manifest.schema.json",
+      "sha256": "6e6ebae61c85aa13d6eb6c62630ffedf7cd9bb666b64446a175aa0bf475a1a37"
+    },
+    {
+      "kind": "platformConfiguration",
+      "path": "specs/002-platform-foundation/contracts/platform-configuration.schema.json",
+      "sha256": "346d5b7d1c12f8dbfbf5c68ab5b2657807673c35384138769df271c8d104a936"
+    },
+    {
+      "kind": "evidenceManifest",
+      "path": "specs/002-platform-foundation/contracts/evidence-manifest.schema.json",
+      "sha256": "49152b5b461c1a0bc14e1ed6024b072fe599364dfe5ef44cf1e98cbf253aa901"
+    },
+    {
+      "kind": "traceability",
+      "path": "specs/002-platform-foundation/contracts/traceability.schema.json",
+      "sha256": "eec08c72b379d6ec99997c93619a00b54dc2e516ae8fda9c613d0d53eabc211f"
+    }
+  ],
+  "historical_exclusions": [
+    "specs/002-platform-foundation/contracts/openapi.yaml",
+    "specs/002-platform-foundation/contracts/event-envelope.schema.json"
+  ],
+  "external_publication": false
+}

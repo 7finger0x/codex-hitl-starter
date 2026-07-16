@@ -1,0 +1,59 @@
+services:
+  web:
+    ports:
+      - target: 3000
+        published: "3000"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  api:
+    ports:
+      - target: 3001
+        published: "8080"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  postgres:
+    ports:
+      - target: 5432
+        published: "55432"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  auth:
+    ports:
+      - target: 9999
+        published: "55433"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  rest:
+    ports:
+      - target: 3000
+        published: "55434"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  realtime:
+    ports:
+      - target: 4000
+        published: "55435"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  storage:
+    ports:
+      - target: 5000
+        published: "55436"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  otel-collector:
+    ports:
+      - target: 4317
+        published: "54317"
+        host_ip: 127.0.0.1
+        protocol: tcp
+      - target: 4318
+        published: "54318"
+        host_ip: 127.0.0.1
+        protocol: tcp
+  grafana:
+    ports:
+      - target: 3000
+        published: "53000"
+        host_ip: 127.0.0.1
+        protocol: tcp

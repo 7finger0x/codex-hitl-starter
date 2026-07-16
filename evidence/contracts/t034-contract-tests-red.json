@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "task": "T034",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T034 test authoring and intended pre-publication RED evidence only",
+  "generated_at": "2026-07-13T02:54:26-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": [
+    "PF-006",
+    "PF-008",
+    "PF-012",
+    "PF-019",
+    "PF-021",
+    "PF-028"
+  ],
+  "approval": {
+    "checkpoint": "HCP-02",
+    "decision": "approved Option A",
+    "decision_evidence": "evidence/contracts/t033-hcp02-decision.json"
+  },
+  "test_artifact": {
+    "path": "packages/testing/src/contracts/foundation-contracts.test.ts",
+    "sha256": "8ba71df46e0696855ba4fc087acd806c39df98a7f6f0fe4f087ee533f8f6c622",
+    "red_run_sha256": "3d7c0713faad2b07ccbeb336005ff9758e2b606e794a0a44d8b1b8b5ddefde6b",
+    "framework": "Node.js built-in test runner loaded through the pre-approved tsx 4.23.0 transform",
+    "dependency_added": false,
+    "post_red_change": "The response helper was corrected to follow valid response-to-response reference chains; the seven approved expectations and the captured pre-publication failures were unchanged."
+  },
+  "test_first_result": {
+    "phase": "red",
+    "command": "node --import tsx --test packages/testing/src/contracts/foundation-contracts.test.ts",
+    "exit_code": 1,
+    "tests": 7,
+    "passed": 0,
+    "failed": 7,
+    "expected_failure": true,
+    "failure_groups": [
+      "REST version and exact 48-operation inventory",
+      "approved schema-family completeness and lifecycle values",
+      "mutation, response, pagination, and safe-error rules",
+      "contract source manifest and historical-sketch exclusion",
+      "evidence and traceability completion invariants",
+      "synthetic example inventory and secret scan",
+      "deterministic generated TypeScript bindings"
+    ],
+    "pre_publication_api_version": "0.1.0-proposed",
+    "pre_publication_operations": 14,
+    "intended_missing_additions": 34
+  },
+  "static_validation": {
+    "prettier": "pass",
+    "eslint": "pass",
+    "typescript_strict": "pass"
+  },
+  "warnings": [
+    {
+      "code": "UNSUPPORTED_HOST_RUNTIME_FOR_RED_ONLY",
+      "message": "The executable host runtime is Node.js 22.23.0 rather than the repository baseline 24.18.0. This run establishes only the intended failing state; T035 cannot use it as supported-runtime completion evidence."
+    }
+  ],
+  "protected_actions": {
+    "canonical_contract_changed": false,
+    "generated_binding_published": false,
+    "repository_dependency_added": false,
+    "lockfile_changed": false,
+    "persistence_schema_changed": false,
+    "infrastructure_changed": false,
+    "engineering_policy_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_publication": false,
+    "production_action": false
+  }
+}

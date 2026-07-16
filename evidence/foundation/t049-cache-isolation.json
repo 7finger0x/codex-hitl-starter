@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "task": "T049",
+  "status": "complete",
+  "completion_claim": true,
+  "completion_scope": "Redis-protocol cache port and deterministic in-memory contract tests; live Valkey execution is not claimed",
+  "generated_at": "2026-07-13T11:25:59-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "verification_evidence": "evidence/dependencies/t047-t050-binary-restoration-and-verification.json",
+  "requirements": ["PF-010", "PF-011"],
+  "sources": {
+    "packages/core/src/cache.ts": "14525fa469342555e25116230591b58849e377ce14f1a76fb3b2c71d17fb69c4",
+    "packages/testing/src/cache/cache-isolation.test.ts": "31c1504a3d6b7e9573daa5c0687107ce1e9097c0ad7973503f95b01978828d06"
+  },
+  "ordered_tdd_result": {
+    "red_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test packages/testing/src/cache/cache-isolation.test.ts",
+    "red_exit_code": 1,
+    "red_reason": "ERR_MODULE_NOT_FOUND for cache.js before the T049 port existed",
+    "green_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test packages/testing/src/cache/cache-isolation.test.ts",
+    "green_exit_code": 0,
+    "green_result": "7 cache tests passed in the clean HCP-01-approved Node.js 24.18.0 rerun; T047-T049 total 24"
+  },
+  "acceptance_evidence": {
+    "namespace": "pass: deployment, tenant, tenant environment, resource type/ID, resource version, policy version, and configuration version are centrally encoded into collision-resistant keys",
+    "collision_protection": "pass: envelope key mismatch is invalid for performance and closed for authorization; cross-tenant substitution never returns a hit",
+    "classification_and_ttl": "pass: four classifications, 1-86400 second TTL bounds, and configurable value-size bounds are enforced before driver writes",
+    "invalidation": "pass: exact-key and deployment/tenant/environment/resource-scoped prefix invalidation leave other tenant namespaces intact",
+    "performance_failure": "pass: misses, driver outages, write failures, and invalidation failures remain correctness-neutral",
+    "authorization_failure": "pass: absent, invalid, and unavailable cache state throw sanitized stable failures; every hit remains authoritative=false and requiresFreshAuthorization=true",
+    "secret_exclusion": "pass: credential-bearing fields and credential-shaped strings are rejected before serialization or driver access"
+  },
+  "validation": {
+    "supported_runtime": "pass: exact restored Node.js 24.18.0 binary and clean HCP-01-approved rerun",
+    "core_typescript_strict": "pass",
+    "testing_typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "runtime_boundary": {
+    "live_valkey_connected": false,
+    "container_or_compose_started": false,
+    "cache_namespace_deleted_externally": false,
+    "network_request_made": false
+  },
+  "protected_actions": {
+    "out_of_scope_node_binary_execution_detected": false,
+    "historical_approval_invalid_diagnostic_retained_separately": true,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "public_contract_changed": false,
+    "persistence_schema_changed": false,
+    "infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_deployment": false,
+    "production_action": false
+  },
+  "next_task": {
+    "id": "T050",
+    "scope": "repository-local database request-context, pool, and repository source plus integration-contract tests; live database execution remains separately constrained"
+  }
+}

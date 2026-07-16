@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "checkpoint": "HCP-01",
+  "scope": "Exact Node.js 24.18.0 runtime restoration and T051-T054 dependency/manifest recovery",
+  "status": "pass_with_recorded_failed_attempts",
+  "completion_claim": true,
+  "started_at": "2026-07-13T12:39:46-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "worktree_status_digest_before_recovery": "edaba1e61dfdfcd1bbad6206e41589a94294c6c22c3a749081e5f05bc312ac22",
+  "runtime_restoration": {
+    "binary_path": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "version": "v24.18.0",
+    "binary_sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+    "archive_sha256": "55aa7153f9d88f28d765fcdad5ae6945b5c0f98a36881703817e4c450fa76742",
+    "checksum_manifest_sha256": "3927bab574a00ca0560c9583fe19655ba19603a1c5851414e4325d34ac50e469",
+    "checksum_signature_sha256": "d771440acfe010e7510a3c01d248525f771daa9cf75dae5784c97ea2b08d9393",
+    "release_keys_commit": "b28073028e6d6855cfb53bf7fa0137599c01f967",
+    "signing_primary_fingerprint": "C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C",
+    "signature_valid": true,
+    "archive_paths_validated": true
+  },
+  "candidate_hashes_before_package_use": {
+    "apps/api/package.json": "516a741aeb8309e36102b4179a50ec19464842e894228c32feee3c61b8ac4e2f",
+    "apps/web/package.json": "544f020d635e30db1a5d8d1ad6ebfb44a274a6b5cc6c85579c3d9da2001e9be3",
+    "apps/workers/package.json": "d29d681f8350f106ae624a2322e08dea5103a6997457faba449b51d795adadd6",
+    "tooling/typescript/verify-workspace-boundaries.mjs": "2de60181e82648cf3d39af83ed60c511372f0346586796f9d4d9a3f40200b063",
+    "pnpm-lock.yaml": "aae4996d4e996fe77311f88beeedb5934dcc18d42136ec9de0efa62cf2cdf4d3"
+  },
+  "pre_package_checks": {
+    "workspace_boundary": "pass: 12 workspaces and exactly 8 approved direct dependencies",
+    "lifecycle_scripts_disabled": true,
+    "package_use_started": false
+  },
+  "dependency_recovery": {
+    "lockfile_only": "pass; approved graph unchanged",
+    "first_frozen_attempt": "fail: execution timeout after 120 seconds while linking 72 of 73 packages; exit 124; downloaded 0",
+    "second_frozen_attempt": "pass: 73 packages linked from the approved store; downloaded 0; lifecycle scripts disabled",
+    "offline_frozen_reproduction": "pass: already up to date in 535ms",
+    "audit": {
+      "result": "pass",
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total_dependency_records": 230
+    },
+    "licenses": {
+      "result": "pass",
+      "categories": [
+        "0BSD",
+        "Apache-2.0",
+        "BlueOak-1.0.0",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "CC-BY-4.0",
+        "ISC",
+        "LGPL-3.0-or-later",
+        "MIT"
+      ],
+      "unknown_or_unidentified": 0
+    },
+    "ignored_builds_command": "exit 0 but inconclusive: pnpm reported that it could not identify ignored builds despite linked node_modules",
+    "offline_lifecycle_manifest_audit": {
+      "packages_with_lifecycle_metadata": 17,
+      "packages_with_install_or_postinstall": ["esbuild@0.28.1", "sharp@0.34.5"],
+      "lifecycle_scripts_executed": false,
+      "reviewed_prebuilt_platform_packages_present": true,
+      "runtime_fallback_download": false
+    },
+    "store_status": "pass: packages in the store are untouched"
+  },
+  "supported_runtime_checks": {
+    "package_manager_launcher_probe": "fail before script execution: minimal PATH intentionally contained no bare pnpm executable",
+    "direct_prettier": "pass",
+    "direct_eslint": "pass",
+    "direct_typescript": "pass",
+    "workspace_boundary": "pass: 12 workspaces and 8 approved direct dependencies",
+    "public_package_import_probe_first_attempt": "fail: package.json subpath not exported by @fastify/type-provider-typebox",
+    "public_package_import_probe_second_attempt": "fail: 10-second timeout after Fastify import",
+    "public_package_import_probe_final": "pass within 26.4 seconds for Fastify, TypeBox provider, TypeBox, Next, React, and React DOM"
+  },
+  "repository_checks": {
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "legacy_controller_tests": "pass: 10",
+    "compatibility_tests": "pass: 9",
+    "traceability": "pass: 8 requirements",
+    "json_and_whitespace": "pass"
+  },
+  "final_hashes": {
+    "apps/api/package.json": "9d9803dad1dd99ec9f61b0b7574430c9753b7084c773b69b403063f54383fccc",
+    "apps/web/package.json": "3cbdca2ca1e62de0b6d5420931f8cc0b2e34ce0613297241905072caf59c3d64",
+    "apps/workers/package.json": "331c47e6cd572d92d6b28c3e09feedfea8cb0a00c18bba25c8c6d842365ea757",
+    "tooling/typescript/verify-workspace-boundaries.mjs": "2de60181e82648cf3d39af83ed60c511372f0346586796f9d4d9a3f40200b063",
+    "pnpm-lock.yaml": "aae4996d4e996fe77311f88beeedb5934dcc18d42136ec9de0efa62cf2cdf4d3",
+    ".npmrc": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c",
+    "pnpm-workspace.yaml": "32a982acb605bb60fd1fda40f075fa4fd96ae7f96718b7eb0bb89dd42da4216b"
+  },
+  "completed_at": "2026-07-13T12:51:20-07:00",
+  "protected_actions": {
+    "t051_or_later_source_implementation_started": false,
+    "unapproved_dependency_added": false,
+    "public_contract_changed": false,
+    "persistence_or_infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "production_action": false
+  },
+  "task_status": {
+    "T051": "open_not_started",
+    "T052": "open_not_started",
+    "T053": "open_not_started",
+    "T054": "open_not_started"
+  },
+  "lockfile_hash_rebinding_amendment": {
+    "status": "approved_with_conditions",
+    "approved_by": "user in Codex task",
+    "current_hash": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "previous_bound_hash": "aae4996d4e996fe77311f88beeedb5934dcc18d42136ec9de0efa62cf2cdf4d3",
+    "scope": "current lockfile bytes and unchanged reviewed dependency graph only",
+    "package_graph_changed": false,
+    "registry_requests": false,
+    "install_run": false,
+    "lifecycle_scripts_run": false,
+    "source_implementation_authorized": false
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "task": "T037",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T037 HCP-03 checkpoint decision recording only",
+  "generated_at": "2026-07-13T03:45:11-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["PF-003", "PF-011", "PF-024"],
+  "checkpoint": {
+    "id": "HCP-03",
+    "decision": "approved_with_conditions",
+    "option": "A",
+    "approver": "User in Codex task",
+    "decision_time": "2026-07-13T03:45:11-07:00",
+    "record": "specs/002-platform-foundation/checkpoints/HCP-03-persistence.md",
+    "review_evidence": "evidence/persistence/t036-hcp03-review.json"
+  },
+  "approved_scope": {
+    "forward_only_migrations": 3,
+    "tables": 38,
+    "group_roles": 6,
+    "functions": 18,
+    "trigger_grant_and_forced_rls_matrix": "exact inventory recorded in HCP-03-persistence.md",
+    "classification_and_test_plan": "empty, representative-prior, interrupted, rolling, isolation, rollback, and forward-recovery",
+    "disposable_target": "127.0.0.1:55432/platform_foundation_hcp03 with exact database comment guard",
+    "authorized_tasks": ["T038", "T039", "T040", "T041", "T042"],
+    "repository_creation_authorized": true,
+    "database_application_authorized_now": false,
+    "database_teardown_authorized_now": false
+  },
+  "approval_statement": "Approve HCP-03 Option A and authorize T038-T042 exactly as recorded in HCP-03-persistence.md.",
+  "retained_conditions": [
+    "database application and teardown require recorded guarded-target facts and separately approved tool paths",
+    "no dependency or database-tool addition",
+    "no image or network pull",
+    "no container or infrastructure change",
+    "no secret or connection-string access",
+    "no repository-content upload",
+    "no remote or production database connection",
+    "no public-contract change",
+    "no action outside T038-T042"
+  ],
+  "protected_actions": {
+    "migration_created_by_t037": false,
+    "migration_applied": false,
+    "database_connected": false,
+    "database_destroyed": false,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "container_or_infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "production_action": false
+  }
+}

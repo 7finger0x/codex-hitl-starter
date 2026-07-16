@@ -43,3 +43,15 @@ Never fabricate test results, approval evidence, or completion status.
 ## Completion definition
 
 A task is complete only when implementation, tests, documentation, traceability, and verification evidence are present and all mandatory checks pass.
+
+<!-- BEGIN SPEC KIT MANAGED CONTEXT -->
+## Managed Spec Kit context
+
+- Generator: `.specify/scripts/bash/update-agent-context.sh`
+- Generation version: `spec-kit-v0.12.9+t024.1`
+- Active feature: `specs/002-platform-foundation`
+- Runtime baseline: Node.js 24.18.0; Python 3.11-3.13
+- Package manager: pnpm 11.11.0 with lifecycle scripts disabled
+- Required verification: `./scripts/verify-authority.sh` and `./scripts/verify.sh`
+- Governance: read the constitution, active `spec.md`, `plan.md`, and `tasks.md`; stop at every human checkpoint
+<!-- END SPEC KIT MANAGED CONTEXT -->

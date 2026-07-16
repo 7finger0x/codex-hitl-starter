@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-01",
+  "status": "continuation_proposal_complete_execution_blocked",
+  "completion_claim": false,
+  "generated_at": "2026-07-13T22:44:16-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "bound_retry_attempt": {
+    "path": "evidence/dependencies/t054-hcp01-generated-node-modules-linux-recovery-retry-attempt.json",
+    "sha256": "49102e549fdd16acd09ad76d73e449a81435fd644a165a2c7fa005416c817fe6",
+    "exit_code": 124,
+    "resolved": 169,
+    "reused": 169,
+    "downloaded": 0,
+    "added": 168
+  },
+  "partial_state": {
+    "node_modules": "present_partial",
+    "apps/api/node_modules": "absent",
+    "apps/web/node_modules": "absent",
+    "virtual_store_package_directories": 169,
+    "linux_esbuild_0_28_1_present": true,
+    "windows_esbuild_0_28_1_present": false,
+    "pnpm_process_active": false,
+    "deletion_proposed_or_authorized": false
+  },
+  "protected_inputs": {
+    ".npmrc": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c",
+    "pnpm-workspace.yaml": "95174f36c18b64bdd8ee8ef92757acd3a3cc73dbdcb99a4552dd14f80f51aed9",
+    "package.json": "ccc4a85fa5431636339b0cb3bf7cc248fedc4e0c217a6be5bb0180f6526ab15d",
+    "apps/api/package.json": "9d9803dad1dd99ec9f61b0b7574430c9753b7084c773b69b403063f54383fccc",
+    "apps/web/package.json": "3cbdca2ca1e62de0b6d5420931f8cc0b2e34ce0613297241905072caf59c3d64",
+    "apps/workers/package.json": "331c47e6cd572d92d6b28c3e09feedfea8cb0a00c18bba25c8c6d842365ea757",
+    "pnpm-lock.yaml": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "compose.yaml": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad"
+  },
+  "tools": {
+    "node_path": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "node_sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+    "pnpm_path": "/home/ricebran/.cache/codex-hitl-t024/corepack/v1/pnpm/11.11.0/bin/pnpm.cjs",
+    "pnpm_sha256": "67b035e322203961795e8e34ca63a08c37a4386eda94107fb3d28f3246d882ad",
+    "store": "/mnt/c/Users/brand/.pnpm-store/v11"
+  },
+  "proposed_exact_argv": [
+    "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "/home/ricebran/.cache/codex-hitl-t024/corepack/v1/pnpm/11.11.0/bin/pnpm.cjs",
+    "install",
+    "--offline",
+    "--frozen-lockfile",
+    "--ignore-scripts",
+    "--store-dir=/mnt/c/Users/brand/.pnpm-store/v11",
+    "--config.auto-install-peers=true",
+    "--config.strict-peer-dependencies=true",
+    "--config.verify-store-integrity=true",
+    "--config.registry=https://registry.npmjs.org/"
+  ],
+  "execution_constraints": {
+    "subprocess_shell": false,
+    "attempts": 1,
+    "timeout_seconds": 300,
+    "network_allowed": false,
+    "lifecycle_scripts_allowed": false,
+    "deletion_allowed": false,
+    "minimal_environment_without_tokens_credentials_proxies_or_inherited_secrets": true
+  },
+  "post_success_gates": [
+    "protected hashes remain exact",
+    "Linux esbuild 0.28.1 is linked and Windows esbuild is absent",
+    "prebuilt Linux esbuild returns version 0.28.1",
+    "existing core loader test passes",
+    "workspace-boundary verifier passes",
+    "./scripts/verify-authority.sh passes",
+    "./scripts/verify.sh passes",
+    "sanitized evidence is recorded and work stops before HCP-04"
+  ],
+  "actions_performed_during_preparation": {
+    "dependency_command_run": false,
+    "generated_state_mutated": false,
+    "network_accessed": false,
+    "infrastructure_state_changed": false,
+    "secret_accessed": false,
+    "t054_runtime_gate_started": false,
+    "t055_or_later_started": false
+  },
+  "decision": {
+    "state": "pending",
+    "implementation_before_exact_approval_allowed": false,
+    "required_approver": "user in Codex task",
+    "binding": "final SHA-256 values of HCP-01-dependencies.md and this proposal evidence"
+  }
+}

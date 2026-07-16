@@ -1,0 +1,12 @@
+{
+  "name": "@ai-trading-os/events",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Event envelopes, outbox and inbox delivery, leases, retries, and reconciliation.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "11.11.0"
+  }
+}

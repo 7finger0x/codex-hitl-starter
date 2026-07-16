@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "checkpoint": "HCP-01",
+  "scope": "T047-T050 supported-runtime verification only",
+  "decision": "approved_with_conditions",
+  "approver": "User in Codex task",
+  "decision_time": "2026-07-13T11:12:05-07:00",
+  "result": "blocked_before_binary_use",
+  "completion_claim": false,
+  "approved_binary": {
+    "path": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node",
+    "version": "v24.18.0",
+    "sha256": "41a74efb34cbde5c7632cdac0cf8bd1a14d0b8d73dc1e82755014d9a9ce70f5c",
+    "present_at_precheck": false,
+    "executed": false
+  },
+  "failure": {
+    "check": "sha256sum approved binary path",
+    "exit_code": 1,
+    "reason": "The exact approved binary path does not exist."
+  },
+  "protected_actions": {
+    "alternate_binary_used": false,
+    "download_or_install": false,
+    "network_access": false,
+    "dependency_or_lockfile_change": false,
+    "secret_access": false,
+    "repository_content_upload": false,
+    "database_cache_collector_or_container_access": false,
+    "t051_or_later_task_execution": false
+  },
+  "task_status": {
+    "T047": "open",
+    "T048": "open",
+    "T049": "open",
+    "T050": "open"
+  }
+}

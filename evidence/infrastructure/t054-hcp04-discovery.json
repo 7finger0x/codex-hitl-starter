@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "complete_application_blocked",
+  "completion_claim": true,
+  "completion_scope": "approved read-only local-target discovery only",
+  "generated_at": "2026-07-13T18:00:30-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval_source": "specs/002-platform-foundation/checkpoints/HCP-04-infrastructure.md:437-511",
+  "executables": {
+    "docker": {
+      "path": "/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "sha256": "7bc66b018b9da43fea986f893288bb93970d3d1217f5063201fd97c827f20732"
+    },
+    "compose_plugin": {
+      "path": "/mnt/c/Program Files/Docker/Docker/resources/cli-plugins/docker-compose.exe",
+      "sha256": "71cbd1a0379c9eef3bbcc439b696cd9e39fdc9bab2e209c6bb19fd53a6b6869f"
+    }
+  },
+  "local_target": {
+    "context": "desktop-linux",
+    "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "local": true,
+    "docker_client_version": "29.5.3",
+    "docker_client_api": "1.54",
+    "docker_server_version": "29.5.3",
+    "docker_server_api": "1.54",
+    "compose_version": "5.1.4",
+    "swarm": "inactive",
+    "kubernetes_selected": false
+  },
+  "image_cache": {
+    "required": 12,
+    "present_exact_digest": 0,
+    "absent": 12,
+    "unexpected_digest": 0,
+    "registry_contacted": false,
+    "images_pulled": false,
+    "references": [
+      "docker.io/library/node:24.18.0-bookworm-slim@sha256:cb4e8f7c443347358b7875e717c29e27bf9befc8f5a26cf18af3c3dec80e58c5",
+      "docker.io/supabase/postgres:17.6.1.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+      "docker.io/supabase/gotrue:v2.189.0@sha256:385184459f57569c54c25209f51f3b2be99ddd7c4ce9e3555b5d3eea8447b7cf",
+      "docker.io/postgrest/postgrest:v14.12@sha256:54000f24847d01a2c2302e0041cf0618b875c57fb48507d743cfa9aaa50bf43c",
+      "docker.io/supabase/realtime:v2.102.3@sha256:aa1c92c0cf326007563641730ec9da9c60478caa6853887775365fa2c097a471",
+      "docker.io/supabase/storage-api:v1.60.4@sha256:c8eb9858eafec891a97c27125470aaad54703c3f4eb4d55ca7f1bf6c6411febf",
+      "docker.io/valkey/valkey:9.1.0-alpine@sha256:a35428eba9043cc0b79dbe54100f0c92784f2de00ad09b01182bfb1c5c83d1bd",
+      "docker.io/otel/opentelemetry-collector-contrib:0.156.0@sha256:125bdbeb7590cc1952c5b3430ecf14063568980c2c93d5b38676cc0446ed8108",
+      "docker.io/prom/prometheus:v3.13.1@sha256:3c42b892cf723fa54d2f262c37a0e1f80aa8c8ddb1da7b9b0df9455a35a7f893",
+      "docker.io/grafana/loki:3.7.3@sha256:70b9f699fc9bb868b62f1cfd4f787dfa50242f1fd92e6089787d5d7daea75fe8",
+      "docker.io/grafana/tempo:3.0.2@sha256:cda87c212d8c584dc0b89e337e7ed648a5100feb657e5d528480ee4fa03dbbe3",
+      "docker.io/grafana/grafana:13.1.0@sha256:121a7a9ece6dc10b969f1f96eed64b4f07dfac0d0b8abc070f7cb83bbde86f63"
+    ]
+  },
+  "project_state": {
+    "project": "platform-foundation-local",
+    "label_filter": "com.docker.compose.project=platform-foundation-local",
+    "containers": [],
+    "networks": [],
+    "volumes": [],
+    "unexpected_or_unknown_state": false
+  },
+  "ports": [
+    { "host": "127.0.0.1", "port": 3000, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 8080, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 55432, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 55433, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 55434, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 55435, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 55436, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 54317, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 54318, "free": true, "bindable": true },
+    { "host": "127.0.0.1", "port": 53000, "free": true, "bindable": true }
+  ],
+  "user_supplied_boundaries": {
+    "backup_directory": {
+      "path": "C:\\Users\\brand\\codex-hitl-backups\\t054",
+      "repository_external": true,
+      "exists": true,
+      "contents_inspected": false
+    },
+    "synthetic_credential_file": {
+      "path": "C:\\Users\\brand\\codex-hitl-local.env",
+      "repository_external": true,
+      "exists": true,
+      "approved_names_only_attested_by_user": true,
+      "approved_names": [
+        "POSTGRES_PASSWORD",
+        "JWT_SECRET",
+        "ANON_KEY",
+        "SERVICE_ROLE_KEY",
+        "GF_SECURITY_ADMIN_PASSWORD"
+      ],
+      "contents_inspected": false
+    }
+  },
+  "repeat_discovery": {
+    "reason": "user reported an out-of-scope Supabase CLI image pull after the earlier discovery",
+    "exact_references_rechecked": 12,
+    "exact_references_present": 0,
+    "unlabelled_non_target_images_inspected": false,
+    "result": "approved target facts unchanged"
+  },
+  "application_blockers": [
+    "all 12 required immutable images are absent and no pull is approved",
+    "PostgreSQL in-image psql and pg_dump versions and SHA-256 values cannot be recorded before the exact image is approved and materialized",
+    "exact Docker Hub registry/authentication origins and redirect policy are not approved",
+    "the exact HCP-03 and HCP-04 runtime-application amendments are not yet approved"
+  ],
+  "runtime_applied": false,
+  "images_pulled": false,
+  "secrets_accessed": false,
+  "repository_transmitted": false,
+  "protected_actions": {
+    "compose_config_rendered": false,
+    "container_network_or_volume_created": false,
+    "docker_exec_used": false,
+    "database_cache_or_telemetry_accessed": false,
+    "service_started_or_stopped": false,
+    "teardown_or_volume_deletion": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  }
+}

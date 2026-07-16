@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "task": "T051",
+  "status": "complete",
+  "completion_claim": true,
+  "generated_at": "2026-07-13T13:31:20-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "worktree_status_digest_before_evidence": "e6b896c35de3a408456c4bbf7a11260c42a3d3c9be7232d47aa4b7576bd2b336",
+  "requirements": ["PF-009", "PF-021", "PF-022"],
+  "traceability": {
+    "task_source": "specs/002-platform-foundation/tasks.md:100",
+    "documentation": "docs/architecture/foundation-runtime-skeletons.md",
+    "test": "apps/api/src/app.test.ts"
+  },
+  "sources": {
+    "apps/api/src/app.ts": "7515c8ce496676c49959c82bd72fcc106e6f27843f30adacde53f4f9e61d14f3",
+    "apps/api/src/app.test.ts": "706db8fa05460a0a8f2ecfaeae3b6ed9947392dd86697cde7974caac6233762e",
+    "apps/api/src/plugins/authentication.ts": "0462b5f6698b94be372d425e87d3171aa789f132aa49b3d83e7430aa3cca7dd3",
+    "apps/api/src/plugins/request-context.ts": "c7f09c104e9b8692df6c22e764158db238bba6de95a107658a61e7caa2dc46d9",
+    "apps/api/src/plugins/errors.ts": "442ae95b551ce83f52630b587a56935754a9e6b4c963b47a49b8d5b01751d815",
+    "apps/api/src/routes/health.ts": "0f139b50563f0ea9cf7912c624c2fcd627726d00271f2787ef07f022453ab805",
+    "apps/api/tsconfig.json": "b52ecd61a7af963682366b2791e8ca18d2d62e1dd2a3f98d3820930ba27b6a8a"
+  },
+  "ordered_tdd_result": {
+    "red_exit_code": 1,
+    "red_reason": "ERR_MODULE_NOT_FOUND for apps/api/src/app.js before the T051 implementation existed",
+    "green_exit_code": 0,
+    "green_result": "6 API skeleton tests passed"
+  },
+  "acceptance_evidence": {
+    "schema_validation": "pass: health responses use the exact HCP-02 Health schema and failures use its ErrorResponse schema",
+    "authentication": "pass: every non-public probe requires a verified bearer principal; only health routes opt out",
+    "request_context": "pass: correlation, idempotency keys, If-Match resource versions, and response ETags are validated centrally",
+    "error_mapping": "pass: stable correlation-bearing failures do not reflect raw exceptions",
+    "health": "pass: liveness and readiness distinguish process, required dependency failure, and optional degradation"
+  },
+  "contract_hashes": {
+    "foundation_api_openapi": "a923218bd0a2093d1d05ad65d7576bafd8828ff89eb6941b2605e52b540810cc",
+    "generated_typescript": "dcf438349464fc2a7e64dfb54716c86478dae884caaabfa90f0c8687afbe5ebf"
+  },
+  "validation": {
+    "node": "v24.18.0",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "contract_generation_check": "pass: current",
+    "contract_tests": "pass: 7",
+    "authority": "pass",
+    "root_verifier": "pass: 10 legacy, 9 compatibility, 8 traceability requirements"
+  },
+  "protected_actions": {
+    "dependency_added": false,
+    "public_contract_changed": false,
+    "database_or_cache_connected": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "t054_or_later_started": false
+  }
+}

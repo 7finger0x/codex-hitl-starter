@@ -1,0 +1,32 @@
+{
+  "name": "unified-ai-trading-os",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.11.0",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "11.11.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "format:check": "prettier --check package.json apps/*/package.json packages/*/package.json pnpm-workspace.yaml turbo.json tsconfig.json eslint.config.mjs tooling/typescript/verify-directory-instructions.mjs tooling/typescript/verify-ignore-rules.mjs tooling/typescript/verify-workspace-boundaries.mjs .prettierrc.json",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "test:legacy": "./scripts/verify.sh",
+    "verify:authority": "./scripts/verify-authority.sh",
+    "verify:boundaries": "node tooling/typescript/verify-workspace-boundaries.mjs",
+    "verify:instructions": "node tooling/typescript/verify-directory-instructions.mjs",
+    "verify:ignores": "node tooling/typescript/verify-ignore-rules.mjs",
+    "verify": "prettier --check package.json apps/*/package.json packages/*/package.json pnpm-workspace.yaml turbo.json tsconfig.json eslint.config.mjs tooling/typescript/verify-directory-instructions.mjs tooling/typescript/verify-ignore-rules.mjs tooling/typescript/verify-workspace-boundaries.mjs .prettierrc.json && eslint . && tsc --noEmit --project tsconfig.json && node tooling/typescript/verify-directory-instructions.mjs && node tooling/typescript/verify-ignore-rules.mjs && node tooling/typescript/verify-workspace-boundaries.mjs && ./scripts/verify-authority.sh && ./scripts/verify.sh"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.2",
+    "eslint": "10.6.0",
+    "prettier": "3.9.4",
+    "tsx": "4.23.0",
+    "turbo": "2.10.4",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.62.1"
+  }
+}

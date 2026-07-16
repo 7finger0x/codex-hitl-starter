@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "task": "T042",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "HCP-03-approved deterministic synthetic seed source only; database application is not claimed",
+  "generated_at": "2026-07-13T04:56:52-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-001", "PF-002", "PF-017", "PF-018"],
+  "approval": {
+    "checkpoint": "HCP-03",
+    "decision": "approved_with_conditions Option A",
+    "decision_time": "2026-07-13T03:45:11-07:00",
+    "evidence": "evidence/persistence/t037-hcp03-decision.json"
+  },
+  "seed_source": {
+    "path": "supabase/seed/foundation-test-data.sql",
+    "sha256": "3776130e9b8adc7dc52bd4322f0bc8b661957651f7ac21208e55493f0144c0ac",
+    "transactional": true,
+    "runtime_role": "platform_api",
+    "fixed_timestamp": "2026-01-01T00:00:00Z"
+  },
+  "fixture_inventory": {
+    "users": 3,
+    "tenants": 2,
+    "environments": 2,
+    "tenant_memberships": 4,
+    "environment_access_rows": 4,
+    "teams": 2,
+    "team_memberships": 2,
+    "roles": 4,
+    "member_role_assignments": 4,
+    "service_identities": 2,
+    "uuidv7_references": 116,
+    "shared_user_in_both_tenants": true,
+    "overlapping_environment_code": "local",
+    "overlapping_team_name": "Shared Research",
+    "overlapping_role_names": ["Operator", "Observer"],
+    "overlapping_service_name": "fixture-runner"
+  },
+  "security_controls": {
+    "synthetic_auth_subjects": 3,
+    "fixed_non_live_identifiers": true,
+    "tenant_labelled": true,
+    "production_or_staging_markers": 0,
+    "api_credential_rows": 0,
+    "invitation_rows": 0,
+    "session_rows": 0,
+    "secret_reference_rows": 0,
+    "plaintext_password_token_private_key_or_secret_values": 0,
+    "destructive_sql_statements": 0,
+    "cross_tenant_attack_pairs_documented": true
+  },
+  "ordered_tdd_result": {
+    "red_command": "inline Node source-acceptance assertion before seed creation",
+    "red_exit_code": 1,
+    "red_reason": "T042 seed source is absent",
+    "green_command": "inline Node deterministic fixture/source-boundary audit",
+    "green_exit_code": 0,
+    "green_result": "pass: exact synthetic identities, overlapping tenant fixtures, fixed UUIDv7 references, and prohibited-content checks"
+  },
+  "validation": {
+    "source_acceptance": "pass",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "database_validation": {
+    "seed_applied": false,
+    "postgresql_execution": "not run and not claimed; exact guarded target facts and separately approved PostgreSQL tool paths remain absent",
+    "target_attestation_read": false,
+    "connection_environment_read": false,
+    "database_command_started": false
+  },
+  "protected_actions": {
+    "approved_seed_source_created": true,
+    "seed_applied": false,
+    "database_connected": false,
+    "connection_secret_accessed": false,
+    "database_destroyed": false,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "container_or_infrastructure_changed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "later_task_started": false
+  },
+  "next_task": {
+    "id": "T043",
+    "scope": "prepare the exact HCP-04 infrastructure proposal only; implementation remains blocked pending exact HCP-04 approval"
+  }
+}

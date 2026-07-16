@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "task": "T025",
+  "status": "pass_with_warning",
+  "completion_claim": true,
+  "completion_scope": "T025 only",
+  "generated_at": "2026-07-11T20:30:44-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["PF-030", "PF-031"],
+  "authorization": {
+    "ordinary_implementation": "user contextual proceed after T025 was identified",
+    "hcp_01_lockfile_scope_change": "approved_with_conditions at 2026-07-11T20:27:55-07:00",
+    "dependency_addition": false,
+    "later_task_authority": false
+  },
+  "tdd": {
+    "red": {
+      "result": "expected_failure",
+      "exit_status": 1,
+      "reason": "all twelve approved workspace directories and manifests were absent"
+    },
+    "green": {
+      "result": "pass",
+      "workspaces": 12,
+      "dependencies": 0
+    },
+    "verifier": {
+      "path": "tooling/typescript/verify-workspace-boundaries.mjs",
+      "sha256": "b1009c2378c728481a33bb31b0571866f6b1364f5e4cd0e47e6e7ba1a424b800"
+    }
+  },
+  "boundaries": [
+    {"path":"apps/api/package.json","name":"@ai-trading-os/api","sha256":"cc39b59f03f0cea03e5c3da20ddf8968ae23a78f0d6af0edbac127100d57fe0f"},
+    {"path":"apps/web/package.json","name":"@ai-trading-os/web","sha256":"9f2a3308cfb8ef364a0f682510f7173f905ada7e35929cb23d3c84bf738670d0"},
+    {"path":"apps/workers/package.json","name":"@ai-trading-os/workers","sha256":"9df8b15b6ff4916133fb71e8d6b76cf7963f7880e64e995107185bf0e612ea51"},
+    {"path":"packages/audit/package.json","name":"@ai-trading-os/audit","sha256":"33d3fa54c6aec6768d085d644d45bce19f954afc0155488e1e1a3e007f80ee66"},
+    {"path":"packages/config/package.json","name":"@ai-trading-os/config","sha256":"063ec235017f046449addcd03e3338b74690533e8ee9ec4f98fb9a484ab054f3"},
+    {"path":"packages/core/package.json","name":"@ai-trading-os/core","sha256":"c2f7008abdf7b6a564d7b2e75dede3af5b6fff870baae0e2efd18d013a91689f"},
+    {"path":"packages/events/package.json","name":"@ai-trading-os/events","sha256":"fcfa285177c264a87f8dabc2a22640a35379c05e2c9e911dafa83d119e5b06fc"},
+    {"path":"packages/identity/package.json","name":"@ai-trading-os/identity","sha256":"faacca23db46811b0386f3144c74c28bab81857569f9f1bd056d43aafceea705"},
+    {"path":"packages/observability/package.json","name":"@ai-trading-os/observability","sha256":"b1d2f59cda6dd80e23321ddab9d27b81dea855a0714bf2a0c79f1459087e6951"},
+    {"path":"packages/policy/package.json","name":"@ai-trading-os/policy","sha256":"369e93ac0e45f6b74a74c30361975bd4e982ca28cfac7f1a0a1f21a0e61c3c9e"},
+    {"path":"packages/testing/package.json","name":"@ai-trading-os/testing","sha256":"ae5016d8d0056b86dad9f641bdf13dd63afd38b2ced4518fa3077eddbb21611b"},
+    {"path":"packages/ui/package.json","name":"@ai-trading-os/ui","sha256":"50c32590aa7694c756d23b5d40b1f1ef9c358327c0ed57c3fb2ed03ed001e53e"}
+  ],
+  "manifest_policy": {
+    "private": true,
+    "license": "UNLICENSED",
+    "type": "module",
+    "node": "24.18.0",
+    "pnpm": "11.11.0",
+    "dependencies": 0,
+    "source_shells": 0,
+    "future_unapproved_boundaries": 0
+  },
+  "lockfile_gate": {
+    "checkpoint": "HCP-01",
+    "decision": "approved_with_conditions at 2026-07-11T20:27:55-07:00",
+    "approved_t024_sha256_restored": "313a2bfd6ccf56afa5c1e6af00189d22feaae603734dd8987a8b4289033ab8f2",
+    "prospective_t025_sha256": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7",
+    "final_t025_sha256": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7",
+    "exact_diff": "twelve empty importer mappings only; no package, snapshot, version, source, or integrity change",
+    "importers": 13,
+    "empty_t025_importers": 12,
+    "package_section_unchanged": true,
+    "snapshot_section_unchanged": true,
+    "unexpected_behavior": "pnpm 11.11.0 materialized empty importers during a frozen offline install",
+    "recovery": "removed only the twelve unapproved importer mappings with a reviewed patch and verified restoration by SHA-256",
+    "approved_update": "pass: --lockfile-only --offline --ignore-scripts produced the exact reviewed hash",
+    "frozen_reinstall": "pass: --frozen-lockfile --offline --ignore-scripts left the lockfile unchanged",
+    "network_used": true,
+    "network_warning": "During the approved lockfile-only command, pnpm issued registry.npmjs.org metadata GETs for its supply-chain policy check despite --offline. The origin was already HCP-01-approved; no request uploaded repository content, and the subsequent frozen verification issued no observed request.",
+    "lifecycle_scripts_run": false,
+    "dependency_or_resolution_change": false
+  },
+  "verification": {
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "authority": "pass",
+    "legacy_tests": "pass: 10 of 10",
+    "legacy_traceability": "pass: 8 requirements",
+    "git_diff_check": "pass",
+    "aggregate_pnpm_verify": "pass",
+    "workspace_list": "pass: 13 exact projects",
+    "workspace_list_sha256": "ca8140f5204c406887c9b89319eca66337ba0cb0d98d07a124e222f4da7618ff",
+    "pnpm_audit": "pass: zero findings at every severity",
+    "pnpm_audit_sha256": "b08a247e3cb09750d0b9ac3873cc4f9ca37d782aa3699676a88e62b8f10012a7",
+    "pnpm_license_inventory_sha256": "b6c6efd7e78ad38ba4064291e52b2de88b54f8e44c48301c7e83ac8a0293e424",
+    "store_status": "pass: packages in the store are untouched"
+  },
+  "task_checkbox_updated": true,
+  "user_changes_preserved": true
+}

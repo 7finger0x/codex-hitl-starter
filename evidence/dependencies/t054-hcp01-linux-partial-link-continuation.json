@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-01",
+  "status": "complete_continuation_and_post_gates_passed",
+  "completion_claim": true,
+  "completion_scope": "approved generated-node_modules Linux partial-link continuation and HCP-01 post-success gates only",
+  "generated_at": "2026-07-13T22:49:02-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "approval": {
+    "checkpoint_sha256": "30b3738563d0096982ccccaa44c01bc7a3a80898e7d5dcf9c5e0a20e293090a2",
+    "proposal_evidence_sha256": "569f70ec41bf18e3f4f594e66eca42b9442d0eed037d0b19db5437db4fc8d29f",
+    "retry_attempt_evidence_sha256": "49102e549fdd16acd09ad76d73e449a81435fd644a165a2c7fa005416c817fe6",
+    "approver": "user in Codex task",
+    "exact_statement_supplied": true
+  },
+  "preflight": {
+    "all_approval_bindings_matched": true,
+    "tool_hashes_matched": true,
+    "protected_hashes_matched": true,
+    "partial_generated_state_matched": true,
+    "pnpm_process_active": false,
+    "deletion_performed": false
+  },
+  "continuation": {
+    "attempt_count": 1,
+    "shell": false,
+    "timeout_seconds": 300,
+    "elapsed_seconds": 126,
+    "exit_code": 0,
+    "resolved_packages": 169,
+    "reused_packages": 169,
+    "downloaded_packages": 0,
+    "added_packages": 169,
+    "lifecycle_script_run": false,
+    "network_authorized": false,
+    "network_request_observed": false,
+    "fallback_or_second_continuation": false
+  },
+  "generated_state_after": {
+    "node_modules": "present_complete",
+    "apps/api/node_modules": "present_complete",
+    "apps/web/node_modules": "present_complete",
+    "linux_esbuild_0_28_1_present": true,
+    "windows_esbuild_0_28_1_present": false,
+    "prebuilt_linux_esbuild_version": "0.28.1"
+  },
+  "protected_hashes_after": {
+    ".npmrc": "a20d96915ced8afd8ad9b6fe00960fbcd450b558209c319fca18ca33263ebf6c",
+    "pnpm-workspace.yaml": "95174f36c18b64bdd8ee8ef92757acd3a3cc73dbdcb99a4552dd14f80f51aed9",
+    "package.json": "ccc4a85fa5431636339b0cb3bf7cc248fedc4e0c217a6be5bb0180f6526ab15d",
+    "apps/api/package.json": "9d9803dad1dd99ec9f61b0b7574430c9753b7084c773b69b403063f54383fccc",
+    "apps/web/package.json": "3cbdca2ca1e62de0b6d5420931f8cc0b2e34ce0613297241905072caf59c3d64",
+    "apps/workers/package.json": "331c47e6cd572d92d6b28c3e09feedfea8cb0a00c18bba25c8c6d842365ea757",
+    "pnpm-lock.yaml": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa",
+    "compose.yaml": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad"
+  },
+  "post_success_gates": {
+    "core_loader": {
+      "command": "approved Node 24.18.0 --import tsx --test packages/core/src/core.test.ts",
+      "passed": 9,
+      "failed": 0
+    },
+    "workspace_boundary": {
+      "passed": true,
+      "workspaces": 12,
+      "approved_direct_dependencies": 8
+    },
+    "verify_authority": {
+      "passed": true,
+      "artifacts": 2,
+      "requirement": "PF-033"
+    },
+    "verify": {
+      "passed": true,
+      "traceability_requirements": 8,
+      "legacy_tests_passed": 10,
+      "compatibility_tests_passed": 9
+    }
+  },
+  "scope_guards": {
+    "hcp04_started": false,
+    "t054_runtime_gates_started": false,
+    "docker_or_infrastructure_state_changed": false,
+    "secret_accessed": false,
+    "repository_transmitted": false,
+    "production_action": false,
+    "t055_or_later_started": false,
+    "t054_checked": false
+  },
+  "next_action": "Stop. Obtain any required refreshed HCP-04 source/runtime binding before retrying the Postgres volume-ownership repair test."
+}

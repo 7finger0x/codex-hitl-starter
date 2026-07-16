@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "task": "T044",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision": "Option A",
+  "decision_time": "2026-07-13T05:13:46-07:00",
+  "approver": "User in Codex task",
+  "approval_statement": "Approve HCP-04 Option A and authorize T045-T046 repository definition creation exactly as recorded in HCP-04-infrastructure.md. This does not authorize image pulls, Docker/Compose execution, infrastructure application or teardown, database/seed application, secret access, external deployment, repository transmission, production action, or later-task scope.",
+  "candidate": {
+    "path": "specs/002-platform-foundation/checkpoints/HCP-04-infrastructure.md",
+    "reviewed_sha256": "a084618955e034d78245df452f8290b9f534c819d44c8de709eafd1991a388af",
+    "decision_record_sha256": "4d930c0b678044ce69361d41e4f26c30edaa2651e94e5523033516c1ae1b0dbc",
+    "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+    "branch": "master",
+    "worktree_state": "documented-dirty"
+  },
+  "authorized": {
+    "tasks": ["T045", "T046"],
+    "repository_definition_creation": true,
+    "approved_paths": 11,
+    "immutable_images": 12,
+    "loopback_ports": 10,
+    "networks": 3,
+    "named_volumes": 7
+  },
+  "not_authorized": {
+    "image_pull": true,
+    "docker_or_compose_execution": true,
+    "infrastructure_application_or_teardown": true,
+    "database_or_seed_application": true,
+    "secret_access": true,
+    "external_deployment": true,
+    "repository_transmission": true,
+    "production_action": true,
+    "later_task_scope": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "invalidated_by": "Any proposed path, image tag or digest, service, port, network, volume, secret-name inventory, target, command, retention, cost, security exception, or production disposition change.",
+  "lockfile_sha256": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+}

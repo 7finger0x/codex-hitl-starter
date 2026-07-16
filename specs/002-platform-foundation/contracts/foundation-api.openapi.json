@@ -1,0 +1,2756 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI Trading OS Platform Foundation API",
+    "version": "1.0.0",
+    "description": "HCP-02-approved Phase 1 REST v1 contract. Capability visibility never grants authority."
+  },
+  "x-hcp-02": {
+    "decision": "approved-option-a",
+    "retained_operations": 14,
+    "added_operations": 34,
+    "historical_exclusions": ["openapi.yaml", "event-envelope.schema.json"]
+  },
+  "servers": [{ "url": "http://localhost:8080", "description": "Local development" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "getLiveness",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Process is alive",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Health" } }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "getReadiness",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Required dependencies are ready",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Health" } }
+            }
+          },
+          "503": { "$ref": "#/components/responses/ServiceUnavailable" }
+        }
+      }
+    },
+    "/v1/session": {
+      "get": {
+        "operationId": "getSession",
+        "parameters": [{ "$ref": "#/components/parameters/CorrelationId" }],
+        "responses": {
+          "200": {
+            "description": "Current authenticated session and available tenant contexts",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Session" } }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/v1/session/context": {
+      "put": {
+        "operationId": "selectSessionContext",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SelectContextRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative context and newly derived capability manifest",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ContextSelection" } }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/tenants": {
+      "get": {
+        "operationId": "listTenants",
+        "parameters": [{ "$ref": "#/components/parameters/CorrelationId" }],
+        "responses": {
+          "200": {
+            "description": "Tenants visible through the caller's current memberships",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["items"],
+                  "properties": {
+                    "items": { "type": "array", "items": { "$ref": "#/components/schemas/Tenant" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createTenant",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CreateTenantRequest" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tenant, owner membership, default environment, audit evidence, and outbox event committed atomically",
+            "headers": {
+              "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+              "ETag": { "$ref": "#/components/headers/ETag" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CreateTenantResponse" }
+              }
+            }
+          },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/members/{memberId}/role-assignments": {
+      "put": {
+        "operationId": "replaceMemberRoleAssignments",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/MemberPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RoleAssignmentRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Assignments replaced and permission versions invalidated",
+            "headers": {
+              "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+              "ETag": { "$ref": "#/components/headers/ETag" }
+            },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/MemberAccess" } }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Signed current capability manifest; backend authorization remains authoritative",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    },
+    "/v1/configuration-versions": {
+      "post": {
+        "operationId": "createConfigurationVersion",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ConfigurationVersionRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Validated immutable draft created; activation is separate",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ConfigurationVersion" }
+              }
+            }
+          },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/configuration-versions/{versionId}/activate": {
+      "post": {
+        "operationId": "activateConfigurationVersion",
+        "parameters": [
+          { "$ref": "#/components/parameters/VersionPath" },
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ActivationRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Version activated atomically when policy and approval evidence permit",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ConfigurationVersion" }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/audit-events": {
+      "get": {
+        "operationId": "searchAuditEvents",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "action", "in": "query", "schema": { "type": "string" } },
+          { "name": "resource_type", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenant-isolated audit page",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["items"],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/AuditEvent" }
+                    },
+                    "next_cursor": { "type": ["string", "null"] }
+                  }
+                }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    },
+    "/v1/audit-exports": {
+      "post": {
+        "operationId": "createAuditExport",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AuditExportRequest" } }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Tenant-scoped export accepted",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/AuditExport" } }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/members": {
+      "get": {
+        "operationId": "listMemberships",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/MembershipPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/members/{memberId}": {
+      "patch": {
+        "operationId": "updateMembership",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/MemberPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/UpdateMembership" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/MembershipOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "412": { "$ref": "#/components/responses/PreconditionFailed" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/invitations": {
+      "get": {
+        "operationId": "listInvitations",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/InvitationPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "createInvitation",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateInvitationRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Invitation created without exposing token verifiers",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Invitation" } }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/invitations/{invitationId}/accept": {
+      "post": {
+        "operationId": "acceptInvitation",
+        "description": "Accept using invitation bearer proof; tenant headers are not authority.",
+        "parameters": [
+          { "$ref": "#/components/parameters/InvitationPath" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/AcceptInvitation" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/MembershipOk" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/invitations/{invitationId}/revoke": {
+      "post": {
+        "operationId": "revokeInvitation",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/InvitationPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/Reason" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/InvitationOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/permissions": {
+      "get": {
+        "operationId": "listPermissions",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/PermissionPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/roles": {
+      "get": {
+        "operationId": "listRoles",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/RolePageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "createRole",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/CreateRole" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/RoleCreated" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/roles/{roleId}": {
+      "get": {
+        "operationId": "getRole",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/RolePath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/RoleOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      },
+      "patch": {
+        "operationId": "updateRole",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/RolePath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/UpdateRole" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/RoleOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "412": { "$ref": "#/components/responses/PreconditionFailed" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/environments": {
+      "get": {
+        "operationId": "listEnvironments",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/EnvironmentPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "createEnvironment",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/CreateEnvironment" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/EnvironmentCreated" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/environments/{environmentId}": {
+      "get": {
+        "operationId": "getEnvironment",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentPath" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/EnvironmentOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      },
+      "patch": {
+        "operationId": "updateEnvironment",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentPath" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/UpdateEnvironment" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/EnvironmentOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "412": { "$ref": "#/components/responses/PreconditionFailed" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/service-identities": {
+      "get": {
+        "operationId": "listServiceIdentities",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/ServiceIdentityPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "createServiceIdentity",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/CreateServiceIdentity" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/ServiceIdentityCreated" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/service-identities/{serviceIdentityId}": {
+      "get": {
+        "operationId": "getServiceIdentity",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/ServiceIdentityPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/ServiceIdentityOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      },
+      "patch": {
+        "operationId": "updateServiceIdentity",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/ServiceIdentityPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/UpdateServiceIdentity" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/ServiceIdentityOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "412": { "$ref": "#/components/responses/PreconditionFailed" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/service-identities/{serviceIdentityId}/credentials": {
+      "post": {
+        "operationId": "issueServiceCredential",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/ServiceIdentityPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/IssueServiceCredential" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/ServiceCredentialCreated" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/service-identities/{serviceIdentityId}/credentials/{credentialId}/revoke": {
+      "post": {
+        "operationId": "revokeServiceCredential",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/ServiceIdentityPath" },
+          { "$ref": "#/components/parameters/CredentialPath" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/Reason" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/ServiceIdentityOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/support-access-requests": {
+      "get": {
+        "operationId": "listSupportAccessRequests",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/SupportAccessRequestPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "createSupportAccessRequest",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/CreateSupportAccessRequest" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/SupportAccessRequestCreated" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/support-access-requests/{requestId}": {
+      "get": {
+        "operationId": "getSupportAccessRequest",
+        "parameters": [
+          { "$ref": "#/components/parameters/RequestPath" },
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/SupportAccessRequestOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      }
+    },
+    "/v1/support-access-requests/{requestId}/grant": {
+      "post": {
+        "operationId": "grantSupportAccess",
+        "parameters": [
+          { "$ref": "#/components/parameters/RequestPath" },
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/GrantSupportAccess" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/SupportAccessGrantCreated" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/v1/support-access-requests/{requestId}/deny": {
+      "post": {
+        "operationId": "denySupportAccess",
+        "parameters": [
+          { "$ref": "#/components/parameters/RequestPath" },
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/Reason" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/SupportAccessRequestOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/support-access-grants": {
+      "get": {
+        "operationId": "listSupportAccessGrants",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/SupportAccessGrantPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/v1/support-access-grants/{grantId}/revoke": {
+      "post": {
+        "operationId": "revokeSupportAccess",
+        "parameters": [
+          { "$ref": "#/components/parameters/GrantPath" },
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/Reason" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/SupportAccessGrantOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/evidence-runs": {
+      "get": {
+        "operationId": "listEvidenceRuns",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/EvidenceRunPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "startEvidenceRun",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/StartEvidenceRun" },
+        "responses": {
+          "202": { "$ref": "#/components/responses/EvidenceRunAccepted" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "422": { "$ref": "#/components/responses/ValidationError" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/v1/evidence-runs/{runId}": {
+      "get": {
+        "operationId": "getEvidenceRun",
+        "parameters": [
+          { "$ref": "#/components/parameters/RunPath" },
+          { "$ref": "#/components/parameters/TenantId" },
+          { "$ref": "#/components/parameters/EnvironmentId" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/EvidenceRunOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      }
+    },
+    "/v1/capability-definitions": {
+      "get": {
+        "operationId": "listCapabilityDefinitions",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/Cursor" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/CapabilityDefinitionPageOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "registerCapabilityDefinition",
+        "parameters": [
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterCapabilityRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Representative capability registered through canonical contracts",
+            "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CapabilityDefinition" }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" }
+        }
+      }
+    },
+    "/v1/capability-definitions/{capabilityId}": {
+      "get": {
+        "operationId": "getCapabilityDefinition",
+        "parameters": [
+          { "$ref": "#/components/parameters/CapabilityPath" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/CapabilityDefinitionOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      }
+    },
+    "/v1/tenants/{tenantId}/environments/{environmentId}/capability-exposures": {
+      "get": {
+        "operationId": "getCapabilityExposures",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentPath" },
+          { "$ref": "#/components/parameters/CorrelationId" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/CapabilityExposureSetOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" }
+        }
+      },
+      "put": {
+        "operationId": "replaceCapabilityExposures",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantPath" },
+          { "$ref": "#/components/parameters/EnvironmentPath" },
+          { "$ref": "#/components/parameters/CorrelationId" },
+          { "$ref": "#/components/parameters/IdempotencyKey" },
+          { "$ref": "#/components/parameters/IfMatch" }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/ReplaceCapabilityExposures" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/CapabilityExposureSetOk" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFoundOpaque" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "412": { "$ref": "#/components/responses/PreconditionFailed" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" },
+      "serviceCredential": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "ServiceCredential"
+      }
+    },
+    "headers": {
+      "CorrelationId": { "schema": { "type": "string", "format": "uuid" } },
+      "ETag": { "schema": { "type": "string", "pattern": "^W/\\\"[1-9][0-9]*\\\"$" } },
+      "NoStore": { "schema": { "type": "string", "const": "no-store" } }
+    },
+    "parameters": {
+      "TenantPath": {
+        "name": "tenantId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "MemberPath": {
+        "name": "memberId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "InvitationPath": {
+        "name": "invitationId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "RolePath": {
+        "name": "roleId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "EnvironmentPath": {
+        "name": "environmentId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "ServiceIdentityPath": {
+        "name": "serviceIdentityId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "CredentialPath": {
+        "name": "credentialId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "RequestPath": {
+        "name": "requestId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "GrantPath": {
+        "name": "grantId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "RunPath": {
+        "name": "runId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "CapabilityPath": {
+        "name": "capabilityId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "VersionPath": {
+        "name": "versionId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "TenantId": {
+        "name": "X-Tenant-Id",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "EnvironmentId": {
+        "name": "X-Environment-Id",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "CorrelationId": {
+        "name": "X-Correlation-Id",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string", "minLength": 16, "maxLength": 255 }
+      },
+      "IfMatch": {
+        "name": "If-Match",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string", "pattern": "^W/\\\"[1-9][0-9]*\\\"$" }
+      },
+      "Cursor": {
+        "name": "cursor",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "minLength": 1, "maxLength": 1024 }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "minimum": 1, "maximum": 200, "default": 50 }
+      }
+    },
+    "requestBodies": {
+      "Reason": {
+        "required": true,
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ReasonRequest" } }
+        }
+      },
+      "AcceptInvitation": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/AcceptInvitationRequest" }
+          }
+        }
+      },
+      "UpdateMembership": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/UpdateMembershipRequest" }
+          }
+        }
+      },
+      "CreateRole": {
+        "required": true,
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/CreateRoleRequest" } }
+        }
+      },
+      "UpdateRole": {
+        "required": true,
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/UpdateRoleRequest" } }
+        }
+      },
+      "CreateEnvironment": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/CreateEnvironmentRequest" }
+          }
+        }
+      },
+      "UpdateEnvironment": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/UpdateEnvironmentRequest" }
+          }
+        }
+      },
+      "CreateServiceIdentity": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/CreateServiceIdentityRequest" }
+          }
+        }
+      },
+      "UpdateServiceIdentity": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/UpdateServiceIdentityRequest" }
+          }
+        }
+      },
+      "IssueServiceCredential": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/IssueServiceCredentialRequest" }
+          }
+        }
+      },
+      "CreateSupportAccessRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/CreateSupportAccessRequest" }
+          }
+        }
+      },
+      "GrantSupportAccess": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/GrantSupportAccessRequest" }
+          }
+        }
+      },
+      "StartEvidenceRun": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/StartEvidenceRunRequest" }
+          }
+        }
+      },
+      "ReplaceCapabilityExposures": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ReplaceCapabilityExposuresRequest" }
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": { "$ref": "#/components/responses/ErrorBadRequest" },
+      "Unauthorized": { "$ref": "#/components/responses/ErrorUnauthorized" },
+      "Forbidden": { "$ref": "#/components/responses/ErrorForbidden" },
+      "NotFoundOpaque": { "$ref": "#/components/responses/ErrorNotFoundOpaque" },
+      "Conflict": { "$ref": "#/components/responses/ErrorConflict" },
+      "PreconditionFailed": { "$ref": "#/components/responses/ErrorPreconditionFailed" },
+      "ValidationError": { "$ref": "#/components/responses/ErrorValidation" },
+      "TooManyRequests": { "$ref": "#/components/responses/ErrorTooManyRequests" },
+      "ServiceUnavailable": { "$ref": "#/components/responses/ErrorServiceUnavailable" },
+      "ErrorBadRequest": {
+        "description": "Malformed request or context",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorUnauthorized": {
+        "description": "Authentication required",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorForbidden": {
+        "description": "Policy or authorization denied without cross-tenant disclosure",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorNotFoundOpaque": {
+        "description": "Resource unavailable; does not disclose existence across tenants",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorConflict": {
+        "description": "Version or idempotency conflict",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorPreconditionFailed": {
+        "description": "The If-Match resource version is stale",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorValidation": {
+        "description": "Schema or compatibility validation failed atomically",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorTooManyRequests": {
+        "description": "Bounded operation rate exceeded",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "Retry-After": { "schema": { "type": "integer", "minimum": 1 } }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "ErrorServiceUnavailable": {
+        "description": "Required dependency is unavailable",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } }
+        }
+      },
+      "MembershipPageOk": {
+        "description": "Tenant-scoped membership page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/MembershipPage" } }
+        }
+      },
+      "MembershipOk": {
+        "description": "Membership lifecycle view",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/Membership" } }
+        }
+      },
+      "InvitationPageOk": {
+        "description": "Tenant-scoped invitation page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/InvitationPage" } }
+        }
+      },
+      "InvitationOk": {
+        "description": "Invitation lifecycle view",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/Invitation" } }
+        }
+      },
+      "PermissionPageOk": {
+        "description": "Stable permission catalog page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/PermissionPage" } }
+        }
+      },
+      "RolePageOk": {
+        "description": "Tenant-scoped role page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RolePage" } } }
+      },
+      "RoleOk": {
+        "description": "Role view",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Role" } } }
+      },
+      "RoleCreated": {
+        "description": "Role created",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Role" } } }
+      },
+      "EnvironmentPageOk": {
+        "description": "Tenant environment page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/EnvironmentPage" } }
+        }
+      },
+      "EnvironmentOk": {
+        "description": "Tenant environment view",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/TenantEnvironment" } }
+        }
+      },
+      "EnvironmentCreated": {
+        "description": "Tenant environment created",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/TenantEnvironment" } }
+        }
+      },
+      "ServiceIdentityPageOk": {
+        "description": "Service identity page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ServiceIdentityPage" } }
+        }
+      },
+      "ServiceIdentityOk": {
+        "description": "Secret-safe service identity view",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ServiceIdentity" } }
+        }
+      },
+      "ServiceIdentityCreated": {
+        "description": "Service identity created",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/ServiceIdentity" } }
+        }
+      },
+      "ServiceCredentialCreated": {
+        "description": "One-time service credential issuance; plaintext is never returned again",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "Cache-Control": { "$ref": "#/components/headers/NoStore" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ServiceCredentialIssued" }
+          }
+        }
+      },
+      "SupportAccessRequestPageOk": {
+        "description": "Scoped support request page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/SupportAccessRequestPage" }
+          }
+        }
+      },
+      "SupportAccessRequestOk": {
+        "description": "Scoped support access request",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/SupportAccessRequest" } }
+        }
+      },
+      "SupportAccessRequestCreated": {
+        "description": "Support access request created",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/SupportAccessRequest" } }
+        }
+      },
+      "SupportAccessGrantPageOk": {
+        "description": "Scoped support grant page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/SupportAccessGrantPage" }
+          }
+        }
+      },
+      "SupportAccessGrantOk": {
+        "description": "Scoped support grant",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/SupportAccessGrant" } }
+        }
+      },
+      "SupportAccessGrantCreated": {
+        "description": "Support grant created",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/SupportAccessGrant" } }
+        }
+      },
+      "EvidenceRunPageOk": {
+        "description": "Evidence run page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceRunPage" } }
+        }
+      },
+      "EvidenceRunOk": {
+        "description": "Evidence run view",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceRun" } }
+        }
+      },
+      "EvidenceRunAccepted": {
+        "description": "Evidence run accepted",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceRun" } }
+        }
+      },
+      "CapabilityDefinitionPageOk": {
+        "description": "Capability definition page",
+        "headers": { "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" } },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/CapabilityDefinitionPage" }
+          }
+        }
+      },
+      "CapabilityDefinitionOk": {
+        "description": "Capability definition",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/CapabilityDefinition" } }
+        }
+      },
+      "CapabilityExposureSetOk": {
+        "description": "Capability exposure set; never authorization",
+        "headers": {
+          "X-Correlation-Id": { "$ref": "#/components/headers/CorrelationId" },
+          "ETag": { "$ref": "#/components/headers/ETag" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/CapabilityExposureSet" } }
+        }
+      }
+    },
+    "schemas": {
+      "OperationMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["correlation_id", "audit_event_id", "version", "warnings"],
+        "properties": {
+          "correlation_id": { "type": "string", "format": "uuid" },
+          "audit_event_id": { "type": "string", "format": "uuid" },
+          "version": { "type": "integer", "minimum": 1 },
+          "warnings": {
+            "type": "array",
+            "maxItems": 20,
+            "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+          }
+        }
+      },
+      "PageMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["next_cursor", "has_more", "limit"],
+        "properties": {
+          "next_cursor": { "type": ["string", "null"], "maxLength": 1024 },
+          "has_more": { "type": "boolean" },
+          "limit": { "type": "integer", "minimum": 1, "maximum": 200 }
+        }
+      },
+      "ReasonRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": { "reason": { "type": "string", "minLength": 1, "maxLength": 1000 } }
+      },
+      "ResourceScope": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["resource_types", "resource_ids", "actions"],
+        "properties": {
+          "resource_types": {
+            "type": "array",
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }
+          },
+          "resource_ids": {
+            "type": "array",
+            "maxItems": 1000,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "actions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" }
+          }
+        }
+      },
+      "Membership": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tenant_id",
+          "user_id",
+          "status",
+          "role_ids",
+          "environment_ids",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "user_id": { "type": "string", "format": "uuid" },
+          "status": { "enum": ["invited", "active", "suspended", "removed"] },
+          "role_ids": {
+            "type": "array",
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "environment_ids": {
+            "type": "array",
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "10000000-0000-4000-8000-000000000001",
+            "tenant_id": "10000000-0000-4000-8000-000000000002",
+            "user_id": "10000000-0000-4000-8000-000000000003",
+            "status": "active",
+            "role_ids": [],
+            "environment_ids": [],
+            "version": 1,
+            "metadata": {
+              "correlation_id": "10000000-0000-4000-8000-000000000004",
+              "audit_event_id": "10000000-0000-4000-8000-000000000005",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "MembershipPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/Membership" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "UpdateMembershipRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "minProperties": 2,
+        "required": ["reason"],
+        "properties": {
+          "status": { "enum": ["active", "suspended", "removed"] },
+          "role_ids": {
+            "type": "array",
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "environment_ids": {
+            "type": "array",
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "AcceptInvitationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["invitation_proof"],
+        "properties": {
+          "invitation_proof": { "type": "string", "minLength": 32, "maxLength": 2048 }
+        }
+      },
+      "InvitationPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/Invitation" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "Permission": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "code", "resource_type", "action", "sensitivity", "description"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "code": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+          "resource_type": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "action": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "sensitivity": { "enum": ["low", "standard", "high", "critical"] },
+          "description": { "type": "string", "minLength": 1, "maxLength": 500 }
+        }
+      },
+      "PermissionPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/Permission" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "RoleEffect": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["permission_code", "effect", "conditions"],
+        "properties": {
+          "permission_code": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+          "effect": { "enum": ["allow", "deny"] },
+          "conditions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "environment_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": { "type": "string", "format": "uuid" }
+              },
+              "team_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": { "type": "string", "format": "uuid" }
+              },
+              "resource_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": { "type": "string", "format": "uuid" }
+              }
+            }
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tenant_id",
+          "name",
+          "description",
+          "status",
+          "effects",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+          "description": { "type": "string", "maxLength": 500 },
+          "status": { "enum": ["active", "retired"] },
+          "effects": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/RoleEffect" }
+          },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "20000000-0000-4000-8000-000000000001",
+            "tenant_id": "20000000-0000-4000-8000-000000000002",
+            "name": "Synthetic reviewer",
+            "description": "Example-only role",
+            "status": "active",
+            "effects": [{ "permission_code": "audit.read", "effect": "allow", "conditions": {} }],
+            "version": 1,
+            "metadata": {
+              "correlation_id": "20000000-0000-4000-8000-000000000003",
+              "audit_event_id": "20000000-0000-4000-8000-000000000004",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "RolePage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/Role" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "CreateRoleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description", "effects", "reason"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+          "description": { "type": "string", "maxLength": 500 },
+          "effects": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/RoleEffect" }
+          },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "UpdateRoleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "minProperties": 2,
+        "required": ["reason"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+          "description": { "type": "string", "maxLength": 500 },
+          "status": { "enum": ["active", "retired"] },
+          "effects": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/RoleEffect" }
+          },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "TenantEnvironment": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tenant_id",
+          "code",
+          "kind",
+          "execution_mode",
+          "status",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "code": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$" },
+          "kind": { "enum": ["sandbox", "paper", "staging", "production", "custom"] },
+          "execution_mode": { "enum": ["observe", "simulate", "execute"] },
+          "status": { "enum": ["active", "suspended", "archived"] },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "30000000-0000-4000-8000-000000000001",
+            "tenant_id": "30000000-0000-4000-8000-000000000002",
+            "code": "sandbox",
+            "kind": "sandbox",
+            "execution_mode": "observe",
+            "status": "active",
+            "version": 1,
+            "metadata": {
+              "correlation_id": "30000000-0000-4000-8000-000000000003",
+              "audit_event_id": "30000000-0000-4000-8000-000000000004",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "EnvironmentPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/TenantEnvironment" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "CreateEnvironmentRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "kind", "execution_mode", "reason"],
+        "properties": {
+          "code": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$" },
+          "kind": { "enum": ["sandbox", "paper", "staging", "production", "custom"] },
+          "execution_mode": { "enum": ["observe", "simulate", "execute"] },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "UpdateEnvironmentRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "minProperties": 2,
+        "required": ["reason"],
+        "properties": {
+          "execution_mode": { "enum": ["observe", "simulate", "execute"] },
+          "status": { "enum": ["active", "suspended", "archived"] },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "ServiceIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tenant_id",
+          "environment_id",
+          "name",
+          "owner_id",
+          "scope",
+          "status",
+          "expires_at",
+          "credential_prefixes",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "owner_id": { "type": "string", "format": "uuid" },
+          "scope": { "$ref": "#/components/schemas/ResourceScope" },
+          "status": { "enum": ["active", "suspended", "revoked", "expired"] },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "credential_prefixes": {
+            "type": "array",
+            "maxItems": 20,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 4, "maxLength": 24 }
+          },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "40000000-0000-4000-8000-000000000001",
+            "tenant_id": "40000000-0000-4000-8000-000000000002",
+            "environment_id": "40000000-0000-4000-8000-000000000003",
+            "name": "Synthetic worker",
+            "owner_id": "40000000-0000-4000-8000-000000000004",
+            "scope": {
+              "resource_types": ["evidence"],
+              "resource_ids": [],
+              "actions": ["evidence.read"]
+            },
+            "status": "active",
+            "expires_at": "2030-01-01T00:00:00Z",
+            "credential_prefixes": ["example-prefix"],
+            "version": 1,
+            "metadata": {
+              "correlation_id": "40000000-0000-4000-8000-000000000005",
+              "audit_event_id": "40000000-0000-4000-8000-000000000006",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "ServiceIdentityPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/ServiceIdentity" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "CreateServiceIdentityRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "owner_id", "scope", "expires_at", "reason"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "owner_id": { "type": "string", "format": "uuid" },
+          "scope": { "$ref": "#/components/schemas/ResourceScope" },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "UpdateServiceIdentityRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "minProperties": 2,
+        "required": ["reason"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "scope": { "$ref": "#/components/schemas/ResourceScope" },
+          "status": { "enum": ["active", "suspended", "revoked"] },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "IssueServiceCredentialRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["expires_at", "reason"],
+        "properties": {
+          "expires_at": { "type": "string", "format": "date-time" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "ServiceCredentialIssued": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["credential_id", "prefix", "one_time_credential", "expires_at", "metadata"],
+        "properties": {
+          "credential_id": { "type": "string", "format": "uuid" },
+          "prefix": { "type": "string", "minLength": 4, "maxLength": 24 },
+          "one_time_credential": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 2048,
+            "writeOnly": true
+          },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        }
+      },
+      "SupportAccessRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "support_principal_id",
+          "tenant_id",
+          "environment_id",
+          "resource_scope",
+          "reason",
+          "step_up_evidence_id",
+          "starts_at",
+          "expires_at",
+          "status",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "support_principal_id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "resource_scope": { "$ref": "#/components/schemas/ResourceScope" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "step_up_evidence_id": { "type": "string", "format": "uuid" },
+          "starts_at": { "type": "string", "format": "date-time" },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "status": { "enum": ["pending", "granted", "denied", "expired", "revoked"] },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "50000000-0000-4000-8000-000000000001",
+            "support_principal_id": "50000000-0000-4000-8000-000000000002",
+            "tenant_id": "50000000-0000-4000-8000-000000000003",
+            "environment_id": "50000000-0000-4000-8000-000000000004",
+            "resource_scope": {
+              "resource_types": ["audit"],
+              "resource_ids": [],
+              "actions": ["audit.read"]
+            },
+            "reason": "Synthetic incident review",
+            "step_up_evidence_id": "50000000-0000-4000-8000-000000000005",
+            "starts_at": "2030-01-01T00:00:00Z",
+            "expires_at": "2030-01-01T01:00:00Z",
+            "status": "pending",
+            "version": 1,
+            "metadata": {
+              "correlation_id": "50000000-0000-4000-8000-000000000006",
+              "audit_event_id": "50000000-0000-4000-8000-000000000007",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "SupportAccessRequestPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/SupportAccessRequest" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "CreateSupportAccessRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "support_principal_id",
+          "resource_scope",
+          "reason",
+          "step_up_evidence_id",
+          "starts_at",
+          "expires_at"
+        ],
+        "properties": {
+          "support_principal_id": { "type": "string", "format": "uuid" },
+          "resource_scope": { "$ref": "#/components/schemas/ResourceScope" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "step_up_evidence_id": { "type": "string", "format": "uuid" },
+          "starts_at": { "type": "string", "format": "date-time" },
+          "expires_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "GrantSupportAccessRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["issuer_id", "reason", "expires_at"],
+        "properties": {
+          "issuer_id": { "type": "string", "format": "uuid" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "expires_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "SupportAccessGrant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "request_id",
+          "support_principal_id",
+          "tenant_id",
+          "environment_id",
+          "resource_scope",
+          "issuer_id",
+          "starts_at",
+          "expires_at",
+          "status",
+          "audit_reference",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "request_id": { "type": "string", "format": "uuid" },
+          "support_principal_id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "resource_scope": { "$ref": "#/components/schemas/ResourceScope" },
+          "issuer_id": { "type": "string", "format": "uuid" },
+          "starts_at": { "type": "string", "format": "date-time" },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "status": { "enum": ["active", "expired", "revoked"] },
+          "audit_reference": { "type": "string", "format": "uuid" },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        }
+      },
+      "SupportAccessGrantPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/SupportAccessGrant" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "EvidenceRun": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source_revision",
+          "worktree_state",
+          "check_profile",
+          "scope",
+          "requester_id",
+          "status",
+          "started_at",
+          "completed_at",
+          "manifest_reference",
+          "manifest_sha256",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "source_revision": { "type": "string", "pattern": "^[a-fA-F0-9]{40,64}$" },
+          "worktree_state": { "enum": ["clean", "documented-dirty"] },
+          "check_profile": { "enum": ["foundation", "control-plane", "full"] },
+          "scope": { "enum": ["tenant_environment", "repository"] },
+          "requester_id": { "type": "string", "format": "uuid" },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "complete_pass",
+              "complete_fail",
+              "incomplete",
+              "cancelled"
+            ]
+          },
+          "started_at": { "type": "string", "format": "date-time" },
+          "completed_at": { "type": ["string", "null"], "format": "date-time" },
+          "manifest_reference": { "type": ["string", "null"], "maxLength": 500 },
+          "manifest_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "60000000-0000-4000-8000-000000000001",
+            "source_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "worktree_state": "documented-dirty",
+            "check_profile": "foundation",
+            "scope": "repository",
+            "requester_id": "60000000-0000-4000-8000-000000000002",
+            "status": "queued",
+            "started_at": "2030-01-01T00:00:00Z",
+            "completed_at": null,
+            "manifest_reference": null,
+            "manifest_sha256": null,
+            "version": 1,
+            "metadata": {
+              "correlation_id": "60000000-0000-4000-8000-000000000003",
+              "audit_event_id": "60000000-0000-4000-8000-000000000004",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "EvidenceRunPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/EvidenceRun" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "StartEvidenceRunRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_revision", "worktree_state", "check_profile", "scope"],
+        "properties": {
+          "source_revision": { "type": "string", "pattern": "^[a-fA-F0-9]{40,64}$" },
+          "worktree_state": { "enum": ["clean", "documented-dirty"] },
+          "check_profile": { "enum": ["foundation", "control-plane", "full"] },
+          "scope": { "enum": ["tenant_environment", "repository"] }
+        }
+      },
+      "CapabilityDefinitionPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "page"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 200,
+            "items": { "$ref": "#/components/schemas/CapabilityDefinition" }
+          },
+          "page": { "$ref": "#/components/schemas/PageMetadata" }
+        }
+      },
+      "CapabilityExposure": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["capability_id", "enabled", "policy_version_id", "configuration_version_id"],
+        "properties": {
+          "capability_id": { "type": "string", "format": "uuid" },
+          "enabled": { "type": "boolean" },
+          "policy_version_id": { "type": "string", "format": "uuid" },
+          "configuration_version_id": { "type": "string", "format": "uuid" }
+        }
+      },
+      "CapabilityExposureSet": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tenant_id", "environment_id", "exposures", "version", "metadata"],
+        "properties": {
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "exposures": {
+            "type": "array",
+            "maxItems": 500,
+            "items": { "$ref": "#/components/schemas/CapabilityExposure" }
+          },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        }
+      },
+      "ReplaceCapabilityExposuresRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["exposures", "reason"],
+        "properties": {
+          "exposures": {
+            "type": "array",
+            "maxItems": 500,
+            "items": { "$ref": "#/components/schemas/CapabilityExposure" }
+          },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "Health": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "service", "version", "time", "checks"],
+        "properties": {
+          "status": { "enum": ["ok", "degraded", "unavailable"] },
+          "service": { "type": "string" },
+          "version": { "type": "string" },
+          "time": { "type": "string", "format": "date-time" },
+          "checks": {
+            "type": "object",
+            "additionalProperties": { "enum": ["ok", "degraded", "unavailable"] }
+          }
+        }
+      },
+      "Tenant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "type", "status", "version"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "type": {
+            "enum": [
+              "individual",
+              "team",
+              "coaching",
+              "enterprise",
+              "hermes_operator",
+              "hybrid",
+              "platform_internal"
+            ]
+          },
+          "status": { "enum": ["provisioning", "active", "suspended", "closed"] },
+          "version": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "CreateTenantRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "default_timezone", "base_currency", "default_environment"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "type": { "$ref": "#/components/schemas/Tenant/properties/type" },
+          "default_timezone": { "type": "string", "minLength": 1 },
+          "base_currency": { "type": "string", "pattern": "^[A-Z0-9._-]{2,20}$" },
+          "default_environment": { "enum": ["sandbox", "paper"] }
+        }
+      },
+      "CreateTenantResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tenant",
+          "membership_id",
+          "environment_id",
+          "audit_event_id",
+          "correlation_id"
+        ],
+        "properties": {
+          "tenant": { "$ref": "#/components/schemas/Tenant" },
+          "membership_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "audit_event_id": { "type": "string", "format": "uuid" },
+          "correlation_id": { "type": "string", "format": "uuid" }
+        }
+      },
+      "Session": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["session_id", "user_id", "authentication_strength", "tenant_contexts"],
+        "properties": {
+          "session_id": { "type": "string", "format": "uuid" },
+          "user_id": { "type": "string", "format": "uuid" },
+          "authentication_strength": {
+            "enum": ["single_factor", "multi_factor", "phishing_resistant"]
+          },
+          "active_tenant_id": { "type": ["string", "null"], "format": "uuid" },
+          "active_environment_id": { "type": ["string", "null"], "format": "uuid" },
+          "tenant_contexts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["tenant_id", "membership_id", "environments"],
+              "properties": {
+                "tenant_id": { "type": "string", "format": "uuid" },
+                "membership_id": { "type": "string", "format": "uuid" },
+                "environments": { "type": "array", "items": { "type": "string", "format": "uuid" } }
+              }
+            }
+          }
+        }
+      },
+      "SelectContextRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tenant_id", "environment_id"],
+        "properties": {
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" }
+        }
+      },
+      "ContextSelection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tenant_id", "environment_id", "membership_version", "capability_manifest"],
+        "properties": {
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "membership_version": { "type": "integer", "minimum": 1 },
+          "capability_manifest": { "type": "object" }
+        }
+      },
+      "CreateInvitationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["email", "role_ids", "environment_ids"],
+        "properties": {
+          "email": { "type": "string", "format": "email", "maxLength": 320 },
+          "role_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "environment_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "format": "uuid" }
+          },
+          "expires_in_seconds": { "type": "integer", "minimum": 300, "maximum": 604800 }
+        }
+      },
+      "Invitation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tenant_id",
+          "target_hint",
+          "status",
+          "expires_at",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "target_hint": { "type": "string", "minLength": 3, "maxLength": 320 },
+          "status": { "enum": ["pending", "accepted", "expired", "revoked"] },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        },
+        "examples": [
+          {
+            "id": "70000000-0000-4000-8000-000000000001",
+            "tenant_id": "70000000-0000-4000-8000-000000000002",
+            "target_hint": "s***@example.invalid",
+            "status": "pending",
+            "expires_at": "2030-01-02T00:00:00Z",
+            "version": 1,
+            "metadata": {
+              "correlation_id": "70000000-0000-4000-8000-000000000003",
+              "audit_event_id": "70000000-0000-4000-8000-000000000004",
+              "version": 1,
+              "warnings": []
+            }
+          }
+        ]
+      },
+      "RoleAssignmentRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assignments", "reason"],
+        "properties": {
+          "assignments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["role_id", "environment_id", "resource_scope"],
+              "properties": {
+                "role_id": { "type": "string", "format": "uuid" },
+                "environment_id": { "type": "string", "format": "uuid" },
+                "resource_scope": { "type": "object" }
+              }
+            }
+          },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "MemberAccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["member_id", "version", "assignments", "audit_event_id"],
+        "properties": {
+          "member_id": { "type": "string", "format": "uuid" },
+          "version": { "type": "integer", "minimum": 1 },
+          "assignments": { "type": "array", "items": { "type": "object" } },
+          "audit_event_id": { "type": "string", "format": "uuid" }
+        }
+      },
+      "RegisterCapabilityRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "required_permissions", "routes", "actions", "schema_version"],
+        "properties": {
+          "code": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$" },
+          "required_permissions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" }
+          },
+          "routes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^/" }
+          },
+          "actions": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+          "schema_version": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "CapabilityDefinition": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "code",
+          "required_permissions",
+          "routes",
+          "actions",
+          "schema_version",
+          "version",
+          "metadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "code": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$" },
+          "required_permissions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" }
+          },
+          "routes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^/" }
+          },
+          "actions": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+          "schema_version": { "type": "integer", "minimum": 1 },
+          "version": { "type": "integer", "minimum": 1 },
+          "metadata": { "$ref": "#/components/schemas/OperationMetadata" }
+        }
+      },
+      "ConfigurationVersionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["configuration_set_id", "schema_id", "schema_version", "values", "reason"],
+        "properties": {
+          "configuration_set_id": { "type": "string", "format": "uuid" },
+          "schema_id": { "type": "string", "minLength": 1 },
+          "schema_version": { "type": "integer", "minimum": 1 },
+          "values": { "type": "object" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      },
+      "ConfigurationVersion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "version", "status", "content_sha256", "validation"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "version": { "type": "integer", "minimum": 1 },
+          "status": {
+            "enum": [
+              "draft",
+              "in_review",
+              "approved",
+              "scheduled",
+              "effective",
+              "superseded",
+              "retired",
+              "rejected"
+            ]
+          },
+          "content_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "validation": { "enum": ["valid", "invalid", "incompatible"] },
+          "audit_event_id": { "type": ["string", "null"], "format": "uuid" }
+        }
+      },
+      "ActivationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason"],
+        "properties": {
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "approval_request_id": { "type": ["string", "null"], "format": "uuid" }
+        }
+      },
+      "AuditEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tenant_id",
+          "environment_id",
+          "occurred_at",
+          "actor",
+          "action",
+          "resource",
+          "decision",
+          "correlation_id",
+          "outcome"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "tenant_id": { "type": "string", "format": "uuid" },
+          "environment_id": { "type": "string", "format": "uuid" },
+          "occurred_at": { "type": "string", "format": "date-time" },
+          "actor": { "type": "object" },
+          "action": { "type": "string" },
+          "resource": { "type": "object" },
+          "decision": { "type": "object" },
+          "correlation_id": { "type": "string", "format": "uuid" },
+          "outcome": { "enum": ["succeeded", "failed", "denied"] }
+        }
+      },
+      "AuditExportRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "format"],
+        "properties": {
+          "from": { "type": "string", "format": "date-time" },
+          "to": { "type": "string", "format": "date-time" },
+          "format": { "enum": ["jsonl", "csv"] },
+          "filters": { "type": "object" }
+        }
+      },
+      "AuditExport": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "manifest_sha256", "audit_event_id"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "status": { "enum": ["queued", "running", "complete", "failed"] },
+          "manifest_sha256": { "type": ["string", "null"], "pattern": "^([0-9a-f]{64})?$" },
+          "artifact_reference": { "type": ["string", "null"] },
+          "audit_event_id": { "type": "string", "format": "uuid" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "message", "correlation_id", "retryable", "retry_guidance"],
+            "properties": {
+              "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+              "message": { "type": "string", "minLength": 1 },
+              "correlation_id": { "type": "string", "format": "uuid" },
+              "retryable": { "type": "boolean" },
+              "retry_guidance": { "type": "string", "minLength": 1 },
+              "details": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "field": { "type": "string", "minLength": 1, "maxLength": 255 },
+                  "reason_code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+                  "retry_after_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

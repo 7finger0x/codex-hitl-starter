@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "complete_not_applied",
+  "completion_claim": true,
+  "completion_scope": "approved five-path source/topology correction only",
+  "generated_at": "2026-07-13T14:17:59-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval_source": "specs/002-platform-foundation/checkpoints/HCP-04-infrastructure.md:368-435",
+  "repair_diff_sha256": "fd2fe5c5b5e90cb6c4e50af99b37b7ce4f765d5aa90e8fbe2f3c7524dff02d0b",
+  "sources": {
+    "infra/environments/local/compose.override.yaml": {
+      "before_sha256": "fa3b697a4dbb4d6128271760f56f09f1e75bb22bbf997f1ec8e42a062acfa10e",
+      "after_sha256": "6018bd79b599ddfcabf378780f4a2303444c9699911200cae550ff98a746590d"
+    },
+    ".env.example": {
+      "before_sha256": "67715a53c14b7abe38f289b31ed6c011f752b6dc81a4505d93cc0ea775f0ec85",
+      "after_sha256": "5902a9decd49c1d843f302dd54bac56bd996c51d38b2282445bf90c23949dc0e"
+    },
+    "specs/002-platform-foundation/quickstart.md": {
+      "before_sha256": "7fb2b7434a1971115a42913b609afd9eaf3fe53ba9f94c70cbe740839cd82a87",
+      "after_sha256": "98359f3f4a87e447030c2783950f230b26451b55b56ad069a8b139c785bc2df5"
+    },
+    "compose.yaml": {
+      "before_sha256": "33026e8e9ace74318cc9d45c5c7e119c045b33976b819c3bc0da433ef5ab26c4",
+      "after_sha256": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad"
+    },
+    "infra/environments/local/postgres/010-platform-foundation-identity.sql": {
+      "before_sha256": null,
+      "after_sha256": "3de090934f3a0c88b8ac42ad018d768a6b190a4c5e8170fdc533d15540af783c"
+    }
+  },
+  "corrections": {
+    "api_host_binding": "127.0.0.1:8080 -> api:3001/tcp",
+    "local_health_urls": "http://127.0.0.1:8080/health/live and /health/ready",
+    "postgres_comment_init_mount": "read-only exact one-line SQL",
+    "next_telemetry_disabled": true,
+    "worker_healthcheck": "bounded local http://127.0.0.1:9464/health/live"
+  },
+  "offline_validation": {
+    "yaml_parse": "pass using existing PyYAML",
+    "services": 14,
+    "unique_digest_pinned_images": 12,
+    "networks": 3,
+    "named_volumes": 7,
+    "loopback_ports": 10,
+    "non_loopback_ports": 0,
+    "contract_drift": false
+  },
+  "runtime_applied": false,
+  "protected_actions": {
+    "docker_or_compose_invoked_for_source_validation": false,
+    "image_pulled": false,
+    "container_network_or_volume_changed": false,
+    "database_or_cache_connected": false,
+    "secret_accessed": false,
+    "manifest_or_lockfile_changed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  }
+}

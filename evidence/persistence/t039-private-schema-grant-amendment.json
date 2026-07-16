@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "task": "T039",
+  "status": "pass",
+  "completion_claim": false,
+  "completion_scope": "HCP-03 T039 private-schema grant amendment decision recording only",
+  "generated_at": "2026-07-13T04:04:06-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-003", "PF-009", "PF-011", "PF-024"],
+  "checkpoint": {
+    "id": "HCP-03",
+    "decision": "approved_with_conditions",
+    "amendment": "T039 private-schema grant allowlist",
+    "approver": "User in Codex task",
+    "decision_time": "2026-07-13T04:04:06-07:00",
+    "record": "specs/002-platform-foundation/checkpoints/HCP-03-persistence.md",
+    "original_decision_evidence": "evidence/persistence/t037-hcp03-decision.json"
+  },
+  "approval_statement": "Approve the HCP-03 T039 private-schema grant amendment exactly as recorded in HCP-03-persistence.md. Retain all other HCP-03 Option A conditions.",
+  "approved_delta": {
+    "schema_usage": {
+      "schema": "platform_private",
+      "grantees": ["platform_api", "platform_worker", "platform_evidence_reader"],
+      "excluded": ["PUBLIC", "platform_runtime", "every other role"]
+    },
+    "set_request_context_execute": ["platform_api", "platform_worker"],
+    "rls_helper_execute": ["platform_api", "platform_worker", "platform_evidence_reader"],
+    "rls_helpers": [
+      "platform_private.require_request_context()",
+      "platform_private.tenant_matches(uuid)",
+      "platform_private.environment_matches(uuid,uuid)"
+    ],
+    "prohibited_runtime_access": [
+      "CREATE on platform_private",
+      "private table privileges",
+      "private sequence privileges",
+      "platform_private.clear_request_context() execution",
+      "trigger or immutability guard function execution"
+    ]
+  },
+  "retained_conditions": [
+    "all other HCP-03 Option A inventory and invalidation rules remain binding",
+    "database application and teardown remain prohibited pending guarded-target facts and separately approved PostgreSQL tool paths",
+    "no dependency or tool action",
+    "no image or network pull",
+    "no container or infrastructure change",
+    "no secret or connection-string access",
+    "no repository-content upload",
+    "no remote or production database action",
+    "no public-contract change",
+    "no later-task authorization"
+  ],
+  "tdd_basis": {
+    "red_evidence": "evidence/persistence/t038-migration-tests-red.json",
+    "sql_test_sha256": "63f46810cb444de3087f2c22ed3f17ce0b0d4f3552ee0040858b3d99484a6ab2",
+    "typescript_test_sha256": "dc25bc8383d0fc51cf360a1b2e1d67cc22c3c3451c7540a2b5d6edef855cc2be"
+  },
+  "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7",
+  "protected_actions": {
+    "migration_created_by_decision_record": false,
+    "migration_applied": false,
+    "database_connected": false,
+    "connection_secret_accessed": false,
+    "database_destroyed": false,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "container_or_infrastructure_changed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "later_task_started": false
+  }
+}

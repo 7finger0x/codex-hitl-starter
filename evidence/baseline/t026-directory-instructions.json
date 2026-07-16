@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "task": "T026",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T026 only",
+  "generated_at": "2026-07-11T20:37:47-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["HITL-002", "PF-026"],
+  "scope": {
+    "ordinary_instruction_hardening": true,
+    "dependency_change": false,
+    "public_contract_change": false,
+    "persistence_or_rls_change": false,
+    "infrastructure_change": false,
+    "engineering_policy_semantic_change": false,
+    "secret_access": false,
+    "external_publication": false
+  },
+  "tdd": {
+    "red": {
+      "result": "expected_failure",
+      "exit_status": 1,
+      "reason": "all four scoped AGENTS.md files were absent"
+    },
+    "green": {
+      "result": "pass",
+      "files": 4,
+      "root_rules_weakened": false
+    },
+    "verifier": {
+      "path": "tooling/typescript/verify-directory-instructions.mjs",
+      "sha256": "82ceba63f4039f3afe899bc80c558d274794a10d2fbee2fb4bd0cc6f751be447"
+    }
+  },
+  "instructions": [
+    {
+      "path": "apps/api/AGENTS.md",
+      "sha256": "7fc23a1fd157125f83c867d7f4f554eb7011b311cabce7357950164df6ff2016",
+      "checkpoint_stops": ["HCP-01", "HCP-02", "HCP-03", "HCP-04"],
+      "focus": "authoritative API boundary, external-input validation, authorization, tenant context, atomic audit and outbox"
+    },
+    {
+      "path": "supabase/AGENTS.md",
+      "sha256": "8c2d77f21b8dc0cf8246558e767fda7b58383c1fd4aa82b60f4f2fdc3795ecb2",
+      "checkpoint_stops": ["HCP-03", "HCP-07"],
+      "focus": "forward-only migrations, forced RLS, composite tenant keys, non-owner runtime roles, destructive-operation stop"
+    },
+    {
+      "path": "infra/AGENTS.md",
+      "sha256": "d5df295a98f8ac5a09b88ed420154f7f5a327c94048090b6e56ac8d9d0935e0b",
+      "checkpoint_stops": ["HCP-04", "HCP-07", "HCP-08"],
+      "focus": "target-specific infrastructure approval, production no-go, opaque secret references, immutable pins, recovery"
+    },
+    {
+      "path": "tooling/codex-hitl/AGENTS.md",
+      "sha256": "c85c9f278ab99c47098838f4ed031e66b9c9087c792f2297977407952b8a760c",
+      "checkpoint_stops": ["HCP-01", "HCP-05", "HCP-08"],
+      "focus": "deterministic policy, shell=False execution, exact approval binding, secret isolation, legacy compatibility"
+    }
+  ],
+  "verification": {
+    "aggregate_pnpm_verify": "pass",
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "workspace_boundaries": "pass: 12 dependency-free boundaries",
+    "authority": "pass",
+    "legacy_tests": "pass: 10 of 10",
+    "legacy_traceability": "pass: 8 requirements",
+    "agent_context": "pass",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "next_task": "T027 not started",
+  "user_changes_preserved": true
+}

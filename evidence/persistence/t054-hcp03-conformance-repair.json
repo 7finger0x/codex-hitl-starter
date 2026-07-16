@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-03",
+  "status": "complete_not_applied",
+  "completion_claim": true,
+  "completion_scope": "approved migration-harness and transport-assertion source repair only",
+  "generated_at": "2026-07-13T14:17:59-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval_source": "specs/002-platform-foundation/checkpoints/HCP-03-persistence.md:644-668",
+  "repair_diff_sha256": "65891db295f5a89d373973fa68402b089a6bc995c3a78bbc0156d64e80bc21f5",
+  "sources": {
+    "tests/integration/migrations/foundation-migrations.test.ts": {
+      "before_sha256": "dc25bc8383d0fc51cf360a1b2e1d67cc22c3c3451c7540a2b5d6edef855cc2be",
+      "after_sha256": "ff02da0ba7b2d61869d00293a69b88f77c9a5f4d4cbb4cfedabb027e8b4adb83"
+    },
+    "supabase/tests/000_foundation_migration_test.sql": {
+      "before_sha256": "63f46810cb444de3087f2c22ed3f17ce0b0d4f3552ee0040858b3d99484a6ab2",
+      "after_sha256": "793dafe2261cdf8843a0303db7537ad6df4c3bbd952fea08175e9cfed091a957"
+    }
+  },
+  "scenarios": [
+    "empty",
+    "representative_prior",
+    "interrupted_001_002_then_003",
+    "rolling_compatibility_and_forward_recovery"
+  ],
+  "controls": {
+    "guard_before_schema_backup_reset_retry_migration_and_suite": true,
+    "database_identity": "127.0.0.1:55432/platform_foundation_hcp03",
+    "database_comment": "DISPOSABLE:002-platform-foundation:HCP-03",
+    "postgres_major": 17,
+    "synthetic_rows_only": true,
+    "staging_or_production_markers_forbidden": true,
+    "custom_format_backup": true,
+    "backup_sha256_required": true,
+    "migration_transaction_scope": "one transaction per reviewed migration",
+    "down_migration_allowed": false,
+    "post_commit_recovery": "preserve state and backup; require reviewed forward fix or fresh guarded target"
+  },
+  "expected_command_argv": {
+    "adapter_prefix": [
+      "/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe",
+      "exec",
+      "--interactive",
+      "--user=postgres",
+      "platform-foundation-local-postgres-1"
+    ],
+    "psql_tool": "/usr/bin/psql",
+    "pg_dump_tool": "/usr/bin/pg_dump",
+    "hash_tool": "/usr/bin/sha256sum",
+    "psql_input": "--no-psqlrc --quiet --set=ON_ERROR_STOP=1 --dbname=platform_foundation_hcp03 --file=-",
+    "migration_additions": "--single-transaction --set=migration_sha256=<approved-source-sha256>",
+    "backup": "--format=custom --no-owner --no-acl platform_foundation_hcp03"
+  },
+  "verification": {
+    "guarded_test": "expected incomplete: 5 static tests passed; runtime test stopped at absent target/tool attestation",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "connection_environment_read": false,
+    "docker_command_started": false,
+    "postgres_command_started": false
+  },
+  "application": {
+    "result": "not_applied",
+    "runtime_amendment_approved": false,
+    "target_attestation_created": false,
+    "backup_created": false,
+    "migration_applied": false,
+    "database_reset_or_teardown": false
+  },
+  "protected_actions": {
+    "secret_accessed": false,
+    "database_or_cache_connected": false,
+    "container_created_or_started": false,
+    "image_pulled": false,
+    "contract_or_migration_changed": false,
+    "manifest_or_lockfile_changed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "t055_or_later_started": false
+  }
+}

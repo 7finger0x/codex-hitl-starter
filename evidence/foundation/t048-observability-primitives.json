@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "task": "T048",
+  "status": "complete",
+  "completion_claim": true,
+  "generated_at": "2026-07-13T11:25:59-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "verification_evidence": "evidence/dependencies/t047-t050-binary-restoration-and-verification.json",
+  "requirements": ["PF-013", "PF-017", "PF-021", "PF-022"],
+  "sources": {
+    "packages/observability/src/index.ts": "a77abc7966971650f8b987fd6b759b7698906363c625a1ff7fd4f9ca54e526df",
+    "packages/observability/src/redaction.ts": "ac3988aca5904425cf20a8d833ce1382e60c9a8409aa51002734f86bda41422c",
+    "packages/observability/src/health.ts": "54b5dbe299f38aebf62179d666d09e75cf3521e6cb4e040838aa40e9d9dc88be",
+    "packages/observability/src/observability.test.ts": "7eec1ced8c9c2a0181a18044243eb879cc1a92b5b1e8d083338e128ff25aa7cc"
+  },
+  "ordered_tdd_result": {
+    "red_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test packages/observability/src/observability.test.ts",
+    "red_exit_code": 1,
+    "red_reason": "ERR_MODULE_NOT_FOUND for index.js before the T048 modules existed",
+    "green_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test packages/observability/src/observability.test.ts",
+    "green_exit_code": 0,
+    "green_result": "8 tests passed in the clean HCP-01-approved Node.js 24.18.0 rerun; T047-T048 total 17"
+  },
+  "acceptance_evidence": {
+    "structured_logging": "pass: required service/version/environment/time/signal fields, stable event names, reserved-field protection, and deterministic JSON output",
+    "redaction": "pass: credential keys and credential-shaped values redact recursively without mutation; accessors are not invoked; errors, cycles, unsupported values, and bounded traversal fail safe",
+    "audit_separation": "pass: top-level and nested audit payload fields are rejected while technical telemetry remains available",
+    "metrics": "pass: finite measurements and stable names enforced; attributes redact before sink invocation",
+    "traces": "pass: W3C version-00 context validation and propagation, nonzero generated IDs, bounded span lifecycle, redacted attributes, and completed-span records",
+    "health": "pass: liveness is distinct from readiness; required failure closes readiness; optional failure degrades; thrown and timed-out checks expose only stable codes",
+    "telemetry_failure": "pass: validated logging, metric, and trace sink failures do not fail application work"
+  },
+  "validation": {
+    "supported_runtime": "pass: exact restored Node.js 24.18.0 binary and clean HCP-01-approved rerun",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "runtime_boundary": {
+    "collector_started": false,
+    "container_or_compose_started": false,
+    "telemetry_exported": false,
+    "network_request_made": false
+  },
+  "protected_actions": {
+    "out_of_scope_node_binary_execution_detected": false,
+    "historical_approval_invalid_diagnostic_retained_separately": true,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "public_contract_changed": false,
+    "persistence_schema_changed": false,
+    "infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_deployment": false,
+    "production_action": false
+  },
+  "next_task": {
+    "id": "T049",
+    "scope": "repository-local cache port and isolation tests"
+  }
+}

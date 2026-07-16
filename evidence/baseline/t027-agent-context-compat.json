@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "task": "T027",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T027 only",
+  "generated_at": "2026-07-11T20:41:27-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["HITL-001", "HITL-002", "PF-028"],
+  "test": {
+    "path": "tests/compat/test_update_agent_context.py",
+    "sha256": "27e1d251ede0b4b8e71f02f39830b4e1ad29da9dd8430041a9d8ac5bc94ecb1f",
+    "framework": "Python unittest",
+    "isolated_temporary_repositories": true,
+    "subprocess_shell": false,
+    "cases": {
+      "no_clobber": "pass: user-authored prefix and suffix preserved byte-for-byte",
+      "supported_agent": "pass: codex accepted; unknown agent rejected with status 2 and no write",
+      "active_feature": "pass: feature.json drift detected, deterministic diff emitted, update applied",
+      "repeated_run": "pass: second update unchanged, check passed, dry-run empty, bytes identical"
+    },
+    "result": "pass: 4 of 4"
+  },
+  "verification": {
+    "root_test_discovery": "pass: 14 of 14 including all 4 compatibility tests",
+    "aggregate_pnpm_verify": "pass",
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "directory_instructions": "pass",
+    "workspace_boundaries": "pass",
+    "authority": "pass",
+    "legacy_traceability": "pass: 8 requirements",
+    "agent_context": "pass",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "protected_actions_performed": false,
+  "user_changes_preserved": true
+}

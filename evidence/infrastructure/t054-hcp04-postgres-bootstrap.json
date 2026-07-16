@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "complete_runtime_application_blocked",
+  "completion_claim": true,
+  "completion_scope": "approved PostgreSQL image/tool-attestation bootstrap only",
+  "generated_at": "2026-07-13T18:06:00-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "approval_source": {
+    "path": "specs/002-platform-foundation/checkpoints/HCP-04-infrastructure.md",
+    "pre_decision_sha256": "8bc223d87d8d0e8a94d60a52ff73a8575d252cba14ba1afdea5293de10a00dac",
+    "decision": "approved_with_conditions",
+    "approver": "user in Codex task",
+    "decision_date": "2026-07-13",
+    "exact_statement_supplied": true
+  },
+  "preconditions": {
+    "docker_path": "/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe",
+    "docker_sha256": "7bc66b018b9da43fea986f893288bb93970d3d1217f5063201fd97c827f20732",
+    "context": "desktop-linux",
+    "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "local": true
+  },
+  "anonymous_pull_boundary": {
+    "docker_client_config": "C:\\Users\\brand\\AppData\\Local\\Temp\\codex-t054-anonymous-20260713",
+    "config_absent_before": true,
+    "config_absent_after": true,
+    "stored_login_or_credential_helper_available_to_command": false,
+    "approved_origins": [
+      "https://auth.docker.io",
+      "https://registry-1.docker.io",
+      "https://production.cloudfront.docker.com"
+    ],
+    "unexpected_origin_reported_by_docker": false,
+    "per_request_origin_observation_available_in_sanitized_cli_output": false
+  },
+  "image": {
+    "reference": "docker.io/supabase/postgres:17.6.1.136@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "pulled": true,
+    "reported_digest": "sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "repo_digests": [
+      "supabase/postgres@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00"
+    ],
+    "digest_match": true
+  },
+  "tool_attestation": {
+    "container_network": "none",
+    "mounts": 0,
+    "environment_arguments": 0,
+    "temporary_containers_removed": true,
+    "psql": {
+      "path": "/usr/bin/psql",
+      "version": "psql (PostgreSQL) 17.6",
+      "sha256": "96577e53f4c3558b7f27c5747b533bc7180a4b22a232e8a71af7724257d7efcc"
+    },
+    "pg_dump": {
+      "path": "/usr/bin/pg_dump",
+      "version": "pg_dump (PostgreSQL) 17.6",
+      "sha256": "858f1d46d266b6d3aa514e8483cd4d8ca43ac792b72451b448fcd00903b48eb4"
+    }
+  },
+  "project_state": {
+    "project": "platform-foundation-local",
+    "labelled_containers_after": [],
+    "created": false
+  },
+  "runtime_application_authorized": false,
+  "compose_used": false,
+  "ports_published": false,
+  "secrets_accessed": false,
+  "database_cache_or_telemetry_accessed": false,
+  "repository_transmitted": false,
+  "production_action": false,
+  "t055_or_later_started": false
+}

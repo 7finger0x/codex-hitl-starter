@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "task": "T053",
+  "status": "complete",
+  "completion_claim": true,
+  "generated_at": "2026-07-13T13:31:20-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "worktree_status_digest_before_evidence": "e6b896c35de3a408456c4bbf7a11260c42a3d3c9be7232d47aa4b7576bd2b336",
+  "requirements": ["PF-010", "PF-025"],
+  "traceability": {
+    "task_source": "specs/002-platform-foundation/tasks.md:102",
+    "documentation": "docs/architecture/foundation-runtime-skeletons.md",
+    "test": "apps/web/src/components/platform-shell.test.tsx"
+  },
+  "sources": {
+    "apps/web/src/app/layout.tsx": "952c127fe1fce6a0e98f67f3b140d129090c77981dc7a7db02c9ae116bd57336",
+    "apps/web/src/app/page.tsx": "f3936a4de86fd5fe243f32c6024b1931ebe8e3db0e9d9c115b979528ab26752c",
+    "apps/web/src/app/health/live/route.ts": "5ea63ac475dc389e6f2cfc218196e093b78ff46adac4ac0c0fd2c5b59ddb4556",
+    "apps/web/src/components/platform-shell.tsx": "9fb8d48611ec95190ce1d8729b9ad107608a3878c68a7046af4b1e4c72b093ad",
+    "apps/web/src/components/platform-shell.test.tsx": "72f60fe6b3649fac3d33e6737a59a6d55eb50dcb5aef5bd6eea953acc2a17230",
+    "apps/web/src/i18n/index.ts": "b61c3a5e06fc761c7bf526e91009019c4a3a34e85f511aad1e2426093f4da6e6",
+    "apps/web/src/styles/globals.css": "683cd47db26bd05e1f2efdea9dbe0faff1325fad5aa53ca722287c87563bfaee",
+    "apps/web/tsconfig.json": "fa19246bd192ddf68ec077091ecfb728c574e4a1946bf48fd2402e4d4b0887d3",
+    "apps/web/next-env.d.ts": "7b550dda9686c16f36a17bf9051d5dbf31e98555b30d114ac49fc49a1e712651"
+  },
+  "ordered_tdd_result": {
+    "red_exit_code": 1,
+    "red_reason": "ERR_MODULE_NOT_FOUND for the web liveness route before the T053 implementation existed",
+    "intermediate_failures": [
+      "standalone JSX runtime initially lacked explicit React imports",
+      "one navigation assertion initially matched the approved product name instead of only links",
+      "first production build rejected NodeNext .js source specifiers under Turbopack"
+    ],
+    "green_exit_code": 0,
+    "green_result": "5 web shell tests passed and the Next.js production build completed"
+  },
+  "acceptance_evidence": {
+    "session_states": "pass: loading, unauthenticated, authenticated, and sanitized error states are explicit",
+    "active_context": "pass: authenticated state shows named tenant and environment context",
+    "capability_projection": "pass: only validated supplied capabilities render; visibility is explicitly not authorization",
+    "accessibility": "pass: skip link, landmarks, named navigation/context, live status, focus visibility, responsive layout, and reduced-motion support",
+    "localization": "pass: English and Spanish content use typed message keys",
+    "health": "pass: HCP-04-approved web liveness route emits the closed Health shape with no-store"
+  },
+  "build": {
+    "next_version": "16.2.10",
+    "telemetry_disabled": true,
+    "result": "pass",
+    "routes": ["/", "/_not-found", "/health/live"]
+  },
+  "validation": {
+    "node": "v24.18.0",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "authority": "pass",
+    "root_verifier": "pass: 10 legacy, 9 compatibility, 8 traceability requirements"
+  },
+  "protected_actions": {
+    "dependency_added": false,
+    "public_contract_changed": false,
+    "external_asset_or_network_origin_used": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "t054_or_later_started": false
+  }
+}

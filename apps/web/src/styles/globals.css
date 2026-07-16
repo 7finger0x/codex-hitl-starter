@@ -1,0 +1,135 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background: #07111f;
+  color: #f5f8fc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 20rem;
+  background: linear-gradient(145deg, #07111f 0%, #10243c 100%);
+}
+
+a {
+  color: #8bd5ff;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 0.1875rem solid #ffd166;
+  outline-offset: 0.1875rem;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 10;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  transform: translateY(-200%);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #07111f;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.platform-shell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+.shell-header,
+.shell-footer {
+  padding: 1rem clamp(1rem, 4vw, 3rem);
+  background: rgb(4 13 25 / 82%);
+}
+
+.product-name {
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+main {
+  width: min(72rem, 100%);
+  margin-inline: auto;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.shell-panel,
+.context-banner,
+.capability-navigation,
+.shell-status,
+.capability-advisory {
+  border: 1px solid #365675;
+  border-radius: 0.75rem;
+  background: rgb(9 28 48 / 90%);
+  padding: 1rem;
+}
+
+.context-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin-block-end: 1rem;
+}
+
+.capability-navigation ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capability-navigation a,
+.primary-action {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: #123d62;
+  text-decoration: none;
+}
+
+.capability-advisory {
+  color: #d7e5f2;
+  font-size: 0.925rem;
+}
+
+@media (max-width: 40rem) {
+  .context-banner {
+    display: grid;
+  }
+
+  .capability-navigation ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

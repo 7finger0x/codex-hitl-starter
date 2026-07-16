@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "task": "T039",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "HCP-03-approved repository materialization of migration 001 only; database application is not claimed",
+  "generated_at": "2026-07-13T04:14:31-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "requirements": ["PF-003", "PF-009", "PF-011", "PF-024"],
+  "approvals": {
+    "option_a": {
+      "checkpoint": "HCP-03",
+      "decision": "approved_with_conditions Option A",
+      "decision_time": "2026-07-13T03:45:11-07:00",
+      "evidence": "evidence/persistence/t037-hcp03-decision.json"
+    },
+    "private_schema_grant_amendment": {
+      "decision": "approved_with_conditions",
+      "decision_time": "2026-07-13T04:04:06-07:00",
+      "evidence": "evidence/persistence/t039-private-schema-grant-amendment.json"
+    }
+  },
+  "migration_source": {
+    "path": "supabase/migrations/202607100001_foundation_bootstrap.sql",
+    "sha256": "64ea2b0977d24e6a576f010d6427eed0d0f33ecbff3a7792f7dbc3e05baddd45",
+    "forward_only": true,
+    "ledger_hash_binding": "psql migration_sha256 variable supplied from the exact source at application time"
+  },
+  "approved_inventory": {
+    "schemas": ["platform", "platform_private"],
+    "group_roles": [
+      "platform_owner",
+      "platform_migrator",
+      "platform_runtime",
+      "platform_api",
+      "platform_worker",
+      "platform_evidence_reader"
+    ],
+    "tables": ["platform_private.foundation_migration_ledger"],
+    "functions": 18,
+    "extensions_added": 0,
+    "login_roles_created": 0,
+    "runtime_owner_or_bypass_path": false
+  },
+  "security_controls": {
+    "public_create_on_public_revoked": true,
+    "public_new_schema_access_revoked": true,
+    "default_public_table_sequence_function_access_revoked": true,
+    "runtime_roles_no_login_no_superuser_no_createdb_no_createrole_no_replication_no_bypassrls": true,
+    "migrator_owner_set_role_membership_only": true,
+    "transaction_local_request_settings": 7,
+    "security_definer_functions": [
+      "platform_private.set_request_context(uuid,uuid,text,uuid,uuid,text,uuid)"
+    ],
+    "fixed_function_search_paths": true,
+    "private_schema_usage": ["platform_api", "platform_worker", "platform_evidence_reader"],
+    "set_request_context_execute": ["platform_api", "platform_worker"],
+    "rls_helper_execute": ["platform_api", "platform_worker", "platform_evidence_reader"],
+    "runtime_private_table_or_sequence_grants": 0,
+    "runtime_clear_or_trigger_helper_execute_grants": 0
+  },
+  "validation": {
+    "bootstrap_source_audit": "pass: schemas=2 roles=6 tables=1 functions=18 extensions=0; exact private allowlist; no destructive or RLS-disable statement",
+    "amendment_evidence_json": "pass",
+    "amendment_evidence_prettier": "pass",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "ordered_tdd_result": {
+    "red_evidence": "evidence/persistence/t038-migration-tests-red.json",
+    "command": "node --import tsx --test tests/integration/migrations/foundation-migrations.test.ts",
+    "runtime": "Node.js 22.23.0 host runtime",
+    "supported_runtime": false,
+    "exit_code": 1,
+    "tests": 5,
+    "passed": 2,
+    "failed": 3,
+    "skipped": 0,
+    "todo": 0,
+    "expected_remaining_failure": "T040 and T041 exact migration files are not yet materialized",
+    "actual_migration_files": ["202607100001_foundation_bootstrap.sql"],
+    "database_command_started": false,
+    "suite_status": "intentionally remains RED until the ordered T040-T041 migrations exist; the unchanged suite was not weakened"
+  },
+  "database_validation": {
+    "migration_applied": false,
+    "postgresql_syntax_and_catalog_execution": "not run and not claimed; exact guarded target facts and separately approved PostgreSQL tool paths remain absent",
+    "target_attestation_read": false,
+    "connection_environment_read": false,
+    "database_command_started": false
+  },
+  "protected_actions": {
+    "approved_migration_source_created": true,
+    "migration_applied": false,
+    "database_connected": false,
+    "connection_secret_accessed": false,
+    "database_destroyed": false,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "container_or_infrastructure_changed": false,
+    "repository_content_uploaded": false,
+    "production_action": false,
+    "later_task_started": false
+  },
+  "next_task": {
+    "id": "T040",
+    "authorized_repository_scope": "supabase/migrations/202607100002_identity_tenancy_foundation.sql exactly as recorded in HCP-03-persistence.md",
+    "database_application_authorized": false
+  }
+}

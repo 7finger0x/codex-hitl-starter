@@ -37,12 +37,12 @@ This starter does **not** grant Codex unrestricted access. Run Codex with a work
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
-python -m pip install -e .
+python -m pip install -e tooling/codex-hitl
 
 codex-hitl init
 codex-hitl status
-codex-hitl classify --kind command --value "python -m unittest discover -s tests"
-codex-hitl run --kind command --value "python -m unittest discover -s tests"
+codex-hitl classify --kind command --value "./scripts/verify.sh"
+codex-hitl run --kind command --value "./scripts/verify.sh"
 ```
 
 The sample policy allows the test command without manual approval. For an approval-required action:
@@ -89,9 +89,9 @@ codex-hitl verify
 ## Repository layout
 
 ```text
-src/codex_hitl/                 application code
+tooling/codex-hitl/             engineering control-plane package and tests
 .specify/memory/constitution.md project principles
-specs/001-.../                  specification, plan, tasks, checklist
+specs/002-platform-foundation/  active specification, plan, tasks, and checklists
 policy.toml                     action policy
 AGENTS.md                       Codex operating instructions
 .codex/config.toml              recommended Codex defaults

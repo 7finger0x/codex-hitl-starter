@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "authorityId": "final-production-paper-v3",
+  "title": "Unified AI Trading Operating System and Hermes Protocol - Final Production Paper",
+  "version": "v3",
+  "effectiveDate": "2026-07-10",
+  "owner": "7 Finger Studios",
+  "classification": "Internal",
+  "redistributionBasis": "7 Finger Studios owns the artifacts, and an authorized representative approved committing and redistributing them within this repository for this project.",
+  "storageMode": "repository-artifacts",
+  "artifactState": "approved-repository-authority",
+  "decision": {
+    "checkpoint": "HCP-06",
+    "option": "A",
+    "status": "approved",
+    "approvedAt": "2026-07-10T04:47:06-07:00",
+    "record": "specs/002-platform-foundation/checkpoints/HCP-06-source-authority.md"
+  },
+  "artifacts": [
+    {
+      "format": "pdf",
+      "path": "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.pdf",
+      "bytes": 1574532,
+      "sha256": "9d075a82a6088ef446442a1113f59a6023196fd5304c12a4e7eaefdedee66a61"
+    },
+    {
+      "format": "docx",
+      "path": "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.docx",
+      "bytes": 127602,
+      "sha256": "72a37bb2aec0cde1d103d98b292b4f1073f4373bf1e96a270a473438b4ecc4dc"
+    }
+  ],
+  "verification": {
+    "command": "./scripts/verify-authority.sh",
+    "algorithm": "SHA-256",
+    "requirements": [
+      "PF-033"
+    ]
+  }
+}

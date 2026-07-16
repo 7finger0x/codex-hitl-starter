@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "task": "T005",
+  "generated_at": "2026-07-10T05:22:14-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "approved_governance_package_sha256": "1a419e842d52bf07815c0a8f61c38599ffc5663c7f6ee16b1412e95adf4f2fa0",
+  "completed_tasks": [
+    "T001",
+    "T002",
+    "T003",
+    "T004",
+    "T005"
+  ],
+  "constitution": {
+    "version": "2.0.0",
+    "path": ".specify/memory/constitution.md",
+    "sha256": "b8331d40c3044b2df7483342fa7fb03acee4045f92b04f9bc3548ffe9071e52e"
+  },
+  "spec_kit": {
+    "installed_version": "0.12.10.dev0",
+    "selected_official_version": "0.12.9",
+    "selected_tag_commit": "80ac47e",
+    "official_install_executed": false,
+    "required_checkpoint": "HCP-01"
+  },
+  "mode_reconciliation": {
+    "affected_paths": 28,
+    "requested_mode": "100644",
+    "chmod_attempted": true,
+    "chmod_effective_on_windows_mount": false,
+    "strategy": "repository-local git core.filemode=false; committed index modes remain authoritative",
+    "core_filemode_before": true,
+    "core_filemode_after": false,
+    "staged_paths": 0,
+    "reported_mode_changes_after": 0,
+    "rollback": "git config core.filemode true"
+  },
+  "checkpoints": {
+    "GOV-01": "approved; T004-T005 complete",
+    "HCP-01": "pending",
+    "HCP-02": "pending",
+    "HCP-03": "pending",
+    "HCP-04": "pending",
+    "HCP-05": "pending",
+    "HCP-06": "pending",
+    "HCP-07": "pending",
+    "HCP-08": "pending"
+  },
+  "working_tree": {
+    "classification": "documented-dirty",
+    "inventory_excludes": [
+      "evidence/baseline/governance.json"
+    ],
+    "tracked_content_changes": [
+      {
+        "path": ".specify/memory/constitution.md",
+        "mode": "0777",
+        "bytes": 8640,
+        "sha256": "b8331d40c3044b2df7483342fa7fb03acee4045f92b04f9bc3548ffe9071e52e",
+        "head_sha256": "4c915e062899e7b26e9f71c83c5ba28b073fd77118ad2e33bf03753bf1a13963",
+        "content_changed": true
+      }
+    ],
+    "untracked_count_excluding_manifest": 61,
+    "untracked_bytes_excluding_manifest": 2212536,
+    "untracked_groups": {
+      ".agents": 10,
+      ".specify": 17,
+      "docs/adr": 11,
+      "docs/authority": 3,
+      "scripts/verify-authority.sh": 1,
+      "specs/002-platform-foundation": 19
+    },
+    "untracked_files": [
+      {
+        "path": ".agents/skills/speckit-analyze/SKILL.md",
+        "mode": "0777",
+        "bytes": 11640,
+        "sha256": "2e89ffed73764eb9d3ee2d9fba7e245a5e73229b809ddec52409ca74c44e585d"
+      },
+      {
+        "path": ".agents/skills/speckit-checklist/SKILL.md",
+        "mode": "0777",
+        "bytes": 21190,
+        "sha256": "4eb7e030d04014e6bbf5177f84aeef19b11adfa8470a14dd18506f65c7cf9dcb"
+      },
+      {
+        "path": ".agents/skills/speckit-clarify/SKILL.md",
+        "mode": "0777",
+        "bytes": 18082,
+        "sha256": "5095627c89a249d402ad2d0fad425ea0c0bd5e8559e9d6f5b682dea4f513ed54"
+      },
+      {
+        "path": ".agents/skills/speckit-constitution/SKILL.md",
+        "mode": "0777",
+        "bytes": 9351,
+        "sha256": "87f247a2e947b44f9248491dcbedbfc650d095dde6498938b6be7a413b418d5e"
+      },
+      {
+        "path": ".agents/skills/speckit-converge/SKILL.md",
+        "mode": "0777",
+        "bytes": 12637,
+        "sha256": "1355b748919c7750cc87be94534192e5ff227229c14cbd34ca993a5f977a4ce2"
+      },
+      {
+        "path": ".agents/skills/speckit-implement/SKILL.md",
+        "mode": "0777",
+        "bytes": 12150,
+        "sha256": "d31986feebd257c7ebbca443d432c6484046a951149f831281fbba61adcd5889"
+      },
+      {
+        "path": ".agents/skills/speckit-plan/SKILL.md",
+        "mode": "0777",
+        "bytes": 7916,
+        "sha256": "8c4fdc1920bd0ff1fdf17935efe8044d82437afb9935999f483556017e8540bb"
+      },
+      {
+        "path": ".agents/skills/speckit-specify/SKILL.md",
+        "mode": "0777",
+        "bytes": 18367,
+        "sha256": "73518d4f228a59621e96c7787051057afd389d0978b73ac7e7721991df6b3f87"
+      },
+      {
+        "path": ".agents/skills/speckit-tasks/SKILL.md",
+        "mode": "0777",
+        "bytes": 10953,
+        "sha256": "e08c8def433c9964e3e4446cb5ebbd97a1a85cb046ffd4c85c3405f58593f503"
+      },
+      {
+        "path": ".agents/skills/speckit-taskstoissues/SKILL.md",
+        "mode": "0777",
+        "bytes": 7194,
+        "sha256": "2c00fdc774cb9b435ea8566c7efa8b208568d533d57529e61c35f18aa52d6c67"
+      },
+      {
+        "path": ".specify/feature.json",
+        "mode": "0777",
+        "bytes": 54,
+        "sha256": "d1c134655e780b702d6d7405d29407433bdd09e3269f8702f5d642c62032504b"
+      },
+      {
+        "path": ".specify/init-options.json",
+        "mode": "0777",
+        "bytes": 182,
+        "sha256": "966d4f377368302ff54fa85562793663d89eb0b1fc53108414247eba67b5c8d7"
+      },
+      {
+        "path": ".specify/integration.json",
+        "mode": "0777",
+        "bytes": 388,
+        "sha256": "72a6939fa8d8b851c9386dd1af0e63fe72641fce25656ab68b3d728f949b987d"
+      },
+      {
+        "path": ".specify/integrations/codex.manifest.json",
+        "mode": "0777",
+        "bytes": 1307,
+        "sha256": "a7cb292adb2333c8facc6116ff7e74032c8000929a34f4ea237df99f29d6c547"
+      },
+      {
+        "path": ".specify/integrations/speckit.manifest.json",
+        "mode": "0777",
+        "bytes": 1286,
+        "sha256": "2584bca5e1a004dbd21039ff75f81f8f49b2d2e08ac7ec31cf75b9d5b072f62c"
+      },
+      {
+        "path": ".specify/scripts/bash/check-prerequisites.sh",
+        "mode": "0777",
+        "bytes": 6344,
+        "sha256": "768663bf3678ffe389665366c76372181dabf0cd9e2a51c30e9ebb9e2908a4a3"
+      },
+      {
+        "path": ".specify/scripts/bash/common.sh",
+        "mode": "0777",
+        "bytes": 29810,
+        "sha256": "6ff86bf39f6b4684b0f80927dc7a1dadec26b4671988a3fe4d6c2523cbd3aa22"
+      },
+      {
+        "path": ".specify/scripts/bash/create-new-feature.sh",
+        "mode": "0777",
+        "bytes": 11629,
+        "sha256": "0fc636621e9cf07898f848815927438b647a0ac06581720e3ad5a547a73f1b37"
+      },
+      {
+        "path": ".specify/scripts/bash/setup-plan.sh",
+        "mode": "0777",
+        "bytes": 2501,
+        "sha256": "4eb12c5b00f5c66a7d01b56c90898d320dcef4425d9b96652d57156c84948eda"
+      },
+      {
+        "path": ".specify/scripts/bash/setup-tasks.sh",
+        "mode": "0777",
+        "bytes": 3239,
+        "sha256": "cf21ba2212b4dd5b435c5ea8527500cfd27768b86c0bbc7ebc3207759f118d27"
+      },
+      {
+        "path": ".specify/templates/checklist-template.md",
+        "mode": "0777",
+        "bytes": 1595,
+        "sha256": "481e6de67d00e1cb0ceb58490eab26b2385405ada42cab80d1c041d0bd773b03"
+      },
+      {
+        "path": ".specify/templates/constitution-template.md",
+        "mode": "0777",
+        "bytes": 2346,
+        "sha256": "ce7549540fa45543cca797a150201d868e64495fdff39dc38246fb17bd4024b3"
+      },
+      {
+        "path": ".specify/templates/plan-template.md",
+        "mode": "0777",
+        "bytes": 5217,
+        "sha256": "376de777529c44a8ed65debc2994182fef0ae91e6ade195fa02fb30891ca08ee"
+      },
+      {
+        "path": ".specify/templates/spec-template.md",
+        "mode": "0777",
+        "bytes": 5941,
+        "sha256": "cabba7e4bff075b7aadaea30f4dc8beb352fc7cdc162e4cea904891a3bc1f951"
+      },
+      {
+        "path": ".specify/templates/tasks-template.md",
+        "mode": "0777",
+        "bytes": 9942,
+        "sha256": "b2d06d6512ba562d37641a568f94556ed7c432ddadf88acec9e58ffc2d999a82"
+      },
+      {
+        "path": ".specify/workflows/speckit/workflow.yml",
+        "mode": "0777",
+        "bytes": 2197,
+        "sha256": "a3b7c17724df02c7f2ad4cfc58435dd428f11eaa13bd07fa5e46f7726142b2b7"
+      },
+      {
+        "path": ".specify/workflows/workflow-registry.json",
+        "mode": "0777",
+        "bytes": 381,
+        "sha256": "2192cf296dda13890f127c1bda687dd89649e6e94c10f095ae1eb484c4e6210d"
+      },
+      {
+        "path": "docs/adr/0001-modular-monolith-api-boundary.md",
+        "mode": "0777",
+        "bytes": 2725,
+        "sha256": "2c34b3730bde6838cc17d3265470183b79aae372af4464ccd0c35b7b6a78ca22"
+      },
+      {
+        "path": "docs/adr/0002-shared-schema-tenancy-rls.md",
+        "mode": "0777",
+        "bytes": 2412,
+        "sha256": "f25f8d105ef3c2a2de30d20ae5fb663ebe6f22f0e4138e4939efbf15240c9e18"
+      },
+      {
+        "path": "docs/adr/0003-rest-json-schema-contracts.md",
+        "mode": "0777",
+        "bytes": 2337,
+        "sha256": "983983f22821636b9490a7b474dd6ec5a9f7f7fdd00bd92993a93e1db7414807"
+      },
+      {
+        "path": "docs/adr/0004-canonical-identifiers.md",
+        "mode": "0777",
+        "bytes": 2006,
+        "sha256": "c5523cd379c3ffa049c64484f8f56a1e5da38eeef17c88a263e7fc9fd6f7cfd6"
+      },
+      {
+        "path": "docs/adr/0005-transactional-outbox-inbox.md",
+        "mode": "0777",
+        "bytes": 2149,
+        "sha256": "a2940a5a14d89081a2f8ba3dd89e73c0e128e855d7ee0e9d11bc1dd85096a618"
+      },
+      {
+        "path": "docs/adr/0006-policy-configuration-versioning.md",
+        "mode": "0777",
+        "bytes": 2311,
+        "sha256": "83333c9349b532f08ae0cb06d035365707097e69cecc5b60c92cb05982558fe4"
+      },
+      {
+        "path": "docs/adr/0007-cache-isolation.md",
+        "mode": "0777",
+        "bytes": 2161,
+        "sha256": "abd984b134ea7d5f6e091e9b72ab131361131e98edb59c346074eb94e7e78d6c"
+      },
+      {
+        "path": "docs/adr/0008-observability-topology.md",
+        "mode": "0777",
+        "bytes": 2211,
+        "sha256": "8619d5a16c170cfde09dd1df6bc4f91b111c3569c35935d8406a2cdbdb5f38a0"
+      },
+      {
+        "path": "docs/adr/0009-codex-hitl-boundary.md",
+        "mode": "0777",
+        "bytes": 2362,
+        "sha256": "fc7e261ae0b9a94f3b304b44aeb44c4030647e068bc980842675197fd0492fd5"
+      },
+      {
+        "path": "docs/adr/0010-source-authority.md",
+        "mode": "0777",
+        "bytes": 2604,
+        "sha256": "abcbda1bfb3949d8c406478e44ad0bb1bc765e0a0e154c26e1d38f557606c3b0"
+      },
+      {
+        "path": "docs/adr/README.md",
+        "mode": "0777",
+        "bytes": 2655,
+        "sha256": "09bfc75b53556435ee007c83c2e0258a0903b916ccc623457d6f992196f0a938"
+      },
+      {
+        "path": "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.docx",
+        "mode": "0777",
+        "bytes": 127602,
+        "sha256": "72a37bb2aec0cde1d103d98b292b4f1073f4373bf1e96a270a473438b4ecc4dc"
+      },
+      {
+        "path": "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.pdf",
+        "mode": "0777",
+        "bytes": 1574532,
+        "sha256": "9d075a82a6088ef446442a1113f59a6023196fd5304c12a4e7eaefdedee66a61"
+      },
+      {
+        "path": "docs/authority/final-production-paper-v3.manifest.json",
+        "mode": "0777",
+        "bytes": 1467,
+        "sha256": "2ab90e58bea2ab9482b7edf389e9a20d0b8f694d39192f4f1388868122ecb81a"
+      },
+      {
+        "path": "scripts/verify-authority.sh",
+        "mode": "0777",
+        "bytes": 3599,
+        "sha256": "11b92a1919e235f014259a338bca022cc789edea94648ccffb4d6368ec8f6bab"
+      },
+      {
+        "path": "specs/002-platform-foundation/checklists/requirements.md",
+        "mode": "0777",
+        "bytes": 1550,
+        "sha256": "9cd1fe27e035e00475ed6e501927bc8ab32afe35e810a72feedeb2a899495047"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/GOV-01-governance-baseline.md",
+        "mode": "0777",
+        "bytes": 16989,
+        "sha256": "d4fec0c6d0ab4694d19aed0775ce9b9ee2b7e1f745996a38b109c1dd3d9da257"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/HCP-06-source-authority.md",
+        "mode": "0777",
+        "bytes": 4608,
+        "sha256": "edee379f1845a327eb654b04e6f14ac4b23903382e15dff729b0a6b98c9d0083"
+      },
+      {
+        "path": "specs/002-platform-foundation/checkpoints/README.md",
+        "mode": "0777",
+        "bytes": 3341,
+        "sha256": "8f8a9219381c9dd37ff3916b0a96bf77eff4face7000a9d4991ddc4d1c97ff5e"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/capability-manifest.schema.json",
+        "mode": "0777",
+        "bytes": 2240,
+        "sha256": "6e6ebae61c85aa13d6eb6c62630ffedf7cd9bb666b64446a175aa0bf475a1a37"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/domain-event.schema.json",
+        "mode": "0777",
+        "bytes": 3370,
+        "sha256": "219754d7e785d5dbf861e16f1fe8c6751c8f6c25bd4a1eff8fb1b5600a192812"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/event-envelope.schema.json",
+        "mode": "0777",
+        "bytes": 4335,
+        "sha256": "541f279f7fcf6346f85b199b6218ea2a4514971ca96f42f0da1ee73405bf7ad6"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/evidence-manifest.schema.json",
+        "mode": "0777",
+        "bytes": 6502,
+        "sha256": "79dad0bd9493fb4f6555d8c6f473d0fbfe2ec9651ad0e6a4192df6067150242f"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/foundation-api.openapi.json",
+        "mode": "0777",
+        "bytes": 26842,
+        "sha256": "2d2e6a128bdfff148906de1ccb5e62c7f65105c4977e6d487bdf314c3e930689"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/openapi.yaml",
+        "mode": "0777",
+        "bytes": 28975,
+        "sha256": "95db9549ab9ece986dca4852396ebcb3973c0463916c0c4a88cb4c5d92a6ab36"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/platform-configuration.schema.json",
+        "mode": "0777",
+        "bytes": 2854,
+        "sha256": "346d5b7d1c12f8dbfbf5c68ab5b2657807673c35384138769df271c8d104a936"
+      },
+      {
+        "path": "specs/002-platform-foundation/contracts/traceability.schema.json",
+        "mode": "0777",
+        "bytes": 3123,
+        "sha256": "fc5483c9b6bd949703a76c7bfc4abda97a7760b8bb45550aeb381e9345964344"
+      },
+      {
+        "path": "specs/002-platform-foundation/data-model.md",
+        "mode": "0777",
+        "bytes": 16107,
+        "sha256": "4643077a51733a8b2cefcfc2506dcc49f3bf32b9af0416d2b153870d8eda0a0e"
+      },
+      {
+        "path": "specs/002-platform-foundation/plan.md",
+        "mode": "0777",
+        "bytes": 29419,
+        "sha256": "61f0e8d53b22ed0db70a5d91ff05474f140e3d162cce1182eb0ea0ba03ec3c0f"
+      },
+      {
+        "path": "specs/002-platform-foundation/quickstart.md",
+        "mode": "0777",
+        "bytes": 8026,
+        "sha256": "7fb2b7434a1971115a42913b609afd9eaf3fe53ba9f94c70cbe740839cd82a87"
+      },
+      {
+        "path": "specs/002-platform-foundation/research.md",
+        "mode": "0777",
+        "bytes": 15541,
+        "sha256": "f3b0ae2299a9d39e8516ca07f156a9c7cd836445103a096d4ed310cd4aac27e7"
+      },
+      {
+        "path": "specs/002-platform-foundation/spec.md",
+        "mode": "0777",
+        "bytes": 22593,
+        "sha256": "d42842f42ba244cdc6718d287994878fc6a7e58a18b01a9343e2a2de87152196"
+      },
+      {
+        "path": "specs/002-platform-foundation/tasks.md",
+        "mode": "0777",
+        "bytes": 59757,
+        "sha256": "a280e175918a8c98909d917edf9d51fad792751ddd1cc1b4078d3a1e74e1ce28"
+      },
+      {
+        "path": "specs/002-platform-foundation/traceability/requirements.json",
+        "mode": "0777",
+        "bytes": 9392,
+        "sha256": "2201170f9ea0957991c259304f277f758849fe821c370a33df1ddc4b4d954d60"
+      }
+    ],
+    "inventory_sha256": "bb5e96471e35dd0b78a403e6912f283435e6431321916688b09b0c6510506106"
+  },
+  "unaccepted_authority_artifacts": [
+    "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.pdf",
+    "docs/authority/AI_Trading_OS_Hermes_Final_Production_Paper_v3.docx",
+    "docs/authority/final-production-paper-v3.manifest.json",
+    "scripts/verify-authority.sh"
+  ],
+  "checks": [
+    {
+      "id": "constitution-v2",
+      "result": "pass"
+    },
+    {
+      "id": "template-sync",
+      "result": "pass"
+    },
+    {
+      "id": "active-plan-constitution-recheck",
+      "result": "pass"
+    },
+    {
+      "id": "spec-kit-prerequisites",
+      "result": "pass"
+    },
+    {
+      "id": "legacy-root-verifier",
+      "result": "pass",
+      "scope": "10 tests and 8 legacy requirement links only"
+    },
+    {
+      "id": "git-diff-check",
+      "result": "pass"
+    },
+    {
+      "id": "authority-gate",
+      "result": "pass",
+      "observation": "authority verifier exited nonzero while HCP-06 is pending"
+    }
+  ],
+  "completion_claim_allowed": false,
+  "notes": [
+    "No dependency or Spec Kit installation was performed.",
+    "No file was staged, committed, pushed, published, deployed, or deleted.",
+    "This is a documented-dirty governance baseline, not Phase 1 completion evidence."
+  ]
+}

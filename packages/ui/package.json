@@ -1,0 +1,12 @@
+{
+  "name": "@ai-trading-os/ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Accessible platform shell components that consume API view models only.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "11.11.0"
+  }
+}

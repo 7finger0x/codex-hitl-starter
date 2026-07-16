@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "refresh_proposal_complete_implementation_blocked",
+  "completion_claim": false,
+  "generated_at": "2026-07-13T22:54:12-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "bindings": {
+    "checkpoint_pre_refresh_sha256": "6a69d0926e9db647173019525a4806eed7249f243ba42d51a3869f8176f52793",
+    "hcp01_linux_recovery_evidence_sha256": "ffe1bcc37df5844002f7ed481b62ac703d58ec6e57fe99bef4689c17fc5a488a",
+    "original_repair_proposal_sha256": "0abd26c3b589c87ae86995edbaf775048bb627606df5b0cd944902db83887cd5",
+    "stopped_repair_attempt_sha256": "af88acaaedc9da3047ba6cdd48bf89989898a8bad7b5a9d84355dd006e72d987",
+    "existing_test_sha256": "3843428287a8cdd992f63351ca45bcdfd2035080c37f9c0a2a6b8817e38801bb",
+    "compose_before_sha256": "eaf52db2ee604ed0483a41522965b4d26d169173c60def1364fdbfc0e4c1edad",
+    "compose_expected_after_sha256": "caf9de5a94c365aecc796eb1256459bc5313fdc4fff385ec80653c4d1d754330",
+    "pnpm_lock_sha256": "6e49bfb4a0f84c89b1b804c2014bbe2cc6b0dfba149f6f4cb89fa640a23f6dfa"
+  },
+  "read_only_revalidation": {
+    "docker_cli_sha256": "7bc66b018b9da43fea986f893288bb93970d3d1217f5063201fd97c827f20732",
+    "compose_plugin_sha256": "71cbd1a0379c9eef3bbcc439b696cd9e39fdc9bab2e209c6bb19fd53a6b6869f",
+    "context": "desktop-linux",
+    "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "docker_version": "29.5.3",
+    "docker_api": "1.54",
+    "compose_version": "5.1.4",
+    "swarm": "inactive",
+    "postgres_image_digest": "sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "container": {
+      "name": "platform-foundation-local-postgres-1",
+      "project": "platform-foundation-local",
+      "service": "postgres",
+      "state": "restarting",
+      "image_id_matches": true,
+      "port_binding": "127.0.0.1:55432->5432/tcp"
+    },
+    "networks": [{"name": "platform-foundation-local-data", "driver": "bridge", "scope": "local"}],
+    "volumes": [{"name": "foundation_postgres_data", "driver": "local", "scope": "local"}],
+    "other_project_labelled_resources": false,
+    "loopback_ports": [3000, 8080, 55432, 55433, 55434, 55435, 55436, 54317, 54318, 53000],
+    "all_loopback_ports_bindable": true,
+    "registry_contacted": false,
+    "secret_or_credential_file_inspected": false,
+    "database_or_volume_content_accessed": false
+  },
+  "proposed_test_first_source": {
+    "test_path": "tests/integration/infrastructure/postgres-volume-ownership.test.ts",
+    "first_run_must_reach_behavioral_red": true,
+    "only_source_file": "compose.yaml",
+    "cap_add": ["CHOWN", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"],
+    "green_and_static_verification_required_before_runtime": true
+  },
+  "proposed_runtime_repair": {
+    "service": "postgres",
+    "project": "platform-foundation-local",
+    "count": 1,
+    "flags": ["--detach", "--no-build", "--pull", "never", "--no-deps", "--force-recreate"],
+    "preserve_network_and_volume": true,
+    "post_checks": ["health", "exact capabilities", "non-root postgres process", "HCP-03 guards", "T054 continuation"]
+  },
+  "stop_conditions": [
+    "binding, executable, context, Swarm, image, resource, or port mismatch",
+    "loader failure or non-behavioral red result",
+    "source hash deviation or capability mismatch",
+    "image pull request or unexpected project resource",
+    "unhealthy/restarting Postgres or root process",
+    "failed HCP-03 guard, secret exposure, or failed gate"
+  ],
+  "actions_performed": {
+    "repair_test_run": false,
+    "compose_source_changed": false,
+    "container_recreated_or_restarted": false,
+    "image_pulled": false,
+    "network_or_volume_changed": false,
+    "database_accessed": false,
+    "secret_accessed": false,
+    "t054_gate_started": false,
+    "t055_or_later_started": false
+  },
+  "decision": {
+    "state": "pending",
+    "implementation_before_exact_approval_allowed": false,
+    "required_approver": "user in Codex task",
+    "binding": "final SHA-256 values of HCP-04-infrastructure.md and this refresh proposal evidence"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "task": "T047",
+  "status": "complete",
+  "completion_claim": true,
+  "generated_at": "2026-07-13T11:25:59-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "worktree_state": "documented-dirty",
+  "verification_evidence": "evidence/dependencies/t047-t050-binary-restoration-and-verification.json",
+  "requirements": ["PF-003", "PF-019", "PF-021"],
+  "sources": {
+    "packages/core/src/ids.ts": "8e7300065fd2d84546cfa9447eb2a91109094f14a0d44c605545e22f56123041",
+    "packages/core/src/canonical-json.ts": "255552d1732bb11f7a99a849f4b46edac9b2ab52e4e9fa34405b07f822abd883",
+    "packages/core/src/time.ts": "148331a5d648f80e64c7a81abf7c61b38b8296ee4a0df04997f08aeebe11c1a2",
+    "packages/core/src/correlation.ts": "2bcfdd0d2d9b2558cbb346101835d88e7bd9f1b03cde15eded063d3eca3a4538",
+    "packages/core/src/errors.ts": "086dedd01ddd1388189df5dc25c7d1c3af0abe9c8055fc45585a66b3e53264b3",
+    "packages/core/src/core.test.ts": "c446825e954304c6a2887188cba9bf69592afd10213bcea82d1f0a1783ac5d55"
+  },
+  "ordered_tdd_result": {
+    "red_command": "node --import tsx --test packages/core/src/core.test.ts",
+    "red_exit_code": 1,
+    "red_reason": "ERR_MODULE_NOT_FOUND for canonical-json.js before the six T047 implementation modules existed",
+    "green_command": "/tmp/codex-hitl-t030-node-v24.18.0/node-v24.18.0-linux-x64/bin/node --import tsx --test packages/core/src/core.test.ts",
+    "green_exit_code": 0,
+    "green_result": "9 tests passed in the clean HCP-01-approved Node.js 24.18.0 rerun"
+  },
+  "acceptance_evidence": {
+    "uuidv7": "pass: 5,000 same-millisecond values were unique, lowercase, version 7, RFC variant, lexically monotonic, opaque, and timestamp round-trippable; rollback remained monotonic",
+    "resource_versions": "pass: positive safe-integer parsing, progression, invalid-value rejection, and overflow rejection",
+    "canonical_json_and_hashing": "pass: recursive key-order equivalence, array-order preservation, known SHA-256 vector, and fail-closed ambiguous/executable/cyclic value rejection",
+    "utc_time": "pass: millisecond-precise UTC round-trips over a broad epoch range; offsets, invalid calendar values, and non-normalized values rejected",
+    "correlation": "pass: missing header mints UUIDv7; one valid inbound value is retained; arrays, combined values, whitespace, non-strings, and malformed IDs rejected",
+    "stable_errors": "pass: uppercase stable codes, HTTP/retry metadata validation, allowlisted canonical ErrorResponse mapping, and sanitized fallback for unknown failures"
+  },
+  "validation": {
+    "supported_runtime": "pass: exact restored Node.js 24.18.0 binary and clean HCP-01-approved rerun",
+    "typescript_strict": "pass",
+    "eslint": "pass",
+    "prettier": "pass",
+    "new_file_whitespace": "pass",
+    "authority": "pass: 2 artifacts; owner 7 Finger Studios; classification Internal; PF-033",
+    "root_verifier": "pass: 10 legacy tests, 9 compatibility tests, 8 traceability requirements",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "protected_actions": {
+    "out_of_scope_node_binary_execution_detected": false,
+    "historical_approval_invalid_diagnostic_retained_separately": true,
+    "dependency_or_tool_added": false,
+    "lockfile_changed": false,
+    "public_contract_changed": false,
+    "persistence_schema_changed": false,
+    "infrastructure_changed": false,
+    "secret_accessed": false,
+    "repository_content_uploaded": false,
+    "external_deployment": false,
+    "production_action": false
+  },
+  "next_task": {
+    "id": "T048",
+    "scope": "repository-local observability primitives and tests"
+  }
+}

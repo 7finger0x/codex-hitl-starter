@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "task": "T054",
+  "checkpoint": "HCP-04",
+  "status": "approved_with_conditions",
+  "decision": "approved_with_conditions",
+  "decision_time": "2026-07-14T00:52:17-07:00",
+  "approver": "User in Codex task / human owner",
+  "approval_statement_supplied": "Approve the HCP-04 forward-repair exactly as written by top-5 execution",
+  "interpreted_as": "binding approval of the full exact forward-repair approval statement previously requested by the executing agent",
+  "bindings_verified_before_implementation": {
+    "all_matched": true,
+    "hcp01_linux_recovery_evidence_sha256": "ffe1bcc37df5844002f7ed481b62ac703d58ec6e57fe99bef4689c17fc5a488a",
+    "compose_sha256": "caf9de5a94c365aecc796eb1256459bc5313fdc4fff385ec80653c4d1d754330",
+    "existing_test_sha256": "3843428287a8cdd992f63351ca45bcdfd2035080c37f9c0a2a6b8817e38801bb",
+    "checkpoint_sha256": "2db8af6b800f452bbfd189a82234f8b5be795657aa79f5782ff79dc4c7040d2b",
+    "forward_repair_proposal_sha256": "4c173031bb1327f9f83610bd4d1d400dc27681caaf61006381b6f07960dbc9dd",
+    "target_compose_sha256": "e2472ad738ed3279bdcb40ffacd295a243ccc581e530b16c16b901802eee8282"
+  },
+  "authorized": {
+    "extend_postgres_volume_ownership_test": true,
+    "postgres_tmpfs_override_only": true,
+    "disposable_chmod_0700_volume_mount_root": true,
+    "one_postgres_force_recreate_no_build_pull_never_no_deps": true,
+    "bounded_health_capability_tmpfs_nonroot_hcp03_t054_continuation": true,
+    "preserve_volume_network_project_image": true
+  },
+  "not_authorized": {
+    "volume_delete_reset_restore": true,
+    "seed": true,
+    "down_migration": true,
+    "teardown_or_prune": true,
+    "other_capability_service_image_pull_origin": true,
+    "secret_inspection_or_disclosure": true,
+    "production": true,
+    "repository_upload": true,
+    "t055_or_later_unless_t054_complete": true
+  },
+  "rationale": "No rationale beyond the exact user-supplied approval statement was inferred.",
+  "proposal_evidence": "evidence/infrastructure/t054-hcp04-postgres-forward-repair-proposal.json",
+  "invalidated_by": "Any bound hash, volume metadata fact, runtime fact, resource identity, port, command, source/test result, capability, tmpfs, guard, recovery rule, or exclusion change."
+}

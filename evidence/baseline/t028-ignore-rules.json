@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "task": "T028",
+  "status": "pass",
+  "completion_claim": true,
+  "completion_scope": "T028 only",
+  "generated_at": "2026-07-11T20:44:03-07:00",
+  "source_revision": "5f93ad9a3d13292ba409783806d93485dc07674a",
+  "branch": "master",
+  "requirements": ["PF-017", "PF-023"],
+  "files": [
+    {"path":".gitignore","sha256":"eb1a6aafd8d49d8ad577d082f7dc7691d4b3a078d7808ea8e0b4811423541281"},
+    {"path":".dockerignore","sha256":"62288c8de022cda1c055212e6f66389e165629b4fd3aee55cefa8b57604390fe"},
+    {"path":".prettierignore","sha256":"40821ab0f9689f6d725f8d9dd8128ebdba56de737e61cbc35c705c11b9bdfe70"},
+    {"path":".npmignore","sha256":"3484c182fb01139815100a12ddd2916f187b9dc558de6a8f431c9a1365826ef5"}
+  ],
+  "coverage": [
+    "Node and generated application output",
+    "Python caches and local controller state",
+    "coverage and Playwright output",
+    "Supabase local state",
+    "Terraform generated state while retaining .terraform.lock.hcl",
+    "container and process artifacts",
+    "secrets and machine-local configuration"
+  ],
+  "controlled_visibility": {
+    "evidence": "pass: not ignored by Git",
+    "authority_manifest": "pass: not ignored by Git",
+    "example_environment_files": "pass: explicit negation rules retained"
+  },
+  "verifier": {
+    "path": "tooling/typescript/verify-ignore-rules.mjs",
+    "sha256": "b69ef399573197ca51815147bfcda89b4c0d9bdb825c798fb1a2faad90a82abf",
+    "result": "pass: 4 files; controlled evidence visible"
+  },
+  "verification": {
+    "aggregate_pnpm_verify": "pass",
+    "format": "pass",
+    "eslint": "pass",
+    "typescript": "pass",
+    "directory_instructions": "pass",
+    "workspace_boundaries": "pass",
+    "root_tests": "pass: 14 of 14",
+    "authority": "pass",
+    "legacy_traceability": "pass: 8 requirements",
+    "agent_context": "pass",
+    "git_diff_check": "pass",
+    "lockfile_sha256_unchanged": "05e9792ddae6935812b1aa527f70396186a4485a9bd44aa38091cd63149ca0a7"
+  },
+  "protected_actions_performed": false,
+  "user_changes_preserved": true
+}

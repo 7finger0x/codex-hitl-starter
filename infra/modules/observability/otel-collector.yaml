@@ -1,0 +1,120 @@
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 192
+    spike_limit_mib: 48
+  resource/foundation:
+    attributes:
+      - key: deployment.environment.name
+        value: local
+        action: upsert
+      - key: platform.data.classification
+        value: synthetic
+        action: upsert
+  attributes/redact:
+    actions:
+      - key: http.request.header.authorization
+        action: delete
+      - key: http.request.header.cookie
+        action: delete
+      - key: http.response.header.set-cookie
+        action: delete
+      - key: rpc.request.metadata.authorization
+        action: delete
+      - key: db.statement
+        action: delete
+      - key: url.query
+        action: delete
+      - key: process.command_args
+        action: delete
+      - key: process.environment
+        action: delete
+      - key: exception.stacktrace
+        action: delete
+      - key: platform.secret
+        action: delete
+      - key: platform.credential
+        action: delete
+      - key: platform.raw_environment
+        action: delete
+  filter/drop_audit:
+    error_mode: propagate
+    logs:
+      log_record:
+        - attributes["event.domain"] == "audit"
+        - attributes["platform.signal.type"] == "audit"
+  batch:
+    send_batch_size: 512
+    send_batch_max_size: 1024
+    timeout: 2s
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    enable_open_metrics: true
+    resource_to_telemetry_conversion:
+      enabled: true
+  otlp/tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+  otlphttp/loki:
+    endpoint: http://loki:3100/otlp
+    compression: gzip
+service:
+  extensions:
+    - health_check
+  telemetry:
+    logs:
+      level: info
+    metrics:
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: 0.0.0.0
+                port: 8888
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - resource/foundation
+        - attributes/redact
+        - batch
+      exporters:
+        - otlp/tempo
+    metrics:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - resource/foundation
+        - attributes/redact
+        - batch
+      exporters:
+        - prometheus
+    logs:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - filter/drop_audit
+        - resource/foundation
+        - attributes/redact
+        - batch
+      exporters:
+        - otlphttp/loki
