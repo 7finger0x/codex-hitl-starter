@@ -858,3 +858,22 @@ passed. Final target facts show the exact disposable comment, three migration
 ledger rows, 37 `platform` tables plus the private ledger, and all six no-login
 platform roles. T054 evidence is retained in
 `evidence/phases/phase-2-foundation.json`; T055 and later were not started.
+
+## Plaintext credential bootstrap remediation
+
+**Status**: `forward_removal_approved`
+**Decision date**: 2026-07-16
+
+Commit `163a49c` introduced
+`infra/environments/local/postgres/010-platform-foundation-identity.sql`, a
+local role-bootstrap script containing a plaintext synthetic login credential.
+This violates the repository safety boundary that credentials must not be
+stored in source control and was not part of the approved T056 test-only scope.
+
+The user approved the safest forward remediation by replying `proceed`: remove
+the newly introduced bootstrap file without reading external secret stores,
+changing database state, rewriting Git history, force-pushing, or altering the
+approved migrations. Because the credential was committed and pushed before
+this removal, rotation or invalidation in every environment where it may have
+been used remains a human-owned external action. This decision does not
+authorize secret access or disclose the credential value.
